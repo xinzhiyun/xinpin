@@ -1,0 +1,50 @@
+<include file="Public/header" />
+<div class="content">
+    <include file="Public/nav" />
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">设备管理/<span>使用记录</span></div>
+            <form class="form-search fr" action="" method="">
+                <input type="text" class="input-medium" name="name" placeholder="请输入用户昵称" / >  
+                <button type="submit" class="btn">查找</button>
+            </form>
+            <table class="table table-bordered table-hover text-center" >
+                <thead class="h4 ">
+                    <tr class="danger">
+                        <td>IC卡编码</td>
+                        <td>用户姓名</td>
+                        <td>手机号码</td>
+                        <td>使用时间</td>
+                        <td>使用流量</td>
+                        <td>使用地址</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <notempty name="deviceInfo">
+                    <foreach name="deviceInfo" item="data" key="key">
+                        <tr>
+                            <td>{{$data.iccard}}</td>
+                            <td>{{$data.name}}</td>
+                            <td>{{$data.phone}}</td>
+                            <td>{{$data.time}}</td>
+                            <td>{{$data.flow}}</td>
+                            <td>{{$data.address}}</td>
+                        </tr>
+                    </foreach>
+                    <else />
+                    <tr>
+                        <td colspan="12">查无数据</td>
+                    </tr>
+                    </notempty>
+                </tbody>
+            </table>
+            <!-- 上下页，请加样式 -->
+            <div class="pagination pagination-lg pull-center">
+                <ul>
+                    {{$page}}
+                </ul>
+            </div>
+        </div>
+        <include file="Public/footer" />
+    </div>
+</div>

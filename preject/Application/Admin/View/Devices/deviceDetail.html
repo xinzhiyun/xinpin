@@ -1,0 +1,404 @@
+<include file="Public/header" />
+<div class="content">
+    <include file="Public/nav" />
+    <div class="row-fluid fl" id="main" style="background: #ecf0f5;">
+        <div class="tableBox">
+            <div class="titleBar">设备管理/<span>设备列表</span></div>
+            <h1 class="deviceTitle text-center">当前设备：<span class="deviceID">{{$data['deviceid']}}</span>设备详情</h1>
+            <div class="keyPointList">
+                <div class="fl">
+                    <h2 class="deviceStause">{{$data['devicestause']}}</h2>
+                    <p>设备当前状态</p>
+                </div>
+                <div class="fl">
+                    <h2 class="puretdsVal">{{$data['puretds']}}</h2>
+                    <p>设备当前原水值(ppm)</p>
+                </div>
+                <div class="fl">
+                    <h2 class="rawtdsVal">{{$data['rawtds']}}</h2>
+                    <p>设备当前净水值(ppm)</p>
+                </div>
+                <div class="fr">
+                    <h2 class="leasingmodeVal"></h2>
+                    <p>设备当前租赁模式</p>
+                </div>
+            </div>
+            <div class="detailList container">
+                <div class="leftBox">
+                    <div class="filterInfo">
+                        <h3>滤芯信息(剩余值)</h3>
+                        <table class="table filterInfoTable"> 
+                            <tbody>
+                                
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="deviceOperation">
+                        <h3>设备操作</h3>
+                        <a>
+                            <if condition="$data['devicestause']=='关机'"><button class="shutDown clickBtn">开机</button>
+                            <else /><button class="shutDown clickBtn">关机</button>
+                            </if>
+                        </a>
+                    </div>
+                </div>
+                <div class="deviceInfo">
+                    <h3>设备信息</h3>
+                    <table class="table deviceInfoTable">
+                        <tbody>
+                            <tr>
+                                <td>设备编号</td>
+                                <td>{{$data['deviceid']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>设备状态</td>
+                                <td class="deviceStause">{{$data['devicestause']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>安装时间</td>
+                                <td>{{$data['addtime']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>安装地址</td>
+                                <td>{{$data['loaction']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>原水值 (ppm)</td>
+                                <td class="puretdsVal">{{$data['puretds']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>纯水值 (ppm)</td>
+                                <td class="rawtdsVal">{{$data['rawtds']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>剩余流量 (L)</td>
+                                <td class="reflow">{{$data['reflow']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>剩余天数 (D)</td>
+                                <td class="reday">{{$data['reday']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>租赁模式</td>
+                                <td class="leasingmodeVal">{{$data['leasingmode']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>激活状态</td>
+                                <td>{{$data['alivestause']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>滤芯模式</td>
+                                <td class="filtermode">{{$data['filtermode']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>温度</td>
+                                <td class="temperature">{{$data['temperature']}}</td> 
+                            </tr>
+                            <tr>
+                                <td>更新时间</td>
+                                <td class="updatetime">{{$data['updatetime']}}</td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <ul>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="tableList">
+                <h3>经销商信息列表</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>经销商ID</td>
+                            <td>经销商姓名</td>
+                            <td>手机号码</td>
+                            <td>地址</td>
+                            <td>管理级别</td>
+                            <td>添加时间</td>
+                            <td>邮箱</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <empty name="vendors.id">
+                            <tr><td>还未绑定经销商</td></tr>
+                        <else />
+                            <tr>
+                                <td>{{$vendors['id']}}</td>
+                                <td>{{$vendors['name']}}</td>
+                                <td>{{$vendors['phone']}}</td>
+                                <td>{{$vendors['address']}}</td>
+                                <td>{{$vendors['leavel']}}</td>
+                                <td>{{$vendors['addtime']|date='Y-m-d H:i:s', ###}}</td>
+                                <td>{{$vendors['email']}}</td>
+                            </tr>
+                        </empty>
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <ul>
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="tableList">
+                <h3>使用记录</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>序号</td>
+                            <td>IC卡编号</td>
+                            <td>用户姓名</td>
+                            <td>手机号码</td>
+                            <td>使用时间</td>
+                            <td>使用流量/mL</td>
+                            <td>使用地址</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <volist name="chargelist['data']" id="vo">
+                            <empty name="vo.iccard">
+                                <tr><td>没有使用记录</td></tr>
+                            <else />
+                                <tr>
+                                    <td>{{$i}}</td>
+                                    <td>{{$vo.iccard}}</td>
+                                    <td>{{$vo.name}}</td>
+                                    <td>{{$vo.phone}}</td>
+                                    <td>{{$vo.time|date='Y-m-d H:i:s', ###}}</td>
+                                    <td>{{$vo.flow}}</td>
+                                    <td>{{$vo.address}}</td>
+                                </tr>
+                            </empty>
+                        </volist>
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <ul>
+                        {{$chargelist['show']}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <include file="Public/footer" />
+    </div>
+</div>
+
+<script>
+    var PackNum=0;//包数据
+    //根据当前设备状态实时设置开关机按钮
+    setInterval(function(){
+        if(($(".deviceStause").html())=="关机"){
+            $(".shutDown").text("开机");
+        }else{
+            $(".shutDown").text("关机");
+        }
+    },5000);
+    //滤芯显示
+    var str='reflowfilter';
+    var filterHtml='';//滤芯显示html代码
+    var filterList=[];//字符串数组
+    var filterNum=[];//存放滤芯键值对
+    var CmdList=[];//命令队列
+    var reflowName=[];//存放滤芯名称
+    var data = {{$data|json_encode}};//数组转换为对象
+    var flowPercent;//剩余滤芯百分比值
+    //遍历出以“reflowfilter”开头的数据字段
+    for(var i=1;i<20;i++){
+        if(data['reflowfilter'+i] >= 0){
+            filterList['reflowfilter'+i] = data['reflowfilter'+i];
+            filterList['length'] = i;
+            reflowName.push(filterList['reflowfilter'+i]);
+        }
+    }
+    //遍历显示滤芯
+    if($(".deviceID").html()!="--"){
+        for(var i=0;i<data['data'].length;i++){
+            filterNum[i]=data['data'][i];
+            //计算百分比
+            flowPercent=parseInt(reflowName[i]/filterNum[i]['flowlife']*100);
+            if(flowPercent>100){
+                flowPercent=100;
+            }
+            var filterVal;
+            var filterSum;
+            if(!flowPercent){
+                flowPercent=0;
+            }
+            if(reflowName[i]){
+                filterVal=reflowName[i];
+            }else{
+                filterVal=0;
+            }
+            if(filterNum[i]['flowlife']){
+                filterSum=filterNum[i]['flowlife'];
+            }else{
+                filterSum=0;
+            }
+            filterHtml+='<tr><td>' + filterNum[i]['filtername'] + '</td><td><div class="surplusBg"><p class="surplusShowColor" style="width:'+ flowPercent +'%"></p></div><div class="text-center">还剩'+flowPercent+'%</div></td><td><span class="surplusNum2">'+ filterVal +'</span>/<span>'+ filterNum[i]['flowlife'] +'</span></td><td><button class="resetBtn clickBtn"name="2">复位</button></td></tr>';
+        }
+    }else{
+        filterHtml="无数据";
+    }
+    $(".filterInfoTable tbody").html(filterHtml);
+
+
+    //websoket  
+    //1.建立连接
+    var websoket= new WebSocket("ws://120.79.0.105:6001");
+    //2.打开事件
+    var deviceId=$(".deviceID").text();//设备id
+    websoket.onopen=function(){
+        //发送包数据
+        ajson={
+            "DeviceID":deviceId,
+            "PackType":"login",
+            "Vison":0,
+        };
+        websoket.send(JSON.stringify(ajson));
+    }
+    //实时接收数据
+    websoket.onmessage=function(data){
+        console.log(data);
+        if(data.PackType=="Select")
+        {
+            $(".deviceStause").text(data.deviceStause);//设置设备状态
+            $(".puretdsVal").text(data.puretds);//设置当前设备原水值
+            $(".rawtdsVal").text(data.rawtds);//设置当前设备纯水值
+            $(".leasingmodeVal").text(data.leasingmode);//设置当前设备租赁模式
+            $(".reflow").text(data.reflow);//设置当前设备剩余流量
+            $(".reday").text(data.reday);//设置当前设备剩余天数
+            $(".filtermode").text(data.filtermode);//设置当前设备滤芯模式
+            $(".temperature").text(data.temperature);//设置当前设备温度
+            $(".updatetime").text(data.updatetime);//设置当前设备更新时间
+        }
+        else if(data.PackType=="SetData")
+        {
+            for(var i=0;i<CmdList.length;i++){
+                if(CmdList[i].PackNum==data.PackNum)
+                {
+                    if(CmdList[i].type=="关机中")
+                    {
+                        
+                    }
+                    else if(CmdList[i].type=="开机中")
+                    {
+
+                    }
+                    else if(CmdList[i].type=="1")
+                    {
+                        $(".filterInfoTable").children("tr").children("td").children("span").text(100);
+                        $(".filterInfoTable").children("tr").children("td").children("div").children("p").width(100+"%");
+                    }
+                    else if(CmdList[i].type=="2")
+                    {
+                        
+                    }
+                    else if(CmdList[i].type=="3")
+                    {
+                         
+                    }
+                    else if(CmdList[i].type=="4")
+                    {
+                        
+                    }
+                    else if(CmdList[i].type=="5")
+                    {
+                        
+                    }
+                    CmdList.splice(i,1);
+                    break;
+                }
+            }
+        }
+        else if(data.PackType=="Heart")
+        {
+
+        }
+        else if(data.PackType=="login")
+        {
+
+        }
+        //循环遍历设置滤芯剩余显示样式
+        for(var i=1;i<=$(".filterInfoTable tbody tr").length;i++){
+            var filterVal;
+            if(data['reflowfilter'+i]){
+                filterVal=data['reflowfilter'+i];
+            }else{
+                filterVal=0;
+            }
+            $(".filterInfoTable tbody tr").eq(i).children("td").children(".surplusShowColor").width(data['reflowfilter'+i]+"%");
+            $(".filterInfoTable tbody tr").eq(i).children("td").children(".surplusNum2").text(filterVal);
+        }
+
+    }
+
+
+
+    //按钮操作
+    $('.clickBtn').click(function(){
+        var _this=$(this).text();
+        var filterN = $(this).attr('name');
+        var ajson;//数据对象
+        //判断操作类型
+        if(_this!="复位"){
+            var tipsText = "确定要"+ _this + deviceId +"吗？";
+        } else {
+            var tipsText = "确定要"+ _this + "<a>滤芯" + filterN +"</a>吗";
+        }
+        //弹框提示
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.confirm(tipsText, {icon: 3, title:'温馨提示'}, function(index){
+                layer.close(index);
+                ajson={
+                    "DeviceID":deviceId,
+                    "PackType":"SetData",
+                    "Vison":0,
+                    "PackNum":PackNum,
+                    "curTime":0,
+                }; 
+                //根据当前设备状态设置按钮文本
+                var type=0; 
+                if(_this=="开机"){
+                    ajson['DeviceStause']=8;
+                    _this="关机中";
+                    type="关机中";
+                    
+                }else if(_this=="关机"){
+                    ajson['DeviceStause']=7;
+                    _this="开机中";
+                    type="开机中";
+
+                }else if(_this=="复位"){
+                    ajson['ReFlowFilter'+filterN]=0;
+                    ajson['ReDayFilter'+filterN]=0;
+                    type=filterN;
+                }
+                //发送数据
+                websoket.send(JSON.stringify(ajson));
+                CmdList.push({
+                    cmd:ajson,
+                    type:type
+                });
+                //判断是否操作成功
+                setInterval(function(){
+                    if(_this=="开机"){
+                        ajson['DeviceStause']=8;
+                        _this="关机中";
+                    }else if(_this=="关机"){
+                        ajson['DeviceStause']=7;
+                        _this="开机中";
+                    }else if(_this=="复位"){
+                        ajson['ReFlowFilter'+filterN]=0;
+                        ajson['ReDayFilter'+filterN]=0;
+                    }
+                },5000);
+            });
+        });
+    });
+
+</script>

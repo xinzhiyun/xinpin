@@ -1,0 +1,138 @@
+<include file="Public/header" />
+<div class="content">
+    <include file="Public/nav" />
+    <div class="row-fluid fl" id="main" style="background: #ecf0f5;">
+        <div class="tableBox">
+            <div class="titleBar">用户管理/<span>用户详情</span></div>
+            <h1 class="deviceTitle text-center">当前用户：<span>{{$userInfo['name']}}</span></h1>
+            <div class="tableList">
+                <h3>用户基础信息</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>用户ID</th>
+                            <th>姓名</th>
+                            <th>手机</th>
+                            <th>地址</th>
+                            <th>账户余额</th>
+                            <th>最后登录时间</th>
+                            <th>登录IP</th>
+                            <th>注册时间</th>
+                            <th>状态</th>
+                            <td>备注</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>{{$userInfo['id']}}</td>
+                            <td>{{$userInfo['name']}}</td>
+                            <td>{{$userInfo['phone']}}</td>
+                            <td>{{$userInfo['address']}}</td>
+                            <td>{{$userInfo['balance']/100}}</td>
+                            <empty name="userInfo.login_time">
+                                <td>{{:date('Y年m月d日', $userInfo['addtime'])}}</td>
+                            <else />
+                                <td>{{:date('Y年m月d日', $userInfo['login_time'])}}</td>
+                            </empty>
+                            <td>{{$userInfo['login_ip']}}</td>
+                            <td>{{:date('Y年m月d日', $userInfo['addtime'])}}</td>
+                            <switch name="userInfo.status">
+                                <case value="0"><td>禁用</td></case>
+                                <case value="1"><td>启用</td></case>
+                            </switch>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="pagination">
+                    <ul>
+                       
+                    </ul>
+                </div>
+            </div>
+            <div class="tableList">
+                <h3>充值记录</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>充值流水ID</td>
+                            <td>用户呢称</td>
+                            <td>充值方式</td>
+                            <td>充值金额/元</td>
+                            <td>账户余额</td>
+                            <td>充值时间</td>
+                            <td>备注</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <empty name="recordlist">
+                            <tr><td>没有充值记录</td></tr>
+                            <else />
+                            <foreach name="recordlist" item="v" key="k">
+                                <tr>
+                                    <td>{{$v['id']}}</td>
+                                    <td>{{$userInfo['name']}}</td>
+                                    <td>{{$mode[$v['mode']]}}</td>
+                                    <td>{{$v['money']/100}}</td>
+                                    <td>{{$v['currentbalance']/100}}</td>
+                                    <td>{{:date('Y年m月d日', $v['time'])}}</td>                            
+                                    <td></td>
+                                </tr>
+                            </foreach>
+                        </empty>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="pagination">
+                    <ul>
+                        {{$recordshow}}
+                    </ul>
+                </div>
+            </div>
+            <div class="tableList">
+                <h3>消费记录</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>   
+                            <td>消费记录ID</td>
+                            <td>用户呢称</td>
+                            <td>账户余额</td>
+                            <td>IC卡编号</td> 
+                            <td>用水地址</td>
+                            <td>用水时间</td>
+                            <td>盛水量/mL</td>
+                            <td>备注</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <empty name="list">
+                            <tr><td>没有消费记录</td></tr>
+                        <else />
+                            <foreach name="list" item="v" key="key">   
+                                <tr>
+                                    <td>{{$v['id']}}</td>
+                                    <td>{{$v['name']}}</td>
+                                    <td>{{$v['balance']/100}}</td>
+                                    <td>{{$v['iccard']}}</td>
+                                    <td>{{$v['address']}}</td>
+                                    <td>{{:date('Y年m月d日', $v['time'])}}</td>
+                                    <td>{{$v['flow']}}</td>
+                                    <td></td>
+                                </tr>
+                            </foreach>
+                        </empty>
+                    </tbody>
+                </table>
+                <!-- 分页 -->
+                <div class="pagination">
+                    <ul>
+                        {{$button}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <include file="Public/footer" />
+    </div>
+</div>

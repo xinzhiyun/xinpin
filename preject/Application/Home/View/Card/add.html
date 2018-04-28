@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1" >
+	<title>添加IC卡</title>
+	<script src="__PUBLIC__/Home/js/jquery-1.8.3.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/mobileStyle.css">
+	<script type="text/javascript" src="__PUBLIC__/Admin/layui/layui.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/layui/css/layui.css" />
+	<script src="__PUBLIC__/Home/js/public.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+</head>
+<body>
+	<section class="addICtitle">请填写持卡人资料</section>
+	<form class="container addIC" action="__URL__/add" method="post" name="formUser" onsubmit="return toVaild()">
+		<section class="row">
+			<section class="col-md-12">
+				<input class="form-control cardholder" type="text" value="" name="name" placeholder="持卡人姓名">
+			</section>
+		</section>
+		<section class="row">
+			<section class="col-md-12">
+				<input class="form-control schoolName" type="text" value="" name="school" placeholder="学校">
+			</section>
+		</section>
+		<section class="row">
+			<section class="col-md-12">
+				<input class="form-control studentId" type="text" value="" name="studentcode" placeholder="学籍号">
+			</section>
+		</section>
+		<section class="row iccardbox">
+		    <section class="input-group">
+		      <input id="Ickahao" type="text" class="form-control" name="iccard" placeholder="IC卡账号">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button" onclick="scanQRCode()"></button>
+		      </span>
+		    </section>
+		</section><!-- /.row -->
+		<input class="form-control addIDBtn" type="submit" value="保存" class="button conserve"></td>
+	</form>
+	<script>
+	  // 通过config接口注入权限验证配置
+	  wx.config({
+	    debug: false,
+	    appId: '{{$signPackage["appId"]}}',
+	    timestamp: {{$signPackage["timestamp"]}},
+	    nonceStr: '{{$signPackage["nonceStr"]}}',
+	    signature: '{{$signPackage["signature"]}}',
+	    // 所有要调用的 API 都要加到这个列表中
+	    jsApiList: [
+	      'scanQRCode' //扫一扫
+	    ]
+	  });
+	  // 通过ready接口处理成功验证
+	  wx.ready(function () {
+	    // 在这里调用 API
+	  });
+	  function scanQRCode(){
+	    wx.scanQRCode({
+	      needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+	      scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+	      success: function (res) {
+	        var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+	        if(result){
+	          document.getElementById("Ickahao").value = result.substr(-16);
+	        }else{
+	          console.dir('扫描失败：10000');
+	        }
+	      }
+	    }); 
+	  }
+	  // 通过error接口处理失败验证
+	  wx.error(function(res){
+	      // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+	      console.dir('接口失败：10001');
+	  });
+		//表单验证
+		
+		function toVaild(){
+
+			var cardholder=$(".cardholder").val().trim();
+			var schoolName=$(".schoolName").val().trim();
+			var studentId=$(".studentId").val().trim();
+			var Ickahao=$("#Ickahao").val().trim();
+
+			if(cardholder==""){
+				layuiHint("持卡人姓名不能为空");
+				return false;
+			}else if(!(/^[a-zA-Z\u4e00-\u9fa5]{2,10}$/.exec(cardholder))){
+	    		layuiHint("持卡人姓名至少2位汉字或英文");
+	    		return false;
+	    	}else if(schoolName==""){
+				layuiHint("学校名不能为空");
+				return false;
+			}else if(!(/^([\u4e00-\u9fa5]){4,16}$/.test(schoolName))){
+				layuiHint("学校名为4-16个中文字符");
+				return false;
+			}else if(studentId==""){
+				layuiHint("学籍号不能为空");
+				return false;
+			}else if(!(/^\d{5,11}$/.test(studentId))){
+				layuiHint("学籍号为5-11个数字");
+				return false;
+			}else if(Ickahao==""){
+				layuiHint("IC卡账号不能为空");
+				return false;
+			}else{
+				return true;
+			}
+		}
+		// 持卡人姓名只能是汉字或英文
+	    var regUsername = /^[a-zA-Z\u4e00-\u9fa5]{2,10}$/,
+	    	regUsernameOK = null;
+	    //学校名只能是中文
+	    var regSchoolname = /^[\u4e00-\u9fa5]{4,16}$/,
+	    	regSchoolnameOK = null;
+	    // 学籍号只能是数字
+	    var regstudentId = /^\d{5,11}$/,
+	    	regstudentIdOK = null;
+	    //IC卡号只能是XP开头+14位数字格式
+	    // var regIckahao = /^XP\d{14}$/,
+	    // 	regIckahaoOK = null;
+
+
+	    checkInput($(".cardholder"), regUsername, regUsernameOK, "持卡人姓名至少2位汉字或英文");
+	    checkInput($(".schoolName"), regSchoolname, regSchoolnameOK, "学校名为4-16个中文字符");
+	    checkInput($(".studentId"), regstudentId, regstudentIdOK, "学籍号为5-11个数字");
+	    // checkInput($("#Ickahao"), regIckahao, regIckahaoOK, "IC卡号只能是XP开头+14位数字格式");
+
+
+	    function checkInput(ele, reg, regOK, notice){
+	    	//ele:标签
+	    	//reg:正则表达式
+	    	//regOK:验证通过标识
+	    	//notice:提示的内容
+	    	ele.on("change", function(){
+		    	!reg.exec(ele.val())
+		        ? (
+		            ele.css({color: "red"}),
+		            regOK = null,
+		            layuiHint(notice)
+		            )
+		        : (
+		            ele.css({color: "#000"}),
+		            regOK = true
+		            )
+		    })
+	    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<include file="Public/header" />
+<div class="content">
+    <include file="Public/nav" />
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">后台管理/<span>添加经销商</span></div>
+            <div class="formBox">
+                <form class="" action="__URL__/add" method="post" onsubmit="return toVaild()">
+                    <div class="control-group">
+                        <span>经销商姓名<sub class="_start">*</sub></span>
+                        <input type="text" class="userName" name="name" placeholder="请输经销商姓名">                     
+                    </div>
+                    <div class="control-group">
+                        <span>密码<sub class="_start">*</sub></span>
+                        <input type="password" class="password0" name="password" placeholder="请输入密码">
+                    </div>
+                    <div class="control-group">
+                        <span>确认密码<sub class="_start">*</sub></span>
+                        <input type="password" class="password1" name="repassword" placeholder="请再次输入密码">
+                    </div>
+                    <div class="control-group">
+                        <span>公司名称<sub class="_start">*</sub></span>
+                        <input type="text" name="company" class="company" placeholder="请输入公司名称">
+                    </div>
+                    <div class="control-group">
+                        <span>手机号码<sub class="_start">*</sub></span>
+                        <input type="text" name="phone" class="phone" placeholder="请输入手机号码">
+                    </div>
+                    <div class="control-group">
+                        <span>邮箱<sub class="_start">*</sub></span>
+                        <input type="text" name="email" class="email" placeholder="请输入邮箱">
+                    </div>
+                    <div class="control-group">
+                        <span>地址<sub class="_start">*</sub></span>
+                        <div class="info">
+                            <select id="s_province" name="s_province"></select>&nbsp;&nbsp;
+                            <select id="s_city" name="s_city" ></select>&nbsp;&nbsp;
+                            <select id="s_county" name="s_county"></select>
+                            <input class="addressValue" type="hidden" name="address" value="" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <span>身份证号<sub class="_start">*</sub></span>
+                        <input type="text" name="idcard" class="idcard" placeholder="请输入身份证号">
+                    </div>
+                    <div class="btn-groups">
+                        <button class="subbtn btns btn-primary oddbtn" type="submit">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <include file="Public/footer" />
+    </div>
+</div>
+<script>
+//表单验证
+function toVaild(){
+    var userName=$(".userName").val();//获取账户名
+    var password0=$(".password0").val();//获取密码
+    var password1=$(".password1").val();//获取再次输入的密码
+    var company=$(".company").val();//获取公司名
+    var phone=$(".phone").val();//获取电话号码
+    var email=$(".email").val();//获取邮箱
+    var addressValue="";//定义地址变量
+    var idcard=$(".idcard").val();//获取卡号
+    var pattern=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;// 特殊字符正则
+    if(userName == ""){
+        layuiHint('账号不能为空');
+        return false;
+    }else if(pattern.test(userName)){
+        layuiHint('账号不能使用特殊字符');
+        return false;
+    }else if(password0==""){
+        layuiHint('密码不能为空');
+        return false;
+    }else if(password0!=password1){
+        layuiHint('两次输入密码不一致');
+        return false;
+    }else if(company==""){
+        layuiHint('公司名不能为空');
+        return false;
+    }else if(phone==""){
+        layuiHint('手机号码不能为空');
+        return false;
+    }else if(!(/^1[34578]\d{9}$/.test(phone))){
+        layuiHint('手机号码格式不正确');
+        return false;
+    }else if(email==""){
+        layuiHint('邮箱不能为空');
+        return false;
+    }else if(!(/\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/.test(email))){
+        layuiHint('邮箱格式不正确');
+        return false;
+    }else if($('#s_province').val()==""||$('#s_city').val()==""||$('#s_county').val()==""){
+        layuiHint('请把地址填写完整');
+        return false;
+    }else if(idcard==""){
+        layuiHint('身份证号码不能为空');
+        return false;
+    }else if(!(/\d{17}[\d|x]|\d{15}/.test(idcard))){
+        layuiHint('身份证格式不正确');
+        return false;
+    }else{
+        //验证通过
+        addressValue=$('#s_province').val() + " " + $('#s_city').val() + " " + $('#s_county').val() + "";
+        $(".addressValue").val(addressValue);
+       return true;
+    }
+}
+//城市三级联动
+_init_area();
+</script>

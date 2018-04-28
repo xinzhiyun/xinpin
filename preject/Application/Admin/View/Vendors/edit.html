@@ -1,0 +1,108 @@
+<!-- header part -->
+<include file="Public/header" />
+<!-- content part -->
+<div class="content">
+    <!-- nav part-->
+    <include file="Public/nav" />
+    <!-- from part-->
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">后台管理/<span>编辑经销商</span></div>
+            <div class="formBox">
+                <foreach name="info" item="vo" key="key">
+                <form class="" action="__URL__/edit" method="post" onsubmit="return toVaild()">
+                    <input type="hidden" name="id" value="{{$vo.id}}">
+                    <input type="hidden" name="name" value="{{$vo.name}}">
+                    <input type="hidden" name="password" value="{{$vo.password}}">
+                    <div class="control-group">
+                        <span>您正在编辑的是</span>
+                        <span style="font-size:30px;color:red;">{{$vo.name}}</span>
+                    </div>
+                    <div class="control-group">
+                        <span>手机<sub class="_start">*</sub></span>
+                        <input type="text" class="phone" name="phone" value="{{$vo.phone}}" placeholder="手机号码不能为空">
+                    </div>
+                    <div class="control-group">
+                        <span>邮箱<sub class="_start">*</sub></span>
+                        <input type="email" class="email" name="email" value="{{$vo.email}}" placeholder="邮箱不能为空">
+                    </div>
+                    <div class="control-group">
+                        <span>地址<sub class="_start">*</sub></span>
+                        <div class="info">
+                            <select id="s_province" name="s_province"></select>&nbsp;&nbsp;
+                            <select id="s_city" name="s_city" ></select>
+                            <select id="s_county" name="s_county"></select>
+                            <input class="getAddress" type="hidden" value="{{$vo.address}}">
+                            <input class="addressValue" type="hidden" name="address" value="" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <span>公司<sub class="_start">*</sub></span>
+                        <input type="text" name="company" class="company" value="{{$vo.company}}" placeholder="公司名不能为空">
+                    </div>
+                    <div class="control-group">
+                        <span>身份证号<sub class="_start">*</sub></span>
+                        <input type="text" name="idcard" class="idcard" value="{{$vo.idcard}}" placeholder="身份证号码不能为空">
+                    </div>
+                    
+                    <div class="btn-groups">
+                        <button class="subbtn btns btn-primary oddbtn" type="submit">确认</button>
+                    </div>
+                </form>
+                </foreach>
+            </div>
+        </div>
+        <!-- footer part -->
+        <include file="Public/footer" />
+    </div>
+</div>
+<script>
+    //城市三级联动
+    _init_area();
+    //填充地址
+    var strs= new Array(); //定义一数组 
+    strs=$(".getAddress").val().split(" "); //字符分割 
+    $("#s_province").children().eq(0).text(strs[0]);
+    $("#s_city").children().eq(0).text(strs[1]);
+    $("#s_county").children().eq(0).text(strs[2]);
+
+    // 表单验证
+    function toVaild(){
+        var phone=$(".phone").val();//获取手机号码
+        var email=$(".email").val();//获取邮箱
+        var company=$(".company").val();//获取公司名
+        var idcard=$(".idcard").val();//获取卡号
+        var addressValue="";//定义地址变量
+        if(phone==""){
+            layuiHint('手机号码不能为空');
+            return false;
+        }else if(!(/^1[34578]\d{9}$/.test(phone))){
+            layuiHint('手机号码格式不正确');
+            return false;
+        }else if(email==""){
+            layuiHint('邮箱不能为空');
+            return false;
+        }else if(!(/\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/.test(email))){
+            layuiHint('邮箱格式不正确');
+            return false;
+        }else if($('#s_province').val()==""||$('#s_city').val()==""||$('#s_county').val()==""){
+            layuiHint('请把地址填写完整');
+            return false;
+        }else if(idcard==""){
+            layuiHint('身份证号码不能为空');
+            return false;
+        }else if(company==""){
+            layuiHint('公司名不能为空');
+            return false;
+        }else if(!(/\d{17}[\d|x]|\d{15}/.test(idcard))){
+            layuiHint('身份证格式不正确');
+            return false;
+        }else{
+            //验证通过
+            addressValue=$('#s_province').val() + " " + $('#s_city').val() + " " + $('#s_county').val() + "";
+            $(".addressValue").val(addressValue);
+            return true;
+        }
+    }
+
+</script>

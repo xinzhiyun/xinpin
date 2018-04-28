@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1" >
+<script src="__PUBLIC__/Home/js/jquery-1.8.3.min.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/mobileStyle.css">
+<script src="__PUBLIC__/Home/js/public.js"></script>
+<title>馨品共享水</title>
+<style>
+    #text{
+        overflow:hidden;
+        width:100vw;
+        height:42vh;
+        top:42vh;
+        left:0;
+        right: 0;
+        margin:auto;
+        position:absolute;
+        z-index:15000000;
+        color: #000;
+    }
+    #textList{
+        width:200vw;
+        height:32vh;
+    }
+    #textList li{
+        float:left; 
+        width:100vw;
+    }
+    #textNav{
+        top:40vh;
+        height:10px;
+        width:100vw;
+        display: none;
+        text-align: center;
+        position:absolute;
+        margin:auto; 
+        right:0;
+        left: 0;}
+    #textNav span{
+        float:left;
+        width:10px; 
+        height:10px; 
+        border-radius:5px;
+        margin-left:15px;
+    }
+    #textNav span{
+        background:#008A63;
+        opacity:0.5;
+        display: block;
+        float: left;
+    }
+    #text span.spanActiveList{
+        opacity:1;
+    }
+    #textList table{
+        width: 97vw;
+
+        margin: 0 auto;
+        margin-top: 1vh;
+    }
+    #textList table tr{
+        height: 7vh;
+}
+    #textList table tr td{
+        border: 0;
+        width: 14.6%;
+        padding: 8px 0;
+    }
+    .addUp{
+        width: 95vw;
+        margin: 0vh auto;
+        margin-bottom: 0;
+        color:#008A63;
+        font: .7rem;
+        
+    }
+    .addUp .spanSize{
+        font-size: .9rem;
+    }
+    h4{
+        padding-left: 2vw;
+        font-size: 1rem;
+        margin-top: 3vh;
+        color: #333;
+    }
+    .tableTitle{
+        padding-left: 2vw;
+        font-size: .8rem;
+        color:#008A63;
+    }
+    footer.footer{
+        margin-top: 40vh;
+    }
+</style>
+</head>
+<body>
+    <!-- logo --> 
+    <input class="iccardVal" type="hidden" name="" value='{{$iccard}}'>
+    <input class="recordVal" type="hidden" name="" value='{{$record}}'>
+    <input class="nameVal" type="hidden" name="" value='{{$name}}'>
+    <section class="showBalanceBox">
+        <section class="showBalance">
+            <img class="moneylogo" src="__PUBLIC__/Home/image/moneylogo.png" />
+            <p class="textBalance text-center">账号余额 (元)</p>
+            <p class="numBalance text-center">{{$money}}</p>
+        </section>
+    </section>
+    <section id="text">
+        <ul id="textList">
+        </ul>
+        <nav id="textNav">
+            
+
+        </nav>
+    </section>
+    <!-- footer -->
+    <footer class="footer">
+        <a class="btn1" href="{{:U('Home/index/index')}}"><span class="logo1"></span>首页</a>
+        <a class="btn2" href="{{:U('Home/Consume/index')}}"><span class="logo2"></span>饮水记录</a>
+        <a class="btn3" href="{{:U('Home/Flow/recharge')}}"><span class="logo3"></span>充值</a>
+        <a><span class="logo4"></span>扫码取水</a>
+        <a class="btn5" href="{{:U('Home/Users/mine')}}"><span class="logo5"></span>我的</a>
+    </footer>
+    
+    <script>
+        $(function(){
+            $(".logo1").css("background-position","-9.5rem 0");
+            $(".btn1").css("color","#008C63");
+            // 剩余金额logo效果
+            $(".showBalanceBox").click(function(){
+                $(".moneylogo").animate({width:"26vw",height:"26vw",top:"4.5vw"},"fast");
+                $(".moneylogo").animate({width:"23vw",height:"23vw",top:"7vw"},"fast");
+                $(".moneylogo").animate({width:"25vw",height:"25vw",top:"6vw"},"fast");
+                $(".moneylogo").animate({width:"23vw",height:"23vw",top:"7vw"},"fast");
+                $(".moneylogo").animate({width:"24vw",height:"24vw",top:"6.5vw"},"fast");
+            });
+
+            //一周喝水记录
+            var iccardVal=$(".iccardVal").val();//获取ic卡数据
+            var recordVal=$(".recordVal").val();//获取饮水记录数据
+            var nameVal=$(".nameVal").val();
+            var josniccardVal=JSON.parse(iccardVal);nameVal
+            var jsonrecordVal=JSON.parse(recordVal);
+            var jsonnameVal=JSON.parse(nameVal);
+            // console.log(nameVal);
+            var LiHtml1="";
+            //获取json对象长度
+            var iccardNumber=0;
+            var times=0;
+            for(var js2 in josniccardVal){
+                iccardNumber++; 
+            }
+            // console.dir(jsonrecordVal);
+            if(iccardNumber){
+                for(var i in josniccardVal){
+
+                    // IC卡号ID
+                    // console.dir(i);
+                    // IC卡卡号
+                    // console.dir(josniccardVal[i]);
+
+                    LiHtml1+="<li><h4>"+jsonnameVal[times]+"</h4><p class='tableTitle'>一周饮水统计表/mL</p><table class='table table-data'><thead><tr><td>日</td><td>一</td><td>二</td><td>三</td><td>四</td><td>五</td><td>六</td></tr></thead><tbody><tr>";
+                    // IC 卡消费记录
+                    times++;
+                    var jl = icjili(i);
+                    var lji = 0;
+
+                    var tdHtml="";
+                    
+                    for(var j in jl){
+                        // console.dir(jl[j]);
+                        tdHtml+="<td>"+jl[j]+"</td>";
+                        lji += jl[j]-0;
+                        // console.dir(jl[j]);
+
+                    }
+
+                    LiHtml1+=tdHtml;
+
+                    LiHtml1+="</tr></tbody></table><p class='text-right addUp'>累计：<span class='spanSize'>"+lji+"</span>mL</p></li>";
+
+                    $("#textList").html(LiHtml1);
+                }
+
+                if(iccardNumber>1){
+                    $('#textNav').show();
+                    var textNavHtml = '<span class="spanActiveList"></span>';
+                    for(var i=1;i<iccardNumber;i++){
+                        textNavHtml += '<span></span>';
+                    }
+
+                    $('#textNav').html(textNavHtml);
+
+                    $("#textList").css({'width':(iccardNumber*100)+'vw'});
+                }
+            }
+
+            function icjili(id){
+                var icidjl = [0,0,0,0,0,0,0];
+
+                for(var j in jsonrecordVal){
+                    // 返回IC卡消费记录
+                    console.dir(jsonrecordVal[j]);
+                    if(jsonrecordVal[j]['icid'] == id){
+                        console.dir(jsonrecordVal[j]['time']);
+                        var d = new Date(jsonrecordVal[j]['time']);
+                        var zj = d.getDay();
+                        icidjl[zj] = jsonrecordVal[j]['flow'];
+                        //jsonrecordVal[j]['time']
+                        //icidjl.push(jsonrecordVal[j]['flow']);
+                    }
+                }
+                return icidjl;
+            }
+            //数据表滑动显示
+            if($("#textList").children().size()>1){
+                fnTab_txt(id("text"),id("textList"),id("textNav").children,$(window).width(),"spanActiveList");
+            }
+        });
+    </script>
+</body>
+</html>

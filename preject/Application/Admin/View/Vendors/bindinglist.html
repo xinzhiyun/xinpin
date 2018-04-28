@@ -1,0 +1,84 @@
+<include file="Public/header" />
+<div class="content">
+    <include file="Public/nav" />
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">后台管理/<span>已绑定列表</span></div>
+            <form class="form-search fr" action="__URL__/bindinglist" method="get">
+                <input type="text" class="input-medium" name="name" placeholder="请输入经销商姓名...">
+                <button type="submit" class="btn">搜索</button>
+            </form>
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>绑定编号</th>
+                    <th>经销商ID</th>
+                    <th>机组ID</th>
+                    <th>机组名称</th>
+                    <th>经销商姓名</th>
+                    <th>经销商手机</th>
+                    <th>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <notempty name="list">
+                        <foreach name="list" item="vo" key="key">
+                        <tr>
+                            <td>{{$key+1}}</td>
+                            <td>{{$vo.vid}}</td>
+                            <td>{{$vo.cid}}</td>
+                            <td>{{$vo.cname}}</td>
+                            <td>{{$vo.name}}</td>
+                            <td>{{$vo.phone}}</td>
+                            <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
+                            <td>
+                                <if condition="$Think.session.adminuser.leavel eq 0">
+                                    <!-- <a href="">分配角色</a> -->
+                                    <!-- <a href="__URL__/edit/id/{$vo.id}">修改信息</a> -->
+                                    <!-- <a href="__URL__/bindingdel/id/{{$vo.id}}/cid/{{$vo.cid}}">解除绑定</a> -->
+                                    <a class="unbindBtn" href="javascript:;" ruleId="{{$vo['id']}}">解除绑定</a>
+                                    <input class="cid" type="hidden" name="" value="{{$vo.cid}}">
+                                <else />
+                                    <span>对不起，您无权操作！！！</span>
+                                </if>
+                            </td>
+                        </tr>
+                        </foreach>
+                    <else />
+                        <tr>
+                            <td colspan="10">查无数据</td>
+                        </tr>
+                    </notempty>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <ul>
+                    {{$button}}
+                </ul>
+            </div>
+            <script>
+                //删除提示
+                // alert($(".cid").val());
+                $(".unbindBtn").click(function(){
+                    var id = $(this).attr('ruleId');
+                    var cid = $(this).siblings(".cid").val();
+                    layui.use('layer', function(){
+                        var layer = layui.layer;
+                        layer.confirm('确定解除绑定?', {icon: 3, title:'温馨提示'}, function(index){
+                            window.location.href='bindingdel?id='+ id + '&cid=' + cid;
+                            layer.close(index);
+                            
+                        });
+                    });
+                });
+                $('.pagination ul a').unwrap('div').wrap('<li></li>');
+                $('.pagination ul span').wrap('<li class="active"></li>')
+            </script>
+        </div>
+        <!-- footer part -->
+        <include file="Public/footer" />
+    </div>
+</div>
+
+

@@ -1,0 +1,102 @@
+<!-- header part -->
+<include file="Public/header" />
+<!-- content part -->
+<div class="content">
+    <!-- nav part-->
+    <include file="Public/nav" />
+    <!-- from part-->
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">IC卡管理/<span>编辑IC卡</span></div>
+            <div class="formBox">
+
+                <foreach name="info" item="vo">
+
+                <form class="" action="__URL__/edit" method="post" onsubmit="return toVaild()">
+                    
+                    <input type="hidden" name="id" value="{{$vo.id}}">
+                    
+                    <div class="control-group">
+                        <span>IC卡编号</span>
+                        <input class="iccardId" type="text" name="iccard" value="{{$vo.iccard}}">
+                    </div>
+                    <div class="control-group">
+                        <span>计费类型</span>
+                        <switch name="vo.type">
+                            <case value="0">
+                                免费卡：<input type="radio" name="type" value="0" checked>
+                                计费卡：<input type="radio" name="type" value="1">
+                            </case>
+                            <case value="1">
+                                免费卡：<input type="radio" name="type" value="0">
+                                计费卡：<input type="radio" name="type" value="1" checked>
+                            </case>
+                            <default />
+                        </switch>
+                    </div>
+                    <div class="control-group">
+                        <span>持有人</span>
+                        <input class="cardholder" type="text" name="name" value="{{$vo.name}}">
+                    </div>
+                    <div class="control-group">
+                        <span>学籍号</span>
+                        <input class="studentId" type="text" name="studentcode" value="{{$vo.studentcode}}">
+                    </div>
+                    <div class="control-group">
+                        <span>学校</span>
+                        <input class="schoolName" type="text" name="school" value="{{$vo.school}}">
+                    </div>
+                    <div class="btn-groups">
+                        <button class="subbtn btns btn-primary oddbtn" type="submit">确认</button>
+                    </div>
+                </form>
+                </foreach>
+            </div>
+        </div>
+        <!-- footer part -->
+        <include file="Public/footer" />
+    </div>
+</div>
+<script type="text/javascript">
+    function toVaild(){
+        var iccardId=$(".iccardId").val();//获取ic卡号
+        var cardholder=$(".cardholder").val();//获取ic卡持有人
+        var studentId=$(".studentId").val();//获取学籍号
+        var schoolName=$(".schoolName").val();//获取学校名
+        var arr1 = new Array();
+        var arr2 = new Array();
+        var arr3 = new Array();
+        var arr4 = new Array();
+        arr1 = iccardId.split(" ");
+        arr2 = cardholder.split(" ");
+        arr3 = studentId.split(" ");
+        arr4 = schoolName.split(" ");
+        if(iccardId==""){
+            layuiHint('IC卡编号不能为空');
+            return false;
+        }else if(cardholder==""){
+            layuiHint('持卡人不能为空');
+            return false;
+        }else if(studentId==""){
+            layuiHint('学籍号不能为空');
+            return false;
+        }else if(schoolName==""){
+            layuiHint('学校名不能为空');
+            return false;
+        }else if(arr1.length!=1){
+            layuiHint('IC卡编号输入框不允许有空格');
+            return false;
+        }else if(arr2.length!=1){
+            layuiHint('持卡人输入框不允许有空格');
+            return false;
+        }else if(arr3.length!=1){
+            layuiHint('学籍号输入框不允许有空格');
+            return false;
+        }else if(arr4.length!=1){
+            layuiHint('学校输入框不允许有空格');
+            return false;
+        }else{
+            return true;
+        }
+    }
+</script>

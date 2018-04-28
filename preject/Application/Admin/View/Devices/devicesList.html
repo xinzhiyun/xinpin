@@ -1,0 +1,69 @@
+<include file="Public/header" />
+<div class="content">
+    <include file="Public/nav" />
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">设备管理/<span>设备列表</span></div>
+            <form class="form-search fr" action="" method="">
+                <input type="text" class="input-medium" name="name" placeholder="请输入设备编号" / >  
+                <button type="submit" class="btn">查找</button>
+            </form>
+            <table class="table table-bordered table-hover text-center" >
+                <thead class="h4 ">
+                    <tr class="danger">
+                        <td>ID</td>
+                        <td>设备编号</td>
+                        <td>机组名称</td>
+                        <td>经销商名称</td>
+                        <td>设备类型(滤芯)</td>
+                        <td>最近更新时间</td>
+                        <td>设备状态</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <notempty name="deviceInfo">
+                    <foreach name="deviceInfo" item="data" key="key">
+                        <tr>
+                            <td>{{$key+1}}</td>
+                            <td>
+                                <a class="btn-link detail" href="{{:U('deviceDetail', [code=>$data['device_code']])}}">{{$data.device_code}}</a>
+                            </td>
+                            <td>{{$data.cname}}</td>
+                            <td>{{$data.name}}</td>
+                            <td>{{$data.typename}}</td>
+                            <if condition="$data['updatetime'] == null "><td>{{$data.addtime|date='Y-m-d H:i:s', ###}}</td>
+                            <else /><td>{{$data.updatetime|date='Y-m-d H:i:s', ###}}</td>
+                            </if>
+                            <td>
+                                <switch name="data.device_status">
+                                    <case value="0">正常</case>
+                                    <case value="1">冲洗</case>
+                                    <case value="2">缺水</case>
+                                    <case value="3">漏水</case>
+                                    <case value="4">检修</case>
+                                    <case value="5">欠费</case>
+                                    <case value="6">关机</case>
+                                    <default />
+                                </switch>
+                            </td>
+                            <!-- <td><a class="btn-link">开机</a></td> -->
+                            <!-- <td><a class="btn-link" href="chargelist?code={{$data.device_code}}" class="chargeBtn">查看</a></td> -->
+                        </tr>
+                    </foreach>
+                    <else />
+                    <tr>
+                        <td colspan="12">查无数据</td>
+                    </tr>
+                    </notempty>
+                </tbody>
+            </table>
+            <!-- 上下页，请加样式 -->
+            <div class="pagination">
+                <ul>
+                    {{$page}}
+                </ul>
+            </div>
+        </div>
+        <include file="Public/footer" />
+    </div>
+</div>

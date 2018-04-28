@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1" >
+<style>
+    html,body {
+        height: auto !important;
+    }
+    #loading {
+        width: 100vw;
+        height: 6vh;
+        display: none;
+        z-index: 999;
+        position: fixed;
+        bottom: 0;
+        line-height: 6vh;
+        text-align: center;
+        background: #eee;
+        
+    }
+    #loading>span {
+        animation: showHide 1s ease-in 3 alternate;
+    }
+    @keyframes showHide {
+        from {
+            opacity: .5;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+<title>充值记录</title>
+</head>
+<body>
+<ul class="rechargeHhead nav nav-pills" role="tablist">
+    <li role="presentation">充值金额 (元)</li>
+    <li class="text-right">充值日期</li>
+</ul>
+<section class="rechargeNode">
+    <table class="rechargeTable table-defalt text-center">
+    	<tbody class="chargeRecord">
+        <foreach name="record" item="v">
+            <tr>
+                <td class="text-left">{{$v['money']/100}}</td>
+                <td class="text-right" style="color: #908f8f;text-align: right">{{:date('Y年m月d日', $v['time'])}}</td>
+            </tr>
+        </foreach>
+        </tbody>
+    </table>
+</section>
+<div id="loading">
+    <span>正在加载...</span>
+</div>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/mobileStyle.css">
+<script src="__PUBLIC__/Home/js/public.js"></script>
+<script src="__PUBLIC__/Home/js/jquery-1.11.1.min.js" ></script>
+    <script>
+    $(document).ready(function(){
+
+        var chLength = $(".chargeRecord tr").length;
+        // console.log(chLength);
+        
+        // 模拟页面懒加载效果
+        if(chLength/16 >= 1){   
+
+            $(".chargeRecord tr").each(function(key,value){
+                if( key >= 16){
+                    $(".chargeRecord tr")
+                    .eq(chLength--)
+                    .css({display: "none"});
+                }
+                
+            })
+        }
+
+        $(window).scroll(function () {
+
+            // console.log($(window).scrollTop());
+
+            if($(window).scrollTop() > 250){
+
+                // 模拟页面懒加载效果
+                setTimeout(function(){
+                    $(".chargeRecord tr").each(function(key,value){
+                        if( key >= 16){
+                            $(".chargeRecord tr")
+                            .eq(chLength--)
+                            .css({display: "table-row"});
+                        }
+                        
+                    })
+                },800)
+                
+            }
+
+            // 判断是否到达页面底部
+            $(window).scrollTop() >= $(document).height() - $(window).height() 
+            ? $("#loading").css({display: "block"})
+            : $("#loading").css({display: "none"})
+            
+            setTimeout(function(){
+                $("#loading").css({display: "none"})
+            },1000)
+
+        })
+
+        
+    })
+         
+    </script>
+</body>
+</html>

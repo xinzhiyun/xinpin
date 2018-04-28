@@ -1,0 +1,89 @@
+<!-- header part -->
+<include file="Public/header" />
+<!-- content part -->
+<div class="content">
+    <!-- nav part-->
+    <include file="Public/nav" />
+    <!-- from part-->
+    <div class="row-fluid fl" id="main">
+    <style type="text/css">
+        .textarea{width: 215px; min-height: 110px; border: 1px solid #ccc;}
+        .textarea p{
+            padding: 0 10px;
+            margin: 5px;
+        }
+        .control-group{position: relative;}
+        .control-group .elected{position: absolute; top: 0;left: 0;}
+        .control-group .textarea{margin-left: 190px;}
+        .btn-groups .btns{
+            margin: 150px 0 50px 90px;
+            padding: 8px 35px;
+            border-radius: 7px;
+        }
+    </style>
+        <div class="tableBox">
+            <div class="titleBar">机组管理/<span>机组设置</span></div>
+
+            <div class="formBox" style="position: relative;">
+                <div style="position: absolute;left: 20%;top: 100px;font-size: 12px;"><span>&nbsp;(&nbsp;如果没有设备编码，请到&nbsp;"&nbsp;设备管理&nbsp;>>&nbsp;设备添加&nbsp;"&nbsp;中进行添加&nbsp;)&nbsp;</span></div>
+                <form class="form-group" action="__URL__/add" method="post" onsubmit="return toVaild()">
+
+                    <div class="control-group">
+                        <span>机组编码</span>
+                        <input type="text" class="control setId" name="cname" placeholder="请输入机组编码" style="width:210px;">
+                    </div>
+                    <div class="control-group">
+                        <span>设备编码</span>
+                            <select class="deviceId" name="dcode" id="">
+                                <foreach name="info" item="vo" key="key">
+                                    <option value="{{$vo.device_code}}">{{$vo.device_code}}</option>
+                                </foreach>
+                            </select>
+                    </div>
+                    <div class=" btn-groups">
+                        <button class="btns reset btn-primary" type="reset">重置</button>
+                        <button class="subbtn btns btn-primary" type="submit">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- 批量添加弹框 -->
+            <div class="addBatch">
+                <form method="post" action="__URL__/upload" enctype="multipart/form-data">
+                    <input type="file" name="excelData" class="filename">
+                    <button class="btn add_device">添加</button>
+                </form>
+            </div>
+        <!-- footer part -->
+        <include file="Public/footer"/>
+    </div>
+</div>
+
+<script>
+    $(".addBtn").click(function(){ 
+        //显示充值弹框
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+                type: 1, 
+                title: ['批量导入', 'font-size:18px;'],
+                area: ['500px', '300px'],
+                content: $(".addBatch")
+            }); 
+        });
+    });
+    //表单验证
+    function toVaild(){
+        var setId=$(".setId").val();
+       if(setId == ""){
+           layui.use('layer', function(){
+                var layer = layui.layer;
+                layer.msg('请把机组编码填写完整');
+            });  
+           return false;
+       }else{
+           return true;
+       }
+    }
+</script>
+
