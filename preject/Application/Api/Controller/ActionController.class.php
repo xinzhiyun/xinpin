@@ -82,15 +82,18 @@ class ActionController extends Controller
     {
         // 查询IC卡的类型
         $icCard = M('card')->where('iccard='.$message['iccard'])->find();
-        if( !empty($icCard) && $icCard['type'] == 0 ){
-            $message['EnOut'] = -1;
+         // 查询IC卡是否被绑定
+        $binding = M('binding')->where('cid='.$icCard['id'])->find();
+
+        if( !empty($icCard) && $icCard['type'] == 0 && !empty($binding) ){
+            $message['EnOut'] = -1; //1：出水  0:不出
             $message['OutWaterFlow'] = -1;
             $message['MaxTime'] = -1;
             return $message;
         }
 
         
-        if( !empty($icCard) && $icCard['type'] == 1){
+        if( !empty($icCard) && $icCard['type'] == 1 && !empty($binding)){
             // 计算出水量
             $user = M('users')->where('id='.$icCard['uid'])->find();
             $outwater = $user['balance'] / 1.5;
