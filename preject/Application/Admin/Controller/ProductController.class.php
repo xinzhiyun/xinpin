@@ -64,6 +64,43 @@ class ProductController extends CommonController
         }
     }
 
+    // 编辑
+    public function edit()
+    {
+        if (IS_POST) {
+            $id = I('post.id');
+            $data = array(
+                'typename' => I('post.typename'),
+                'filter1' => I('post.filter1'),
+                'filter2' => I('post.filter2'),
+                'filter3' => I('post.filter3'),
+                'filter4' => I('post.filter4'),
+                'filter5' => I('post.filter5'),
+                'filter6' => I('post.filter6'),
+                'filter7' => I('post.filter7'),
+                'filter8' => I('post.filter8'),
+            );
+//            $data = array_filter($data);
+            $device_type = M('device_type');
+            $res = $device_type->where('id='.$id)->save($data);
+            if ($res) {
+                $this->success('修改成功啦！',U('Admin/Product/index'));
+            }else{
+                $this->error('修改失败！');
+            }
+        } else {
+            $id = I('get.id');
+            $device_type = M('device_type');
+            $data = $device_type->find($id);
+            $filters = M('filters');
+            $info = $filters->select();
+            // dump($data);
+            $this->assign('data',$data);
+            $this->assign('list',$info);
+            $this->display();
+        }
+    }
+
     /**
      * 删除类型方法（废除）
      * 不做删除，只做隐藏，如果要做删除产品类型，请确保产品类型没有被设备所用 

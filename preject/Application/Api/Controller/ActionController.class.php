@@ -84,7 +84,7 @@ class ActionController extends Controller
         $icCard = M('card')->where('iccard='.$message['iccard'])->find();
          // 查询IC卡是否被绑定
         $binding = M('binding')->where('cid='.$icCard['id'])->find();
-
+        
         if( !empty($icCard) && $icCard['type'] == 0 && !empty($binding) ){
             $message['EnOut'] = -1; //1：出水  0:不出
             $message['OutWaterFlow'] = -1;
