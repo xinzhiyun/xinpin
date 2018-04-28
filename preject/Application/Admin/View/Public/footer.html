@@ -3,6 +3,31 @@
             <p>©2017-2018  <a href="http://www.miitbeian.gov.cn/">粤ICP备17153883号</a> </p>
         </div>
     </div>
-
+	<script>
+		var navPar = $('.navPar');
+		var navitem = $('.navitem');
+		// 导航栏定位高亮
+		var href;
+		if(sessionStorage.getItem('navitem')){
+			href = sessionStorage.getItem('navitem');
+			for(var i=0; i<navitem.length; i++){
+				if(navitem.eq(i).attr('href').indexOf(href) > -1){
+					navitem.eq(i).css({color: '#08c'});
+					navitem.eq(i).parents('.navPar').addClass('open');
+					navitem.eq(i).parents('ul').show();
+				}
+			}
+		}
+		console.log(navPar, navitem);
+		for(var i=0; i<navitem.length; i++){
+			// console.log(navitem[i])
+			navitem.eq(i).on('click', function(){
+				var href = $(this).attr('href');
+				sessionStorage.setItem('navitem', href);
+				console.log($(this));
+			})
+		}
+		
+	</script>
 </body>
 </html>

@@ -26,11 +26,20 @@
     <link rel="stylesheet" href="__PUBLIC__/Admin/css/ace.min.css">
     <link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css">
     <script src="__PUBLIC__/Admin/js/adminPublic.js"></script>
+    <style>
+        .home {
+            color: #eee;
+        }
+        .home:hover {
+            text-decoration: none;
+            color: #ccc;
+        }
+    </style>
     
 </head>
 <body class="bodyBg">
     <div class="row-fluid" id="header">
-        <div class="headerLeft fl">馨品后台</div>
+        <div class="headerLeft fl"><a class='home' href="{{:U('Index/index')}}">馨品后台</a></div>
         <div class="headerRight fr">
             <p class="hintTxt"></p> 
             <div>
@@ -43,9 +52,6 @@
             <div class="button bowOut">
                 <a href="javascript:void(0)" url="{{:U('Login/logout')}}" class="_exit" style="color: #9d9d9d;;">退出</a>
             </div>
-
-
-   
 
             <script>
                 $('._exit').click(function(event) {
