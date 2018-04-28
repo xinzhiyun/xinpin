@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 馨品
-Source Server Version : 50636
+Source Server         : 本地数据库
+Source Server Version : 50714
 Source Host           : localhost:3306
 Source Database       : xinpin
 
 Target Server Type    : MYSQL
-Target Server Version : 50636
+Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2018-04-28 15:15:54
+Date: 2018-04-28 16:17:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -64,7 +64,7 @@ INSERT INTO `xp_card` VALUES ('83', '1811223636411458', null, null, null, null, 
 INSERT INTO `xp_card` VALUES ('68', '18112236364114563215', '夏姨', '85258', '广州学校', '17', '0', '1', '1515652637');
 INSERT INTO `xp_card` VALUES ('69', 'XP01010100000001', '好好', '1254566525', '广州体育馆', '26', '0', '1', '1516020569');
 INSERT INTO `xp_card` VALUES ('70', 'XP01010100000002', '看看', '123456', '魔的时候的', '27', '0', '1', '1516020569');
-INSERT INTO `xp_card` VALUES ('71', 'XP01010100000003', null, null, null, null, '0', '0', '1516020569');
+INSERT INTO `xp_card` VALUES ('71', 'XP01010100000003', '潘宏钢', '20180428', '清华大学', '20', '0', '1', '1516020569');
 INSERT INTO `xp_card` VALUES ('72', 'XP01010100000004', null, null, null, null, '0', '0', '1516020569');
 INSERT INTO `xp_card` VALUES ('73', 'XP01010100000005', null, null, null, null, '0', '0', '1516020569');
 INSERT INTO `xp_card` VALUES ('74', 'XP01010100000006', null, null, null, null, '0', '0', '1516020569');
@@ -168,52 +168,6 @@ INSERT INTO `xp_crew` VALUES ('50', 'ce001', '666663333333333', '1', '1524814370
 INSERT INTO `xp_crew` VALUES ('51', '测试1', '998877445566332', '1', '1524879821');
 
 -- ----------------------------
--- Table structure for xp_device_config
--- ----------------------------
-DROP TABLE IF EXISTS `xp_device_config`;
-CREATE TABLE `xp_device_config` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `did` int(11) NOT NULL COMMENT '设备ID',
-  `dtid` int(11) NOT NULL COMMENT '设备类型ID',
-  `vid` int(11) DEFAULT NULL COMMENT '经销商ID（备用）',
-  `leasingmode` tinyint(1) DEFAULT NULL COMMENT '租赁模式(0：时间 1：流量)(备用)',
-  `addtime` int(11) NOT NULL COMMENT '添加时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of xp_device_config
--- ----------------------------
-
--- ----------------------------
--- Table structure for xp_device_type
--- ----------------------------
-DROP TABLE IF EXISTS `xp_device_type`;
-CREATE TABLE `xp_device_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `typename` varchar(255) NOT NULL COMMENT '设备类型',
-  `filter1` varchar(30) DEFAULT NULL COMMENT '一级滤芯',
-  `filter2` varchar(30) DEFAULT NULL COMMENT '二级滤芯',
-  `filter3` varchar(30) DEFAULT NULL COMMENT '三级滤芯',
-  `filter4` varchar(30) DEFAULT NULL COMMENT '四级滤芯',
-  `filter5` varchar(30) DEFAULT NULL COMMENT '五级滤芯',
-  `filter6` varchar(30) DEFAULT NULL COMMENT '六级滤芯',
-  `filter7` varchar(30) DEFAULT NULL COMMENT '七级滤芯',
-  `filter8` varchar(30) DEFAULT NULL COMMENT '八级滤芯',
-  `addtime` int(11) NOT NULL COMMENT '添加时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of xp_device_type
--- ----------------------------
-INSERT INTO `xp_device_type` VALUES ('11', 'RO膜', 'RO膜-RO膜A型', '', '', '', '', '', '', '', '1515583523');
-INSERT INTO `xp_device_type` VALUES ('12', '净水器', '滤芯-', 'RO膜-RO膜A型', '', '', '', '', '', '', '1515999600');
-INSERT INTO `xp_device_type` VALUES ('13', '过滤', 'PDF-PDF', '滤芯-', 'RO膜-RO膜A型', '', '', '', '', '', '1516253545');
-INSERT INTO `xp_device_type` VALUES ('14', '测试', 'RO膜-RO膜A型', 'RO膜-A型', 'pdf-', '', '', '', '', '', '1524815064');
-INSERT INTO `xp_device_type` VALUES ('15', '测试1', '测试-测试型号', '', '', '', '', '', '', '', '1524879751');
-
--- ----------------------------
 -- Table structure for xp_devices
 -- ----------------------------
 DROP TABLE IF EXISTS `xp_devices`;
@@ -297,6 +251,52 @@ INSERT INTO `xp_devices_statu` VALUES ('12', '352425025291330', '11', null, null
 INSERT INTO `xp_devices_statu` VALUES ('13', '112233445566', '11', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', null, null, null, 'WIFI', null, '90', null, '1522207958', '1522210506');
 INSERT INTO `xp_devices_statu` VALUES ('14', '012541025410254', '3', '2000', '85', '90', '50', '32', '100', '-1', '100', '-1', '100', '-1', '100', '-1', '100', '-1', null, null, null, null, null, null, '3', '1', '0', '0', null, 'GPRS', '11223344556677889900', '90', '10020\0\0\0\0\0', '1524818893', '1524822703');
 INSERT INTO `xp_devices_statu` VALUES ('15', '666663333333333', '11', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', null, null, null, 'GPRS', '11223344556677889900', '90', '10020\0\0\0\0\0', '1524878748', '1524882896');
+
+-- ----------------------------
+-- Table structure for xp_device_config
+-- ----------------------------
+DROP TABLE IF EXISTS `xp_device_config`;
+CREATE TABLE `xp_device_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `did` int(11) NOT NULL COMMENT '设备ID',
+  `dtid` int(11) NOT NULL COMMENT '设备类型ID',
+  `vid` int(11) DEFAULT NULL COMMENT '经销商ID（备用）',
+  `leasingmode` tinyint(1) DEFAULT NULL COMMENT '租赁模式(0：时间 1：流量)(备用)',
+  `addtime` int(11) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of xp_device_config
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for xp_device_type
+-- ----------------------------
+DROP TABLE IF EXISTS `xp_device_type`;
+CREATE TABLE `xp_device_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `typename` varchar(255) NOT NULL COMMENT '设备类型',
+  `filter1` varchar(30) DEFAULT NULL COMMENT '一级滤芯',
+  `filter2` varchar(30) DEFAULT NULL COMMENT '二级滤芯',
+  `filter3` varchar(30) DEFAULT NULL COMMENT '三级滤芯',
+  `filter4` varchar(30) DEFAULT NULL COMMENT '四级滤芯',
+  `filter5` varchar(30) DEFAULT NULL COMMENT '五级滤芯',
+  `filter6` varchar(30) DEFAULT NULL COMMENT '六级滤芯',
+  `filter7` varchar(30) DEFAULT NULL COMMENT '七级滤芯',
+  `filter8` varchar(30) DEFAULT NULL COMMENT '八级滤芯',
+  `addtime` int(11) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of xp_device_type
+-- ----------------------------
+INSERT INTO `xp_device_type` VALUES ('11', 'RO膜', 'RO膜-RO膜A型', '', '', '', '', '', '', '', '1515583523');
+INSERT INTO `xp_device_type` VALUES ('12', '净水器', '滤芯-', 'RO膜-RO膜A型', '', '', '', '', '', '', '1515999600');
+INSERT INTO `xp_device_type` VALUES ('13', '过滤', 'PDF-PDF', '滤芯-', 'RO膜-RO膜A型', '', '', '', '', '', '1516253545');
+INSERT INTO `xp_device_type` VALUES ('14', '测试', 'RO膜-RO膜A型', 'RO膜-A型', 'pdf-', '', '', '', '', '', '1524815064');
+INSERT INTO `xp_device_type` VALUES ('15', '测试1', '测试-测试型号', '', '', '', '', '', '', '', '1524879751');
 
 -- ----------------------------
 -- Table structure for xp_filters
@@ -407,7 +407,7 @@ CREATE TABLE `xp_users` (
 INSERT INTO `xp_users` VALUES ('17', '小琴', '18102543197', 'e10adc3949ba59abbe56e057f20f883e', '广东省,深圳市,南山区', '1', '1524878934', '113.96.219.247', '2', '1516332560');
 INSERT INTO `xp_users` VALUES ('18', '吴智彬', '13425492760', '5dd5870283c637cad2b8a8f40d2cdf4f', '广东省,韶关市,始兴县', '1', null, null, '0', '1515585913');
 INSERT INTO `xp_users` VALUES ('19', '彭龙召', '18002229021', 'e10adc3949ba59abbe56e057f20f883e', '广东省,深圳市,南山区', '1', '1524818897', '113.111.180.51', '0', '1515590925');
-INSERT INTO `xp_users` VALUES ('20', '潘宏钢', '15920569139', 'e10adc3949ba59abbe56e057f20f883e', '广东省,深圳市,南山区', '1', null, null, '0', '1515632277');
+INSERT INTO `xp_users` VALUES ('20', '潘宏钢', '15920569139', '202cb962ac59075b964b07152d234b70', '广东省,深圳市,南山区', '1', '1524902532', '0.0.0.0', '0', '1515632277');
 INSERT INTO `xp_users` VALUES ('21', '瓦斯', '18475039192', '6186475188882e567c19c340ab822b71', '广东省,深圳市,南山区', '1', '1520382137', '113.96.218.50', '0', '1515633108');
 INSERT INTO `xp_users` VALUES ('22', '覃业宏', '18925295608', '668948cae77cf04d88f34c7dd009f127', '广东省,深圳市,龙岗区', '1', '1523192209', '183.3.226.234', '1', '1521272465');
 INSERT INTO `xp_users` VALUES ('23', '覃业宏', '18925295608', '668948cae77cf04d88f34c7dd009f127', '广东省,深圳市,龙岗区', '1', null, null, '0', '1515677063');
@@ -460,11 +460,13 @@ CREATE TABLE `xp_work` (
   `address` varchar(50) NOT NULL COMMENT '地址',
   `result` tinyint(1) NOT NULL COMMENT '处理结果(0：未处理 1：正在处理 2：已处理)',
   `time` varchar(30) NOT NULL COMMENT '处理时间',
+  `detailed` text NOT NULL COMMENT '详细地址',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of xp_work
 -- ----------------------------
-INSERT INTO `xp_work` VALUES ('29', '0120120', '钟小姐', '13524216254', '1', '维修', '湖北省 襄樊市 樊城区', '0', '2018-01-15');
-INSERT INTO `xp_work` VALUES ('30', 'ceshi001', '张师傅', '13602023203', '0', '广州学校安装', '内蒙古 通辽市 开鲁镇', '0', '2018-04-28');
+INSERT INTO `xp_work` VALUES ('29', '0120120', '钟小姐', '13524216254', '1', '维修', '湖北省 襄樊市 樊城区', '0', '2018-01-15', '11');
+INSERT INTO `xp_work` VALUES ('30', 'ceshi001', '张师傅', '13602023203', '0', '广州学校安装', '内蒙古 通辽市 开鲁镇', '0', '2018-04-28', '11');
+INSERT INTO `xp_work` VALUES ('31', '1', '测试', '13838381438', '0', 'QQ', '天津市 天津市 河东区', '0', '2018-04-30', '我是详细地址');
