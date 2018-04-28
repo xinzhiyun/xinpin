@@ -46,7 +46,7 @@ class ActionController extends Controller
                     break;
                 case 'Stopwater':
                     Log::write(json_encode($message), '停水数据');
-                    $this->stopAction($client_id, $message);
+                    $message = $this->stopAction($client_id, $message);
                     break;
                 default:
                     # code...
@@ -85,25 +85,50 @@ class ActionController extends Controller
          // 查询IC卡是否被绑定
         $binding = M('binding')->where('cid='.$icCard['id'])->find();
         
-        if( !empty($icCard) && $icCard['type'] == 0 && !empty($binding) ){
-            $message['EnOut'] = -1; //1：出水  0:不出
+        if( !empty($binding) ){
+            $message['EnOut'] = 1; //1：出水  0:不出
+            $message['OutWaterFlow'] = -1;
+            $message['MaxTime'] = -1;
+            return $message;
+        } else {
+            $message['EnOut'] = 0; //1：出水  0:不出
             $message['OutWaterFlow'] = -1;
             $message['MaxTime'] = -1;
             return $message;
         }
 
-        
-        if( !empty($icCard) && $icCard['type'] == 1 && !empty($binding)){
-            // 计算出水量
-            $user = M('users')->where('id='.$icCard['uid'])->find();
-            $outwater = $user['balance'] / 1.5;
-            Gateway::updateSession( $client_id , [$client_id . $user['id'] => $outwater]);
+        // 如有计费卡，开启以下代码 把return改改
+        // if( !empty($icCard) && $icCard['type'] == 0 && !empty($binding) ){
+        //     $message['EnOut'] = -1; //1：出水  0:不出
+        //     $message['OutWaterFlow'] = -1;
+        //     $message['MaxTime'] = -1;
+        //     return $message;
+        // } else {
+        //     $message['EnOut'] = 0; //1：出水  0:不出
+        //     $message['OutWaterFlow'] = -1;
+        //     $message['MaxTime'] = -1;
+        //     return $message;
+        // }
 
-            $message['EnOut'] = -1;
-            $message['OutWaterFlow'] = $outwater;
-            $message['MaxTime'] = -1;
-            return $message;
-        }
+        
+        // if( !empty($icCard) && $icCard['type'] == 1 && !empty($binding)){
+        //     // 计算出水量
+        //     $user = M('users')->where('id='.$icCard['uid'])->find();
+        //     $outwater = $user['balance'] / 1.5;
+        //     Gateway::updateSession( $client_id , [$client_id . $user['id'] => $outwater]);
+
+        //     $message['EnOut'] = -1;
+        //     $message['OutWaterFlow'] = $outwater;
+        //     $message['MaxTime'] = -1;
+        //     return $message;
+        // } else {
+        //     $message['EnOut'] = 0; //1：出水  0:不出
+        //     $message['OutWaterFlow'] = -1;
+        //     $message['MaxTime'] = -1;
+        //     return $message;
+        // }
+
+
 
     }
     // 停水处理
@@ -119,6 +144,8 @@ class ActionController extends Controller
             $res = $this->saveConsume($message['DeviceID'], $icCard['id'], $message['water']);
             Log::write(json_encode($res),'停水处理结果');
         }
+
+        return $this->RequesAction($client_id, $message);
     }
 
     // 保存消费记录
