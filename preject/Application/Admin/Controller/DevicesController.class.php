@@ -15,8 +15,54 @@ class DevicesController extends CommonController
      */
     public function devicesList()
     {
-        $map = '';
-        if(!empty($_GET['name'])) $map['device_code'] = array('like',"%{$_GET['name']}%");
+        //按设备码查询
+        if(I('post.device_code')){
+            $map['xp_devices.device_code']=array('like','%'.trim(I('post.device_code')).'%');
+        }
+
+        //按经销商名查询
+        if(I('post.name')){
+            $map['xp_vendors.name']=array('like','%'.trim(I('post.name')).'%');
+        }
+
+        //按机组名称查询
+        if(I('post.cname')){
+            $map['xp_crew.cname']=array('like','%'.trim(I('post.cname')).'%');
+        }
+
+        //设备类型(滤芯):
+        if(I('post.typename')){
+            $map['xp_device_type.typename']=array('like','%'.trim(I('post.typename')).'%');
+        }
+
+        //设备状态
+        if(strlen(I('post.device_status'))) $map['xp_devices.device_status'] = I('post.device_status');
+
+        
+        //按时间段查询
+        $minupdatetime = strtotime(trim(I('post.minupdatetime')))?:false;
+        $maxupdatetime = strtotime(trim(I('post.maxupdatetime')))?:false;
+
+        /* 修改 处理时间区间搜索  2018年03月21日 李振东 */
+        $updatetime_arr=[];
+        if($maxupdatetime){
+            $updatetime_arr[]=array('elt',$maxupdatetime);
+        }
+        if($minupdatetime){
+            $updatetime_arr[]=array('egt',$minupdatetime);
+        }
+        if(!empty($updatetime_arr)){
+            $map['statu.updatetime']=$updatetime_arr;
+        }
+
+        // 删除数组中为空的值
+        $map = array_filter($map, function ($v) {
+            if ($v != "") {
+                return true;
+            }
+            return false;
+        });
+
         $devices = M('Devices');
         $count = $devices
                 ->where($map)

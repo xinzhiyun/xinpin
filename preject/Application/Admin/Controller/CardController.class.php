@@ -18,12 +18,34 @@ class CardController extends CommonController
      */
     public function index()
     {	
-       // 根据名称进行搜索
-        $map = '';
-        if(!empty($_GET['name'])) $map['name'] = array('like',"%{$_GET['name']}%");
+        // 搜索功能
+        if(trim(I('post.iccard'))){
+            $map['iccard'] = array('like','%'.trim(I('post.iccard')).'%');
+        }
+        if(strlen(I('post.type'))) $map['type'] = I('post.type');
+        $map['name'] = trim(I('post.name')) ? array('like','%'.trim(I('post.name')).'%'): '';
+        $map['studentcode'] = trim(I('post.studentcode')) ? array('like','%'.trim(I('post.studentcode')).'%'): '';
+        $map['school'] = trim(I('post.school')) ? array('like','%'.trim(I('post.school')).'%'): '';
+        if(strlen(I('post.status'))) $map['status'] = I('post.status');
+        // 充值时间
+        // $minaddtime = strtotime(trim(I('get.minaddtime')))?:false;
+        // $maxaddtime = strtotime(trim(I('get.maxaddtime')))?:false;
+        // if (is_numeric($maxaddtime)) {
+        //     $map['f.addtime'][] = array('elt',$maxaddtime);
+        // }
+        // if (is_numeric($minaddtime)) {
+        //     $map['f.addtime'][] = array('egt',$minaddtime);
+        // }
+
+        // 删除数组中为空的值
+        $map = array_filter($map, function ($v) {
+            if ($v != "") {
+                return true;
+            }
+            return false;
+        });
 
         $type = D('card');
-        
         $total =$type->where($map)->count();
         $page  = new \Think\Page($total,10);
         $pageButton =$page->show();

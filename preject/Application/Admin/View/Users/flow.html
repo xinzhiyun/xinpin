@@ -4,9 +4,35 @@
     <div class="row-fluid fl" id="main">
         <div class="tableBox">
             <div class="titleBar">用户管理/<span>充值记录</span></div>
-            <form class="form-search fr" action="__URL__/flow" method="get">
-                <input type="text" name="name" class="input-medium" placeholder="请输入用户昵称...">
-                <button type="submit" class="btn">搜索</button>
+            <form class="form-search" action="__URL__/flow" method="get">
+                <span class="select-box">用户昵称:
+                    <input type="text" value="" class="input-medium name" name="name" placeholder="请输入用户昵称" style="width: 70px;"/ >
+                </span>
+
+                <span class="select-box">充值金额:
+                    <input type="text" class="input-medium minmoney" name="minmoney" placeholder="" style="width: 60px;" / > ~ 
+                    <input type="text" class="input-medium maxmoney" name="maxmoney" placeholder="" style="width: 60px;" / >
+                </span>
+                <span class="select-box">账户:
+                    <input type="text" class="input-medium mincurrentflow" name="mincurrentflow" placeholder="" style="width: 60px;" / > ~ 
+                    <input type="text" class="input-medium maxcurrentflow" name="maxcurrentflow" placeholder="" style="width: 60px;" / >
+                </span>           
+                <span class="select-box">充值方式
+                    <select class="select result" size="1" name="mode" style="width: 100px;">
+                        <option value="" selected>- 充值方式 -</option>
+                        <option value="0">系统赠送</option>
+                        <option value="1">微信</option>
+                        <option value="2">支付宝</option>
+                    </select>
+                </span>                 
+                <span class="select-box" style="display: inline-block;position:relative">充值时间:
+                    <input type="text" value="{{:I('get.minaddtime')}}" id="date-start" class="input-medium form-control" name="minaddtime" placeholder="请选择时间" style="width: 76px;left: 0"/ > ~
+                    <input type="text" id="date-end" class="input-medium form-control" name="maxaddtime" placeholder="请选择时间" style="width:76px;right: 0"/ >
+                </span>
+                <div class="submitBtn">
+                    <button type="reset" class="btn fr mbtn" style="color: #8f0911;background-color: #eee;"><i class="layui-icon">&#x1002;</i> 重置</button>
+                    <button type="submit" name="search" value="1" class="btn fr mbtn" style="color: #8f0911;background-color: #eee;"><i class="layui-icon">&#xe615;</i> 查找</button>
+                </div>               
             </form>
 
             <table class="table table-striped table-bordered">

@@ -17,8 +17,22 @@ class UsersController extends CommonController
     public function index()
     {	
         // 根据用户昵称进行搜索
-        $map = '';
-    	if(!empty($_GET['name'])) $map['name'] = array('like',"%{$_GET['name']}%");
+        // 搜索功能
+        
+        if(trim(I('post.address'))){
+            $map['address'] = array('like','%'.trim(I('post.address')).'%');
+        }
+        trim(I('post.nickname')) ? $map['name'] = array('like','%'.trim(I('post.nickname')).'%'): '';
+        trim(I('post.phone')) ? $map['phone'] = array('like','%'.trim(I('post.phone')).'%'): '';
+        if(strlen(I('post.status'))) $map['status'] = I('post.status');
+        // 删除数组中为空的值
+        // $map = array_filter($map);
+
+        // $minupdatetime = strtotime(trim(I('post.mincreated_at')));
+        // $maxupdatetime = strtotime(trim(I('post.maxcreated_at')));
+        // if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
+        //     $map['u.created_at'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
+        // }
 
         $user = D('users');
         $total = $user->where($map)->count();
@@ -97,8 +111,47 @@ class UsersController extends CommonController
     public function flow()
     {
         // 根据用户昵称进行搜索
-        $map = '';
-        if(!empty($_GET['name'])) $map['name'] = array('like',"%{$_GET['name']}%");
+        // 搜索功能
+        $map = array(
+            'xp_flow.mode' => trim(I('get.mode')),
+            // 'f.status' => "1",
+        );
+        $map['xp_users.name'] = trim(I('get.name')) ? array('like','%'.trim(I('get.name')).'%'): '';
+        // 充值金额范围搜索
+        $minmoney = trim(I('get.minmoney'))?:false;
+        $maxmoney = trim(I('get.maxmoney'))?:false;
+        if (is_numeric($maxmoney)) {
+            $map['xp_flow.money'][] = array('elt',$maxmoney*100);
+        }
+        if (is_numeric($maxmoney )) {
+            $map['xp_flow.money'][] = array('egt',$minmoney*100);
+        }
+        // 当前余量搜索
+        $mincurrentflow = trim(I('get.mincurrentflow'))?:false;
+        $maxcurrentflow = trim(I('get.maxcurrentflow'))?:false;
+        if ($maxcurrentflow) {
+            $map['xp_flow.currentbalance'][] = array('elt',$maxcurrentflow);
+        }
+        if ($mincurrentflow) {
+            $map['xp_flow.currentbalance'][] = array('egt',$mincurrentflow);
+        }
+        // 充值时间
+        // $minaddtime = strtotime(trim(I('get.minaddtime')))?:false;
+        // $maxaddtime = strtotime(trim(I('get.maxaddtime')))?:false;
+        // if (is_numeric($maxaddtime)) {
+        //     $map['f.addtime'][] = array('elt',$maxaddtime);
+        // }
+        // if (is_numeric($minaddtime)) {
+        //     $map['f.addtime'][] = array('egt',$minaddtime);
+        // }
+
+        // 删除数组中为空的值
+        $map = array_filter($map, function ($v) {
+            if ($v != "") {
+                return true;
+            }
+            return false;
+        });
 
         $flow = M('flow');
         $total = $flow->where($map)->order('xp_flow.id desc')
@@ -124,9 +177,47 @@ class UsersController extends CommonController
      */
     public function consume()
     {
-        // 根据用户昵称进行搜索
-        $map = '';
-        if(!empty($_GET['name'])) $map['card.name'] = array('like',"%{$_GET['name']}%");
+        // 搜索功能
+        if(trim(I('get.address'))){
+            $map['u.address'] = array('like','%'.trim(I('post.address')).'%');
+        }
+        $map['u.name'] = trim(I('get.name')) ? array('like','%'.trim(I('get.name')).'%'): '';
+        $map['card.iccard'] = trim(I('get.iccard')) ? array('like','%'.trim(I('get.iccard')).'%'): '';
+        // 充值金额范围搜索
+        $minbalance = trim(I('get.minbalance'))?:false;
+        $maxbalance = trim(I('get.maxbalance'))?:false;
+        if (is_numeric($maxbalance)) {
+            $map['u.balance'][] = array('elt',$maxbalance*100);
+        }
+        if (is_numeric($maxbalance)) {
+            $map['u.balance'][] = array('egt',$minbalance*100);
+        }
+        // 当前余量搜索
+        $minflow = trim(I('get.minflow'))?:false;
+        $maxflow = trim(I('get.maxflow'))?:false;
+        if ($maxflow) {
+            $map['c.flow'][] = array('elt',$maxflow);
+        }
+        if ($minflow) {
+            $map['c.flow'][] = array('egt',$minflow);
+        }
+        // 充值时间
+        // $minaddtime = strtotime(trim(I('get.minaddtime')))?:false;
+        // $maxaddtime = strtotime(trim(I('get.maxaddtime')))?:false;
+        // if (is_numeric($maxaddtime)) {
+        //     $map['f.addtime'][] = array('elt',$maxaddtime);
+        // }
+        // if (is_numeric($minaddtime)) {
+        //     $map['f.addtime'][] = array('egt',$minaddtime);
+        // }
+
+        // 删除数组中为空的值
+        $map = array_filter($map, function ($v) {
+            if ($v != "") {
+                return true;
+            }
+            return false;
+        });
 
         $consume = M('consume');
         $total = $consume->where($map)
