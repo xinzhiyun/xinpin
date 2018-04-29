@@ -26,6 +26,9 @@
 	<li>
 		<i class="i3"></i>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<span>{{$user['address']}}</span>
 	</li>
+    <li>
+        <i class="i4"></i>详细地址：<span>{{$user['addrdetail']}}</span>
+    </li>
 </ul>
 <div style="width: 80%;margin:0 auto">
 	<button class="btn btn-info btn-block" id="_btn" data="{{:U('Home/Users/reviseUser')}}">编辑</button>
@@ -55,12 +58,14 @@
         var name = span.eq(0).text()
         var phone = span.eq(1).text()
         var addr = span.eq(2).text()
+        var addrdetail = span.eq(3).text()
 
         var addrHtml = '<input class="form-control address" id="demo1" type="text" readonly="" placeholder="'+addr+'" name="address" value=""/>'+
                     '<input id="value1" type="hidden" value="20,234,504"/><span class="caret"></span>'
         span.eq(0).html('<input type="text" value="'+name+'">')
         span.eq(1).html('<input type="text" value="'+phone+'">')
         span.eq(2).html(addrHtml)
+        span.eq(3).html('<input type="text" value="'+addrdetail+'">')
         //输入地址js
         var area1 = new LArea();
         area1.init({
@@ -82,15 +87,32 @@
                 var name_ = span.eq(0).find('input').val()
                 var phone_ = span.eq(1).find('input').val()
                 var addr_ = $('#demo1').val()
+                var addrdetail_ = span.eq(3).find('input').val()
                 var json = {}
                 function fn2(){
                     span.eq(0).text(name)
                     span.eq(1).text(phone)
                     span.eq(2).text(addr)
+                    span.eq(3).text(addrdetail)
                     $('#_btn').text('编辑')
                     $('#_btn').unbind().click(fn)
                 }
-                if(!/^1[34578]\d{9}$/.test(phone_)){return layuiHint('请输入正确的手机号码')}
+                if(!name_){ 
+                    layuiHint('用户名不能为空');
+                    return
+                }
+                if(!/^1[34578]\d{9}$/.test(phone_)){ 
+                    layuiHint('请输入正确的手机号码');
+                    return
+                }
+                if(!addr_){ 
+                    layuiHint('请选择地址');
+                    return
+                }
+                if(!addrdetail_){ 
+                    layuiHint('请输入详细地址');
+                    return
+                }
                 if(name != name_){json.name = name_}
                 if(phone != phone_){json.phone = phone_}
                 if(addr_&&(addr != addr_)){json.address = addr_}
@@ -109,6 +131,7 @@
                                 span.eq(0).text(name_||name)
                                 span.eq(1).text(phone_||phone)
                                 span.eq(2).text(addr_||addr)
+                                span.eq(3).text(addrdetail_||addrdetail)
                                 $('#_btn').text('编辑')
                                 $('#_btn').unbind().click(fn)
                             }else{

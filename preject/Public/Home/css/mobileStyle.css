@@ -642,7 +642,7 @@ a.addIDbtn{
 	width: 100vw;
 	padding-left: 15vw;
 	height: 9vh;
-	line-height: 10vh;
+	line-height: 9vh;
 	color: #383838;
 }
 .personalList > li > i{
@@ -651,12 +651,12 @@ a.addIDbtn{
 	line-height: 8vw;
 	position: absolute;
 	left: 3vw;
-	top: 2.7vw;
+	top: 3vw;
 	font-weight: bold;
 	display: inline-block;
 	background: url("../image/sprite.png") no-repeat;
 	background-size: 16.7rem 8.4rem;
-}
+}    
 .personalList > li > i.i1{
 	background-position: -8.5rem -2rem;
 }
@@ -666,6 +666,13 @@ a.addIDbtn{
 .personalList > li > i.i3{
 	width: 9vw;
 	background-position: -9.9rem -2rem;
+}
+.personalList > li > i.i4{
+	background-position: -34px 4px;
+    background-size: 13.4rem 6rem;
+}
+.personalList > li > span > input {
+	padding: 2px 4px;
 }
 .personalList > li > input{
 	width: 50vw;
