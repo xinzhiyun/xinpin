@@ -1,6 +1,8 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
+use \Org\Util\WeixinJssdk;
+
 
 /**
  * 前共控制器
@@ -19,6 +21,21 @@ class CommonController extends Controller
     	// 登录检测
     	if(empty($_SESSION['homeuser'])) $this->redirect('Login/login');
     }
+
+    public function getWeixin()
+	{
+		if(empty($_SESSION['oppenId'])){
+
+			$weixin = new WeixinJssdk;
+	        // 查询用户微信中的openid
+	        // 调试完打开
+	        $openId = $weixin->GetOpenid();
+
+	        $_SESSION['oppenId'] = $openId;
+	    }
+	    return $_SESSION['oppenId'];
+
+	}
 
 
 }

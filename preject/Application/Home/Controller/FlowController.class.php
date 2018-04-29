@@ -5,16 +5,16 @@ use \Org\Util\WeixinJssdk;
 
 class FlowController extends CommonController 
 {
-	// 充值
+    // 充值
     public function recharge()
     {
-    	//调用微信JS-SDK类获取签名需要用到的数据
+        //调用微信JS-SDK类获取签名需要用到的数据
         $weixin = new WeixinJssdk;
         $signPackage = $weixin->getSignPackage();
 
         // 查询用户微信中的openid
         // 调试完打开
-        $openId = $weixin->GetOpenid();
+        $openId = $this->getWeixin();
         // 调试打开
         // $openId = '';
         //分配数据        
@@ -22,10 +22,30 @@ class FlowController extends CommonController
         $this->assign('openId',$openId);
 
         // 显示模板
-    	$this->display();
+        $this->display();
 
-    	// 充值成功修改用户余额
-	}
+        // 充值成功修改用户余额
+    }
+
+    public function cardAdd()
+    {
+        //查询卡押金
+        
+        //调用微信JS-SDK类获取签名需要用到的数据
+        $weixin = new WeixinJssdk;
+        $signPackage = $weixin->getSignPackage();
+
+        // 查询用户微信中的openid
+        // 调试完打开
+        // $openId = $this->getWeixin();
+        $openId = $this->getWeixin();
+        // dump($openId);
+        // 分配数据
+        $this->assign('info',$signPackage);
+        $this->assign('openId',$openId);
+
+        $this->display('Card/add');   
+    }
 
     /**
      * 统一下单并返回数据
@@ -33,12 +53,12 @@ class FlowController extends CommonController
      */
     public function uniformOrder()
     {
-    	// 将金额强转换整数
-    	$money = I('money') * 100;
+        // 将金额强转换整数
+        $money = I('money') * 100;
         // 冲值测试额1分钱
-        // $money = 1;
+        $money = 1;
         // 用户在公众号的唯一ID
-    	$openId = I('openId');
+        $openId = $this->getWeixin();
         //微信examle的WxPay.JsApiPay.php
         vendor('WxPay.jsapi.WxPay#JsApiPay');
         $tools = new \JsApiPay();
@@ -75,8 +95,8 @@ class FlowController extends CommonController
         exit;
     }
 
-	// 充值记录
-	public function rechargenodes(){
+    // 充值记录
+    public function rechargenodes(){
         // 查询用户IC卡号 xp_card
         $id = $_SESSION['homeuser']['id'];
 
@@ -86,8 +106,8 @@ class FlowController extends CommonController
         //print_r($record);die;
         // 分配数据
         $this->assign('record',$record);
-		$this->display();
-	}
+        $this->display();
+    }
 
 
 }
