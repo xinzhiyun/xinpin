@@ -482,13 +482,14 @@ a.addIDbtn{
 	height: 10vh;
 }
 .thead > li{
-	width: 33.3vw;
+	width: 50vw;
 	height: 10vh;
 	line-height: 15vh;
 	padding-left: 2vw;
 	background: #60CDAF;
 	color: #fff;
 	font-size: .75rem;
+	text-align: center;
 }
 .consumeNode{
 	width: 100vw;

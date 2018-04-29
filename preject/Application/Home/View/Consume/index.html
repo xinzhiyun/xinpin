@@ -31,7 +31,7 @@
         </ul> 
     </section>
     <ul class="thead nav nav-pills" role="tablist">
-        <li role="presentation" class="">地点</li>
+        <!-- <li role="presentation" class="">地点</li> -->
         <li>盛水量/mL</li>
         <li class="text-center">时间</li>
     </ul>
@@ -40,7 +40,7 @@
             <tbody>
             <foreach name="icidOne" item="v" key="k" class="container">
                 <tr class="row">
-                    <td class="col-xs-4">{{$v['address']}}</td>
+                    <!-- <td class="col-xs-4">{{$v['address']}}</td> -->
                     <td class="col-xs-2" >{{$v['flow']}}</td>
                     <td class="col-xs-7">{{:date('Y年m月d日', $v['time'])}}</td>
                 </tr>
