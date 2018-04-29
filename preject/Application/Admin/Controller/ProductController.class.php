@@ -199,7 +199,7 @@ class ProductController extends CommonController
                 }
             }else{
                 // getError是在数据创建验证时调用，提示的是验证失败的错误信息
-                $this->error($filter->getError());
+                $this->error($mod->getError());
             }
            
 
