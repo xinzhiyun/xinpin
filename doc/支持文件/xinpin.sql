@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2018-04-29 10:50:51
+Date: 2018-04-29 11:03:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -432,21 +432,23 @@ CREATE TABLE `xp_vendors` (
   `phone` varchar(11) NOT NULL COMMENT '联系电话',
   `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
   `address` varchar(255) NOT NULL COMMENT '地址',
+  `detailed` varchar(255) NOT NULL DEFAULT '钟村创源路' COMMENT '详细地址',
   `idcard` varchar(20) DEFAULT NULL COMMENT '身份证号',
   `company` varchar(255) NOT NULL COMMENT '公司名称',
   `pid` int(11) DEFAULT NULL COMMENT '经销商上级ID',
   `leavel` tinyint(1) NOT NULL DEFAULT '1' COMMENT '经销商级别(0：超级管理员 1：一级 2：二级)',
   `addtime` int(11) NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of xp_vendors
 -- ----------------------------
-INSERT INTO `xp_vendors` VALUES ('1', 'admin', '202cb962ac59075b964b07152d234b70', '13800138000', '13800138000@139.com', '黑龙江省 鸡西市 鸡东县', '420321198506084225', ' 点球', null, '0', '1516255082');
-INSERT INTO `xp_vendors` VALUES ('39', '阳光', 'e10adc3949ba59abbe56e057f20f883e', '13526532659', '114@334qq.com', '天津市 天津市 河西区', '441985198902081258', '太阳能有限公司', null, '1', '1515999276');
-INSERT INTO `xp_vendors` VALUES ('47', '欣欣', 'e10adc3949ba59abbe56e057f20f883e', '13589563210', '258962@163.com', '河南省 周口市 沈丘县', '412512199806090236', '有限公司', null, '1', '1516605058');
-INSERT INTO `xp_vendors` VALUES ('49', '测试', 'e10adc3949ba59abbe56e057f20f883e', '15902021320', '25221155@qq.com', '天津市 天津市 河西区', '42150119890205123x', '测试公司', null, '1', '1524879321');
+INSERT INTO `xp_vendors` VALUES ('1', 'admin', '202cb962ac59075b964b07152d234b70', '13800138000', '13800138000@139.com', '黑龙江省 鸡西市 鸡东县', '钟村创源路', '420321198506084225', ' 点球', null, '0', '1516255082');
+INSERT INTO `xp_vendors` VALUES ('39', '阳光', 'e10adc3949ba59abbe56e057f20f883e', '13526532659', '114@334qq.com', '天津市 天津市 河西区', '钟村创源路', '441985198902081258', '太阳能有限公司', null, '1', '1515999276');
+INSERT INTO `xp_vendors` VALUES ('47', '欣欣', 'e10adc3949ba59abbe56e057f20f883e', '13589563210', '258962@163.com', '河南省 周口市 沈丘县', '钟村创源路', '412512199806090236', '有限公司', null, '1', '1516605058');
+INSERT INTO `xp_vendors` VALUES ('49', '测试', 'e10adc3949ba59abbe56e057f20f883e', '15902021320', '25221155@qq.com', '天津市 天津市 河西区', '钟村创源路', '42150119890205123x', '测试公司', null, '1', '1524879321');
+INSERT INTO `xp_vendors` VALUES ('50', '盼盼', '202cb962ac59075b964b07152d234b70', '13838381438', '619328391@qq.com', '天津市 天津市 和平区', '天津市的详细地址', '430122199010224517', '盼盼公司', null, '1', '1524970882');
 
 -- ----------------------------
 -- Table structure for xp_work
