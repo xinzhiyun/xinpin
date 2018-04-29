@@ -101,14 +101,18 @@ class VendorsController extends CommonController
         if ($userinfo[0]['leavel'] == 0 ) {
             $this->error('不能删除超级管理员！');
         }else{
-            // 查
-            $res = D('vendors')->delete($id);
-            if($res){
-                $this->success('删除成功',U('index'));
+            // 查询该经销商是否已经绑定设备，如绑定，则不允许删除
+            $binding = M('binding')->where("vid=".$id)->find();
+            if (!$binding) {
+                $res = D('vendors')->delete($id);
+                if($res){
+                    $this->success('删除成功',U('index'));
+                }else{
+                    $this->error('删除失败');
+                }
             }else{
-                $this->error('删除失败');
+                $this->error('有设备挂在该经销商名下，不能删除！');    
             }
-
         }
     }
 
