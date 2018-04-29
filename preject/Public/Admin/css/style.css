@@ -25,6 +25,9 @@ ul li{
 a{
 	color: #08c;
 }
+.bootstrap-datetimepicker-widget.dropdown-menu {
+	width: auto !important;
+}
 /*nav part css*/
 .navBox{width: 15%; position:fixed; padding: 0;}
 .navBox ul li ul{
@@ -388,4 +391,35 @@ a{
 }
 .pagination {
 	margin-bottom: 70px;
+}
+
+.form-search {
+	width: 100%;
+	border-top: 2px solid #abbac3;
+	background: rgba(0,0,0,.05);
+	box-sizing: border-box;
+}
+.form-search>.select-box {
+
+	display: inline-block;
+	margin: 10px 20px;
+}
+
+.form-search input {
+	width: 150px !important;
+	height: 30px;
+	line-height: 30px;
+	display: inline-block;
+}
+.form-search>.submitBtn {
+	background: rgba(0,0,0,.06);
+}
+.form-search>.submitBtn::after {
+	content: '';
+	clear: both;
+	display: block;
+	visibility: hidden;
+}
+.form-search>.submitBtn>button:last-child {
+	margin: 0 20px;
 }

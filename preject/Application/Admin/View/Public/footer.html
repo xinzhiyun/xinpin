@@ -3,35 +3,87 @@
             <p>©2017-2018  <a href="http://www.miitbeian.gov.cn/">粤ICP备17153883号</a> </p>
         </div>
     </div>
-	<script>
-		var navPar = $('.navPar');
-		var navitem = $('.navitem');
-		// 导航栏定位高亮
-		var href;
-		if(sessionStorage.getItem('navitem')){
-			href = sessionStorage.getItem('navitem');
-			for(var i=0; i<navitem.length; i++){
-				if(navitem.eq(i).attr('href').indexOf(href) > -1){
-					navitem.eq(i).css({color: '#08c'});
-					navitem.eq(i).parents('.navPar').addClass('open');
-					navitem.eq(i).parents('ul').show();
+	<script src="__PUBLIC__/Admin/js/index/moment-with-locales.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script> 
+	<script>	
+		$(function(){
+			// 按回车键 搜索
+	 		$('.form-search input').on('keyup', function(e){
+	 			if(e.keyCode == '13'){
+	 				$('.form-search').submit();
+	 				// 搜索关键字保留
+	 				setSearchWord();
+	 			}
+	 		})
+	 		$('#date-start').css({width:'90px;'});
+	 		$('#date-end').css({width:'90px;'});
+		    /**************** 按时间搜索 -- 开始 ******************/
+		    	var newdate = new Date(),
+		    	year = newdate.getFullYear(),
+		    	month = (newdate.getMonth()+'').length == 1 
+		                  ? '0' + (newdate.getMonth()+1)
+		                  : newdate.getMonth()-0+1,
+		        date = (newdate.getDate()+'').length == 1 
+		                  ? '0' + newdate.getDate()
+		                  : newdate.getDate();
+		    	var now = year +'-'+ month +'-'+ date;
+		    	// console.log(year, month, date);
+		    	// $("#date-start").val(now);
+		    	 // 开始时间
+		        var startdate = $("#date-start").datetimepicker({  
+		            format: 'YYYY-MM-DD',  
+		            locale: moment.locale('zh-cn'),
+		        }); 
+		        
+		        //结束时间
+				var enddate = $("#date-end").datetimepicker({
+		            format: 'YYYY-MM-DD',  
+		            locale: moment.locale('zh-cn')
+		        }); 
+		         //动态设置最小值  
+			    startdate.on('dp.change', function (e) {  
+			        enddate.data('DateTimePicker').minDate(e.date);
+			    	// $('#date-start').val(time);
+
+			    });  
+			    //动态设置最大值  
+			    enddate.on('dp.change', function (e) { 
+			        startdate.data('DateTimePicker').maxDate(e.date);
+			    	// $('#date-end').val(time);  
+			        
+			    });
+		        // $("#date-start").datetimepicker('show');
+		        // $("#date-end").datetimepicker('show');
+
+		    /**************** 按时间搜索 -- 结束 ******************/
+			var navPar = $('.navPar');
+			var navitem = $('.navitem');
+			// 导航栏定位高亮
+			var href;
+			if(sessionStorage.getItem('navitem')){
+				href = sessionStorage.getItem('navitem');
+				for(var i=0; i<navitem.length; i++){
+					if(navitem.eq(i).attr('href').indexOf(href) > -1){
+						navitem.eq(i).css({color: '#08c'});
+						navitem.eq(i).parents('.navPar').addClass('open');
+						navitem.eq(i).parents('ul').show();
+					}
 				}
 			}
-		}
-		// console.log(navPar, navitem);
-		for(var i=0; i<navitem.length; i++){
-			// console.log(navitem[i])
-			navitem.eq(i).on('click', function(){
-				var href = $(this).attr('href');
-				sessionStorage.setItem('navitem', href);
-				// console.log($(this));
+			// console.log(navPar, navitem);
+			for(var i=0; i<navitem.length; i++){
+				// console.log(navitem[i])
+				navitem.eq(i).on('click', function(){
+					var href = $(this).attr('href');
+					sessionStorage.setItem('navitem', href);
+					// console.log($(this));
+				})
+			}
+			$('.logo').click(function(){
+				// 清空导航栏高亮数据
+				sessionStorage.setItem('navitem', '');
 			})
-		}
-		$('.logo').click(function(){
-			// 清空导航栏高亮数据
-			sessionStorage.setItem('navitem', '');
 		})
-		
 	</script>
 </body>
 </html>
