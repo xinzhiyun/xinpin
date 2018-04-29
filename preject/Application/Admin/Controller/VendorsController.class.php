@@ -113,7 +113,7 @@ class VendorsController extends CommonController
     }
 
     /**
-     * 机组绑定经销商方法
+     * 设备绑定经销商方法
      * 
      * @author 潘宏钢 <619328391@qq.com>
      */
@@ -121,22 +121,22 @@ class VendorsController extends CommonController
     {
         if (IS_POST) {
 
-            if ($_POST['cid']) {
+            if ($_POST['did']) {
 
                 if ($_POST['vid']) {
                    
                     $arr = array(
                         'vid' => I('vid'),
-                        'cid' => I('cid'),
+                        'did' => I('did'),
                         'addtime' => time(),
                     );
-                    
+                    // dump($arr);die;
                     // 添加
                     $binding = M('binding');
                     if ($binding->add($arr)) {
-                        // 更改机组的绑定状态
-                        $devices = M('crew');  
-                        $devices->where('id='.$_POST['cid'])->setField('status','1');
+                        // 更改设备的绑定状态
+                        $devices = M('devices');  
+                        $devices->where('id='.$_POST['did'])->setField('binding_status','1');
 
                         $this->success('添加成功',U('bindinglist'));
                     }else{
@@ -148,7 +148,7 @@ class VendorsController extends CommonController
                 }
 
             }else{
-                $this->error('机组不存在！请在机组管理中设置机组后尝试！正在为您跳转至机组管理',U('Crew/index'));
+                $this->error('设备不存在！请在设备管理中添加设备后尝试！正在为您跳转至设备管理',U('Devices/index'));
             }   
 
         }else{
@@ -174,8 +174,8 @@ class VendorsController extends CommonController
                         break;
                 }
 
-                // 获取机组信息
-                $devices = M('crew')->where('status=0')->select();
+                // 获取设备信息
+                $devices = M('devices')->where('binding_status=0')->select();
 
                 $this->assign('user',$user);
                 $this->assign('devices',$devices);
@@ -203,8 +203,8 @@ class VendorsController extends CommonController
         
         $total =$binding->where($map)
                     ->join('xp_vendors ON xp_binding.vid = xp_vendors.id')
-                    ->join('xp_crew ON xp_binding.cid = xp_crew.id')
-                    ->field('xp_binding.*,xp_vendors.name,xp_vendors.phone,xp_crew.cname')
+                    ->join('xp_devices ON xp_binding.did = xp_devices.id')
+                    ->field('xp_binding.*,xp_vendors.name,xp_vendors.phone,xp_devices.device_code')
                     ->count();
         $page  = new \Think\Page($total,8);
         $pageButton =$page->show();
@@ -212,8 +212,8 @@ class VendorsController extends CommonController
         $bindinglist = $binding->where($map)
                                 ->limit($page->firstRow.','.$page->listRows)
                                 ->join('xp_vendors ON xp_binding.vid = xp_vendors.id')
-                                ->join('xp_crew ON xp_binding.cid = xp_crew.id')
-                                ->field('xp_binding.*,xp_vendors.name,xp_vendors.phone,xp_crew.cname')
+                                ->join('xp_devices ON xp_binding.did = xp_devices.id')
+                                ->field('xp_binding.*,xp_vendors.name,xp_vendors.phone,xp_devices.device_code')
                                 ->select();
         // dump($bindinglist);
         $this->assign('list',$bindinglist);
@@ -226,7 +226,7 @@ class VendorsController extends CommonController
      * 
      * @author 潘宏钢 <619328391@qq.com>
      */
-    public function bindingdel($id,$cid)
+    public function bindingdel($id,$did)
     {
         
         if ($_SESSION['adminuser']['leavel'] == 0) {
@@ -234,8 +234,8 @@ class VendorsController extends CommonController
             $res = D('binding')->delete($id);
             if($res){
                 // 更新设备绑定状态
-                $devices = M('crew');  
-                $devices->where('id='.$cid)->setField('status','0');
+                $devices = M('devices');  
+                $devices->where('id='.$did)->setField('binding_status','0');
                 $this->success('解除成功',U('bindinglist'));
             }else{
                 $this->error('解除失败');

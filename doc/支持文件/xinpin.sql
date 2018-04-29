@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2018-04-29 11:03:26
+Date: 2018-04-29 12:04:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,21 +22,16 @@ DROP TABLE IF EXISTS `xp_binding`;
 CREATE TABLE `xp_binding` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `vid` int(11) NOT NULL COMMENT '经销商ID',
-  `cid` int(11) NOT NULL COMMENT '机组ID',
+  `did` int(11) NOT NULL COMMENT '设备ID',
   `addtime` int(11) NOT NULL COMMENT '绑定时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of xp_binding
 -- ----------------------------
-INSERT INTO `xp_binding` VALUES ('35', '39', '45', '1515999326');
-INSERT INTO `xp_binding` VALUES ('37', '1', '44', '1515999475');
-INSERT INTO `xp_binding` VALUES ('38', '39', '47', '1516255135');
-INSERT INTO `xp_binding` VALUES ('39', '39', '46', '1516255183');
-INSERT INTO `xp_binding` VALUES ('40', '39', '48', '1516255452');
-INSERT INTO `xp_binding` VALUES ('43', '1', '50', '1524814377');
-INSERT INTO `xp_binding` VALUES ('44', '39', '51', '1524879835');
+INSERT INTO `xp_binding` VALUES ('46', '1', '79', '1524973683');
+INSERT INTO `xp_binding` VALUES ('47', '50', '73', '1524973761');
 
 -- ----------------------------
 -- Table structure for xp_card
@@ -186,16 +181,16 @@ CREATE TABLE `xp_devices` (
 -- ----------------------------
 -- Records of xp_devices
 -- ----------------------------
-INSERT INTO `xp_devices` VALUES ('70', '112233445566778', '1', '1', '11', '1515583538', '1515583785', '北京清华大学1号教学楼');
-INSERT INTO `xp_devices` VALUES ('71', '352425023679981', '0', '1', '11', '1515591186', null, '北京清华大学2号教学楼');
-INSERT INTO `xp_devices` VALUES ('72', '112633445566778', '0', '1', '11', '1515653060', null, '北京清华大学3号教学楼');
+INSERT INTO `xp_devices` VALUES ('70', '112233445566778', '1', '0', '11', '1515583538', '1515583785', '北京清华大学1号教学楼');
+INSERT INTO `xp_devices` VALUES ('71', '352425023679981', '0', '0', '11', '1515591186', null, '北京清华大学2号教学楼');
+INSERT INTO `xp_devices` VALUES ('72', '112633445566778', '0', '0', '11', '1515653060', null, '北京清华大学3号教学楼');
 INSERT INTO `xp_devices` VALUES ('73', '888888888888888', '0', '1', '12', '1515999640', null, '北京清华大学4号教学楼');
-INSERT INTO `xp_devices` VALUES ('74', '525525252525252', '0', '1', '12', '1515999799', null, '北京清华大学5号教学楼');
-INSERT INTO `xp_devices` VALUES ('75', '369852147963258', '0', '1', '13', '1516253581', null, '北京清华大学6号教学楼');
-INSERT INTO `xp_devices` VALUES ('76', '112733445596778', '0', '1', '13', '1516255964', null, '北京清华大学7号教学楼');
-INSERT INTO `xp_devices` VALUES ('77', '666663333333333', '1', '1', '11', '1524814345', '1524878748', '北京清华大学8号教学楼');
-INSERT INTO `xp_devices` VALUES ('78', '998877445566332', '0', '1', '15', '1524879793', null, '北京清华大学9号教学楼');
-INSERT INTO `xp_devices` VALUES ('79', '112633445566779', '0', '0', '13', '1524970149', null, '上海复旦大学1号教学楼');
+INSERT INTO `xp_devices` VALUES ('74', '525525252525252', '0', '0', '12', '1515999799', null, '北京清华大学5号教学楼');
+INSERT INTO `xp_devices` VALUES ('75', '369852147963258', '0', '0', '13', '1516253581', null, '北京清华大学6号教学楼');
+INSERT INTO `xp_devices` VALUES ('76', '112733445596778', '0', '0', '13', '1516255964', null, '北京清华大学7号教学楼');
+INSERT INTO `xp_devices` VALUES ('77', '666663333333333', '1', '0', '11', '1524814345', '1524878748', '北京清华大学8号教学楼');
+INSERT INTO `xp_devices` VALUES ('78', '998877445566332', '0', '0', '15', '1524879793', null, '北京清华大学9号教学楼');
+INSERT INTO `xp_devices` VALUES ('79', '112633445566779', '0', '1', '13', '1524970149', null, '上海复旦大学1号教学楼');
 
 -- ----------------------------
 -- Table structure for xp_devices_statu
@@ -251,7 +246,7 @@ INSERT INTO `xp_devices_statu` VALUES ('10', '112733445596778', '11', null, null
 INSERT INTO `xp_devices_statu` VALUES ('11', '352425025336838', '1', '-1', '-1', '0', '0', '-1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, '0', '0', '0', '32166', null, 'GPRS', '898602b8191750155005', '30', '\0\0\0\0,\0\0\0\0\0', '1515758092', '1515759877');
 INSERT INTO `xp_devices_statu` VALUES ('12', '352425025291330', '11', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', null, null, null, 'GPRS', '898602b8191750155005', '10', '25cb,708d\0', '1515935076', '1516630698');
 INSERT INTO `xp_devices_statu` VALUES ('13', '112233445566', '11', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', null, null, null, 'WIFI', null, '90', null, '1522207958', '1522210506');
-INSERT INTO `xp_devices_statu` VALUES ('14', '012541025410254', '3', '2000', '85', '90', '50', '32', '100', '-1', '100', '-1', '100', '-1', '100', '-1', '100', '-1', null, null, null, null, null, null, '3', '1', '0', '0', null, 'GPRS', '11223344556677889900', '90', '10020\0\0\0\0\0', '1524818893', '1524822703');
+INSERT INTO `xp_devices_statu` VALUES ('14', '888888888888888', '3', '2000', '85', '90', '50', '32', '100', '-1', '100', '-1', '100', '-1', '100', '-1', '100', '-1', null, null, null, null, null, null, '3', '1', '0', '0', null, 'GPRS', '11223344556677889900', '90', '10020\0\0\0\0\0', '1524818893', '1524822703');
 INSERT INTO `xp_devices_statu` VALUES ('15', '666663333333333', '11', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', null, null, null, 'GPRS', '11223344556677889900', '90', '10020\0\0\0\0\0', '1524878748', '1524882896');
 
 -- ----------------------------

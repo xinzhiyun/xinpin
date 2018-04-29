@@ -3,7 +3,7 @@
     <include file="Public/nav" />
     <div class="row-fluid fl" id="main">
         <div class="tableBox">
-            <div class="titleBar">后台管理/<span>绑定机组</span></div>
+            <div class="titleBar">后台管理/<span>绑定设备</span></div>
             <div class="formBox">
                 <form class="form-horizontal " action="__URL__/devices_add" method="post">
                     <div class="control-group">
@@ -21,12 +21,12 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">请选择机组：</label>
+                        <label class="control-label">请选择设备：</label>
                         <div class="controls">
-                            <select name="cid" id="" title="一个机组只能被一个经销商绑定" >
+                            <select name="did" id="" title="一个设备只能被一个经销商绑定" >
                                 <notempty name="devices">
                                     <foreach name="devices" item="vv" key="key">
-                                        <option value="{{$vv.id}}">{{$vv.cname}}</option>
+                                        <option value="{{$vv.id}}">{{$vv.device_code}}</option>
                                     </foreach>
                                     <else />
                                     <option value="0">查无数据</option>

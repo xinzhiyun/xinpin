@@ -43,10 +43,9 @@ class DevicesModel extends Model
         $data = $this
             ->where('device_code='.$code)
             ->join('LEFT JOIN xp_devices_statu on xp_devices.device_code = xp_devices_statu.DeviceID')
-            ->join('LEFT JOIN xp_crew on xp_devices.device_code = xp_crew.dcode')
-            ->join('LEFT JOIN xp_binding on xp_crew.id = xp_binding.cid')
+            ->join('LEFT JOIN xp_binding on xp_devices.id = xp_binding.did')
             ->join('LEFT JOIN xp_vendors on xp_binding.vid = xp_vendors.id')
-            ->field('xp_vendors.name,xp_devices_statu.*,xp_devices.id')
+            ->field('xp_vendors.name,xp_devices_statu.*,xp_devices.id,xp_devices.address')
             ->find();
 
         return $data;
@@ -118,7 +117,7 @@ class DevicesModel extends Model
         if( !empty($code) ){
             $res = $this->where($code)
                 ->join("LEFT JOIN xp_crew ON xp_devices.device_code = xp_crew.dcode")
-                ->join("LEFT JOIN xp_binding ON xp_crew.id = xp_binding.cid")
+                ->join("LEFT JOIN xp_binding ON xp_devices.id = xp_binding.did")
                 ->join("LEFT JOIN xp_vendors ON xp_binding.vid = xp_vendors.id")
                 ->field("xp_vendors.*")
                 ->find();

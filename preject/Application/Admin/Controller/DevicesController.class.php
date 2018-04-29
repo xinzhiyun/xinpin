@@ -21,23 +21,21 @@ class DevicesController extends CommonController
         $count = $devices
                 ->where($map)
                 ->join('LEFT JOIN xp_devices_statu ON xp_devices.device_code = xp_devices_statu.DeviceID')
-                  ->join('LEFT JOIN xp_crew ON xp_devices.device_code = xp_crew.dcode')
                   ->join('LEFT JOIN xp_device_type ON xp_devices.type_id = xp_device_type.id')
-                  ->join('LEFT JOIN xp_binding ON xp_crew.id = xp_binding.cid')
+                  ->join('LEFT JOIN xp_binding ON xp_devices.id = xp_binding.did')
                   ->join('LEFT JOIN xp_vendors ON xp_binding.vid = xp_vendors.id')
-                  ->field('xp_devices.*,xp_device_type.typename,xp_crew.dcode,xp_crew.cname,xp_vendors.name,xp_devices_statu.updatetime')
+                  ->field('xp_devices.*,xp_device_type.typename,xp_vendors.name,xp_devices_statu.updatetime')
                 ->count();
         $Page   = new \Think\Page($count,15);
         $show   = $Page->show();
 
         $vendor = $devices
                   ->where($map)
-                  ->join('LEFT JOIN xp_devices_statu ON xp_devices.device_code = xp_devices_statu.DeviceID')
-                  ->join('LEFT JOIN xp_crew ON xp_devices.device_code = xp_crew.dcode')
+                  ->join('LEFT JOIN xp_devices_statu ON xp_devices.device_code = xp_devices_statu.DeviceID')       
                   ->join('LEFT JOIN xp_device_type ON xp_devices.type_id = xp_device_type.id')
-                  ->join('LEFT JOIN xp_binding ON xp_crew.id = xp_binding.cid')
+                  ->join('LEFT JOIN xp_binding ON xp_devices.id = xp_binding.did')
                   ->join('LEFT JOIN xp_vendors ON xp_binding.vid = xp_vendors.id')
-                  ->field('xp_devices.*,xp_device_type.typename,xp_crew.dcode,xp_crew.cname,xp_vendors.name,xp_devices_statu.updatetime')
+                  ->field('xp_devices.*,xp_device_type.typename,xp_vendors.name,xp_devices_statu.updatetime')
                   ->limit($Page->firstRow.','.$Page->listRows)
                   ->select();
         // dump($vendor);die;
@@ -67,6 +65,7 @@ class DevicesController extends CommonController
             'vendors' => $vendors,
             'chargelist' => $chargelist,
         ];
+        // dump($assign);die;
         $this->assign($assign);
         $this->display();
     }

@@ -13,8 +13,8 @@
                 <tr>
                     <th>绑定编号</th>
                     <th>经销商ID</th>
-                    <th>机组ID</th>
-                    <th>机组名称</th>
+                    <th>设备ID</th>
+                    <th>设备编号</th>
                     <th>经销商姓名</th>
                     <th>经销商手机</th>
                     <th>添加时间</th>
@@ -27,8 +27,8 @@
                         <tr>
                             <td>{{$key+1}}</td>
                             <td>{{$vo.vid}}</td>
-                            <td>{{$vo.cid}}</td>
-                            <td>{{$vo.cname}}</td>
+                            <td>{{$vo.did}}</td>
+                            <td>{{$vo.device_code}}</td>
                             <td>{{$vo.name}}</td>
                             <td>{{$vo.phone}}</td>
                             <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
@@ -38,7 +38,7 @@
                                     <!-- <a href="__URL__/edit/id/{$vo.id}">修改信息</a> -->
                                     <!-- <a href="__URL__/bindingdel/id/{{$vo.id}}/cid/{{$vo.cid}}">解除绑定</a> -->
                                     <a class="unbindBtn" href="javascript:;" ruleId="{{$vo['id']}}">解除绑定</a>
-                                    <input class="cid" type="hidden" name="" value="{{$vo.cid}}">
+                                    <input class="did" type="hidden" name="" value="{{$vo.did}}">
                                 <else />
                                     <span>对不起，您无权操作！！！</span>
                                 </if>
@@ -62,11 +62,11 @@
                 // alert($(".cid").val());
                 $(".unbindBtn").click(function(){
                     var id = $(this).attr('ruleId');
-                    var cid = $(this).siblings(".cid").val();
+                    var did = $(this).siblings(".did").val();
                     layui.use('layer', function(){
                         var layer = layui.layer;
                         layer.confirm('确定解除绑定?', {icon: 3, title:'温馨提示'}, function(index){
-                            window.location.href='bindingdel?id='+ id + '&cid=' + cid;
+                            window.location.href='bindingdel?id='+ id + '&did=' + did;
                             layer.close(index);
                             
                         });
