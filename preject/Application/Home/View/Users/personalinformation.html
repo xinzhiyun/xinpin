@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" >
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/mobileStyle.css">
+<script src="__PUBLIC__/Home/js/jquery-1.8.3.min.js"></script>
 <script src="__PUBLIC__/Home/js/public.js"></script>
 <title>个人信息</title>
 <style>
@@ -16,6 +17,10 @@
 </style>
 </head>
 <body>
+<header class='headerbar cfix'>
+    <a class='back' href='javascript:history.go(-1);'>返回</a>
+    <a class='home' href='{{:U("Home/Index/index")}}'>首页</a>
+</header>
 <ul class="personalList">
 	<li>
 		<i class="i1"></i>用户姓名：<span class="username">{{$user['name']}}</span>
