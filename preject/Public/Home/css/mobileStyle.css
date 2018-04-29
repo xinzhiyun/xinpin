@@ -656,7 +656,8 @@ a.addIDbtn{
 /*personalInformation css*/
 .personalList{
 	width: 100vw;
-	height: 88vh;
+	height: 80vh;
+	min-height: 400px;
 	margin-bottom:0;
 }
 .personalList > li{

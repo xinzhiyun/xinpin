@@ -18,13 +18,13 @@
 				}
 			}
 		}
-		console.log(navPar, navitem);
+		// console.log(navPar, navitem);
 		for(var i=0; i<navitem.length; i++){
 			// console.log(navitem[i])
 			navitem.eq(i).on('click', function(){
 				var href = $(this).attr('href');
 				sessionStorage.setItem('navitem', href);
-				console.log($(this));
+				// console.log($(this));
 			})
 		}
 		$('.logo').click(function(){
