@@ -32,7 +32,7 @@
 		<i class="i3"></i>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<span>{{$user['address']}}</span>
 	</li>
     <li>
-        <i class="i4"></i>详细地址：<span>{{$user['addrdetail']}}</span>
+        <i class="i4"></i>详细地址：<span class='detail'></span>
     </li>
 </ul>
 <div style="width: 80%;margin:0 auto">
@@ -54,8 +54,11 @@
 	//设置当前按钮显示样式
     $(".logo5").css("background-position","-7.6rem 0");
     $(".btn5").css("color","#008C63");
-
-    //编辑
+    var detail = JSON.parse({{$user['address']|json_encode}});
+    // var detail = 'sddsfgdfg,水电费水电费';
+    detail = detail.split(',')[1];
+    $('.detail').text(detail);
+    //编辑    
     
     $('#_btn').click(function fn(){
 
@@ -120,7 +123,7 @@
                 }
                 if(name != name_){json.name = name_}
                 if(phone != phone_){json.phone = phone_}
-                if(addr_&&(addr != addr_)){json.address = addr_}
+                if(addr_&&(addr != addr_)){json.address = addr_ + ',' + addrdetail_}
 
                 if($.isEmptyObject(json)){ 
                     layuiHint('未作修改')
@@ -139,6 +142,9 @@
                                 span.eq(3).text(addrdetail_||addrdetail)
                                 $('#_btn').text('编辑')
                                 $('#_btn').unbind().click(fn)
+                                setTimeout(function(){
+                                    location.href = '{{:U("Home/Users/mine")}}';
+                                },500);
                             }else{
                                 layuiHint('修改失败')
                                 fn2()
