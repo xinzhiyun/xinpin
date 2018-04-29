@@ -284,4 +284,38 @@ class VendorsController extends CommonController
         }
     }
 
+
+    /**
+     * 修改经销商密码方法
+     * 
+     * @author 潘宏钢 <619328391@qq.com>
+     */
+    public function editpwd($id)
+    {
+        if (IS_POST) {
+            $new = md5(I('newpassword')); 
+            $re = md5(I('repassword'));
+            $id = I('id');
+
+            if ($new == $re) {
+                $user = M('Vendors');
+                
+                $res = $user->where('id='.$id)->setField('password',$new);
+                if ($res) {
+                    $this->success('修改经销商密码成功',U('index'));
+                }else{
+                    $this->error('修改密码失败！');
+                }
+               
+            }else{
+                $this->error('两次密码不一样，请重新输入！');
+            }
+
+        }else{
+            $info[] = D('vendors')->find($id);
+            $this->assign('info',$info);
+            $this->display();
+        }
+    }
+
 }

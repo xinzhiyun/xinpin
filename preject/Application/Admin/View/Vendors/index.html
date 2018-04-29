@@ -41,9 +41,15 @@
                         <td>{{$vo.leavel}}</td>
                         <td>
                             <if condition="$Think.session.adminuser.leavel eq 0">
-                                <a href="__URL__/edit/id/{{$vo.id}}">编辑</a>
-                                <!-- <a href="__URL__/del/id/{{$vo.id}}">删除</a> -->
-                                <a class="deletBnt" ruleId="{{$vo.id}}"  href="javascript:;" >删除</a>
+                                <if condition="$Think.session.adminuser.id eq $vo['id']">
+
+                                    <a href="__URL__/edit/id/{{$vo.id}}">编辑</a>
+                                    <a class="deletBnt" ruleId="{{$vo.id}}"  href="javascript:;" >删除</a>
+                                <else/>
+                                    <a href="__URL__/editpwd/id/{{$vo.id}}">修改密码</a>
+                                    <a href="__URL__/edit/id/{{$vo.id}}">编辑</a>
+                                    <a class="deletBnt" ruleId="{{$vo.id}}"  href="javascript:;" >删除</a>
+                                </if>
                             <else/>
                                 <span>您无操作权限</span>
                             </if> 
