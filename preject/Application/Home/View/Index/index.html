@@ -101,9 +101,9 @@
 </head>
 <body>
     <!-- logo --> 
-    <input class="iccardVal" type="hidden" name="" value='{{$iccard}}'>
+   <!--  <input class="iccardVal" type="hidden" name="" value='{{$iccard}}'>
     <input class="recordVal" type="hidden" name="" value='{{$record}}'>
-    <input class="nameVal" type="hidden" name="" value='{{$name}}'>
+    <input class="nameVal" type="hidden" name="" value='{{$name}}'> -->
     <section class="showBalanceBox">
         <section class="showBalance">
             <img class="moneylogo" src="__PUBLIC__/Home/image/moneylogo.png" />
@@ -142,17 +142,17 @@
             });
 
             //一周喝水记录
-            var iccardVal=$(".iccardVal").val();//获取ic卡数据
-            var recordVal=$(".recordVal").val();//获取饮水记录数据
-            var nameVal=$(".nameVal").val();
-            // var josniccardVal=JSON.parse(iccardVal);
-            // var jsonrecordVal=JSON.parse(recordVal);
-            // var jsonnameVal=JSON.parse(nameVal);
+            // var iccardVal=$(".iccardVal").val();//获取ic卡数据
+            // var recordVal=$(".recordVal").val();//获取饮水记录数据
+            // var nameVal=$(".nameVal").val();
+            var josniccardVal=JSON.parse({{$iccard|json_encode}});
+            var jsonrecordVal=JSON.parse({{$record|json_encode}});
+            var jsonnameVal=JSON.parse({{$name|json_encode}});
             // console.log(nameVal);
             
-            var josniccardVal= '';
-            var jsonrecordVal= '';
-            var jsonnameVal='';
+            // var josniccardVal= '';
+            // var jsonrecordVal= '';
+            // var jsonnameVal='';
             
             var LiHtml1="";
             //获取json对象长度
