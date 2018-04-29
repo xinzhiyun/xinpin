@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1" >
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" >
 <script src="__PUBLIC__/Home/js/jquery-1.8.3.min.js"></script>
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/mobileStyle.css">
+<link rel="stylesheet" href="__PUBLIC__/Admin/layui/css/layui.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/layui/layui.js"></script>
 <script src="__PUBLIC__/Home/js/public.js"></script>
 <title>馨品共享水</title>
 <style>
@@ -121,7 +123,7 @@
     <footer class="footer">
         <a class="btn1" href="{{:U('Home/index/index')}}"><span class="logo1"></span>首页</a>
         <a class="btn2" href="{{:U('Home/Consume/index')}}"><span class="logo2"></span>饮水记录</a>
-        <a class="btn3" href="{{:U('Home/Flow/recharge')}}"><span class="logo3"></span>充值</a>
+        <a class="btn3 charge" href="javascript:;"><span class="logo3"></span>充值</a>
         <a><span class="logo4"></span>扫码取水</a>
         <a class="btn5" href="{{:U('Home/Users/mine')}}"><span class="logo5"></span>我的</a>
     </footer>
@@ -143,10 +145,15 @@
             var iccardVal=$(".iccardVal").val();//获取ic卡数据
             var recordVal=$(".recordVal").val();//获取饮水记录数据
             var nameVal=$(".nameVal").val();
-            var josniccardVal=JSON.parse(iccardVal);
-            var jsonrecordVal=JSON.parse(recordVal);
-            var jsonnameVal=JSON.parse(nameVal);
+            // var josniccardVal=JSON.parse(iccardVal);
+            // var jsonrecordVal=JSON.parse(recordVal);
+            // var jsonnameVal=JSON.parse(nameVal);
             // console.log(nameVal);
+            
+            var josniccardVal= '';
+            var jsonrecordVal= '';
+            var jsonnameVal='';
+            
             var LiHtml1="";
             //获取json对象长度
             var iccardNumber=0;

@@ -7,6 +7,8 @@
 <script src="__PUBLIC__/Home/js/jquery-1.11.1.min.js" ></script>
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/mobileStyle.css">
+<link rel="stylesheet" href="__PUBLIC__/Admin/layui/css/layui.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/layui/layui.js"></script>
 <title>饮水记录</title>
 <style>
     .row>td:not(:first-child) {
@@ -52,7 +54,7 @@
     <footer>
         <a class="btn1" href="{{:U('Home/index/index')}}"><span class="logo1"></span>首页</a>
         <a class="btn2" href="{{:U('Home/Consume/index')}}"><span class="logo2"></span>饮水记录</a>
-        <a class="btn3" href="{{:U('Home/Flow/recharge')}}"><span class="logo3"></span>充值</a>
+        <a class="btn3 charge" href="javascript:;"><span class="logo3"></span>充值</a>
         <a><span class="logo4"></span>扫码取水</a>
         <a class="btn5" href="{{:U('Home/Users/mine')}}"><span class="logo5"></span>我的</a>
     </footer>
