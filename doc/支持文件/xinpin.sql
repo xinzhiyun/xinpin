@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2018-04-28 16:17:48
+Date: 2018-04-29 10:50:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -179,21 +179,23 @@ CREATE TABLE `xp_devices` (
   `type_id` int(11) NOT NULL DEFAULT '0' COMMENT '设备类型',
   `addtime` int(11) NOT NULL COMMENT '添加时间',
   `updatetime` int(11) DEFAULT NULL COMMENT '激活时间',
+  `address` varchar(255) NOT NULL COMMENT '设备安装地址',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of xp_devices
 -- ----------------------------
-INSERT INTO `xp_devices` VALUES ('70', '112233445566778', '1', '1', '11', '1515583538', '1515583785');
-INSERT INTO `xp_devices` VALUES ('71', '352425023679981', '0', '1', '11', '1515591186', null);
-INSERT INTO `xp_devices` VALUES ('72', '112633445566778', '0', '1', '11', '1515653060', null);
-INSERT INTO `xp_devices` VALUES ('73', '888888888888888', '0', '1', '12', '1515999640', null);
-INSERT INTO `xp_devices` VALUES ('74', '525525252525252', '0', '1', '12', '1515999799', null);
-INSERT INTO `xp_devices` VALUES ('75', '369852147963258', '0', '1', '13', '1516253581', null);
-INSERT INTO `xp_devices` VALUES ('76', '112733445596778', '0', '1', '13', '1516255964', null);
-INSERT INTO `xp_devices` VALUES ('77', '666663333333333', '1', '1', '11', '1524814345', '1524878748');
-INSERT INTO `xp_devices` VALUES ('78', '998877445566332', '0', '1', '15', '1524879793', null);
+INSERT INTO `xp_devices` VALUES ('70', '112233445566778', '1', '1', '11', '1515583538', '1515583785', '北京清华大学1号教学楼');
+INSERT INTO `xp_devices` VALUES ('71', '352425023679981', '0', '1', '11', '1515591186', null, '北京清华大学2号教学楼');
+INSERT INTO `xp_devices` VALUES ('72', '112633445566778', '0', '1', '11', '1515653060', null, '北京清华大学3号教学楼');
+INSERT INTO `xp_devices` VALUES ('73', '888888888888888', '0', '1', '12', '1515999640', null, '北京清华大学4号教学楼');
+INSERT INTO `xp_devices` VALUES ('74', '525525252525252', '0', '1', '12', '1515999799', null, '北京清华大学5号教学楼');
+INSERT INTO `xp_devices` VALUES ('75', '369852147963258', '0', '1', '13', '1516253581', null, '北京清华大学6号教学楼');
+INSERT INTO `xp_devices` VALUES ('76', '112733445596778', '0', '1', '13', '1516255964', null, '北京清华大学7号教学楼');
+INSERT INTO `xp_devices` VALUES ('77', '666663333333333', '1', '1', '11', '1524814345', '1524878748', '北京清华大学8号教学楼');
+INSERT INTO `xp_devices` VALUES ('78', '998877445566332', '0', '1', '15', '1524879793', null, '北京清华大学9号教学楼');
+INSERT INTO `xp_devices` VALUES ('79', '112633445566779', '0', '0', '13', '1524970149', null, '上海复旦大学1号教学楼');
 
 -- ----------------------------
 -- Table structure for xp_devices_statu
@@ -292,8 +294,8 @@ CREATE TABLE `xp_device_type` (
 -- ----------------------------
 -- Records of xp_device_type
 -- ----------------------------
-INSERT INTO `xp_device_type` VALUES ('11', 'RO膜', 'RO膜-RO膜A型', '', '', '', '', '', '', '', '1515583523');
-INSERT INTO `xp_device_type` VALUES ('12', '净水器', '滤芯-', 'RO膜-RO膜A型', '', '', '', '', '', '', '1515999600');
+INSERT INTO `xp_device_type` VALUES ('11', 'RO膜', 'RO膜-RO膜A型', 'PDF-PDF', '', '', '', '', '', '', '1515583523');
+INSERT INTO `xp_device_type` VALUES ('12', '净水器', '滤芯-', 'RO膜-RO膜A型', 'RO膜-RO膜A型', '', '', '', '', '', '1515999600');
 INSERT INTO `xp_device_type` VALUES ('13', '过滤', 'PDF-PDF', '滤芯-', 'RO膜-RO膜A型', '', '', '', '', '', '1516253545');
 INSERT INTO `xp_device_type` VALUES ('14', '测试', 'RO膜-RO膜A型', 'RO膜-A型', 'pdf-', '', '', '', '', '', '1524815064');
 INSERT INTO `xp_device_type` VALUES ('15', '测试1', '测试-测试型号', '', '', '', '', '', '', '', '1524879751');

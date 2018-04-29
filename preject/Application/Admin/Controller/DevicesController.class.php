@@ -124,7 +124,7 @@ class DevicesController extends CommonController
         if(!$devices->add()){
             $this->error('添加失败', 'show_add_device');
         } else {
-            $this->success('添加成功', 'show_add_device', 3);
+            $this->success('添加成功，您可以继续添加', 'show_add_device', 3);
         }
 
 
@@ -164,6 +164,7 @@ class DevicesController extends CommonController
         foreach ($data as $key => $val) {
             $_POST['device_code'] = $val['A'];
             $_POST['type_id'] = (string)$val['B'];
+            $_POST['address'] = $val['C'];
             $datas['addtime'] = time();
             $Devices = D('devices'); 
             $res = $Devices->getCate();
