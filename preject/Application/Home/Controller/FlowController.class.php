@@ -36,7 +36,7 @@ class FlowController extends CommonController
     	// 将金额强转换整数
     	$money = I('money') * 100;
         // 冲值测试额1分钱
-        $money = 1;
+        // $money = 1;
         // 用户在公众号的唯一ID
     	$openId = I('openId');
         //微信examle的WxPay.JsApiPay.php
