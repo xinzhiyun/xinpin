@@ -155,41 +155,41 @@
 
 	//解挂
 	// 后台数据：解挂 成功返回 1 ，解挂 失败返回-1
-	$(".uncoupling").click(function(){
-		var _this=$(this);
-		$(".hintTxt").text("确定要解挂该IC卡吗");
-	 	$('.promptBg').show();
-        $('.promptBg').height($(window).height());
-        $('.no_btn').unbind('click').click(function(){
-            $('.promptBg').hide();
-        });
+	// $(".uncoupling").click(function(){
+	// 	var _this=$(this);
+	// 	$(".hintTxt").text("确定要解挂该IC卡吗");
+	//  	$('.promptBg').show();
+ //        $('.promptBg').height($(window).height());
+ //        $('.no_btn').unbind('click').click(function(){
+ //            $('.promptBg').hide();
+ //        });
         
-        $('.yes_btn').unbind('click').click(function(){
+ //        $('.yes_btn').unbind('click').click(function(){
         	
-			$.ajax({
-				url:"{{:U('Home/Card/hangingSolution')}}",
-				type:"post",
-				dataType:"json",
-				data:{numVal:_this.parent().parent().siblings().children("span").text()},
-				success:function(res){
-					$('.promptBg').hide();
-					if(res==1){
-						_this.parent().parent().siblings(".IDshowBg").removeClass("IDshowBgActive");
-						location.reload();
-						layui.use('layer', function(){
-				            var layer = layui.layer;
-				            layer.msg('该卡解挂成功!');
-				        }); 
-					}else{
-						layui.use('layer', function(){
-				            var layer = layui.layer;
-				            layer.msg('该卡解挂失败!');
-				        }); 
-					}
-				}
-			});
-		})
-	});
+	// 		$.ajax({
+	// 			url:"{{:U('Home/Card/hangingSolution')}}",
+	// 			type:"post",
+	// 			dataType:"json",
+	// 			data:{numVal:_this.parent().parent().siblings().children("span").text()},
+	// 			success:function(res){
+	// 				$('.promptBg').hide();
+	// 				if(res==1){
+	// 					_this.parent().parent().siblings(".IDshowBg").removeClass("IDshowBgActive");
+	// 					location.reload();
+	// 					layui.use('layer', function(){
+	// 			            var layer = layui.layer;
+	// 			            layer.msg('该卡解挂成功!');
+	// 			        }); 
+	// 				}else{
+	// 					layui.use('layer', function(){
+	// 			            var layer = layui.layer;
+	// 			            layer.msg('该卡解挂失败!');
+	// 			        }); 
+	// 				}
+	// 			}
+	// 		});
+	// 	})
+	// });
 	//挂失
 	$(".reportLostItems").click(function(){
 		var _this=$(this);
