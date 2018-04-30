@@ -6,10 +6,10 @@
             <div class="titleBar">IC卡管理/<span>IC卡列表</span></div>
             <form class="form-search" action="__URL__/index" method="post">
                 <span class="select-box">IC卡编号:
-                    <input type="text" class="input-medium nickname" name="iccard" placeholder="请输入姓名" style="width: 100px;"/ >
+                    <input type="text" class="input-medium iccard" name="iccard" placeholder="请输入IC卡编号" style="width: 100px;"/ >
                 </span>
                 <span class="select-box">IC卡类型:
-                    <select class="select result" size="1" name="type" style="width: 100px;">
+                    <select class="select type" size="1" name="type" style="width: 100px;">
                         <option value="" selected>- IC卡类型 -</option>
                         <option value="0">免费卡</option>
                         <option value="1">计费卡</option>
@@ -17,16 +17,16 @@
                     </select>
                 </span>   
                 <span class="select-box">持有人:
-                    <input type="text" class="input-medium address" name="name" placeholder="请输入地址" style="width: 100px;"/ >
+                    <input type="text" class="input-medium name" name="name" placeholder="请输入持有人" style="width: 100px;"/ >
                 </span>
                 <span class="select-box">学籍号:
-                    <input type="text" class="input-medium address" name="studentcode" placeholder="请输入地址" style="width: 100px;"/ >
+                    <input type="text" class="input-medium schoolid" name="studentcode" placeholder="请输入学籍号" style="width: 100px;"/ >
                 </span>
                 <span class="select-box">学校:
-                    <input type="text" class="input-medium address" name="school" placeholder="请输入地址" style="width: 100px;"/ >
+                    <input type="text" class="input-medium school" name="school" placeholder="请输入学校" style="width: 100px;"/ >
                 </span>
                 <span class="select-box">状态:
-                    <select class="select result" size="1" name="status" style="width: 100px;">
+                    <select class="select status" size="1" name="status" style="width: 100px;">
                         <option value="" selected>- 状态 -</option>
                         <option value="0">未绑定</option>
                         <option value="1">已绑定</option>
@@ -35,7 +35,7 @@
                     </select>
                 </span>              
                 <span class="select-box" style="display: inline-block;position:relative">时间:
-                    <input type="text" id="date-start" class="input-medium form-control" name="mincreated_at" placeholder="请选择时间" style="width: 76px;left: 0"/ > ~ <input type="text" id="date-end" class="input-medium form-control" name="maxcreated_at" placeholder="请选择时间" style="width:76px;right: 0"/ >
+                    <input type="text" id="date-start" class="input-medium form-control" name="minaddtime" placeholder="请选择时间" style="width: 76px;left: 0"/ > ~ <input type="text" id="date-end" class="input-medium form-control" name="maxaddtime" placeholder="请选择时间" style="width:76px;right: 0"/ >
                 </span>
                 <div class="submitBtn">
                     <button type="reset" class="btn fr mbtn" style="color: #8f0911;background-color: #eee;"><i class="layui-icon">&#x1002;</i> 重置</button>
@@ -95,6 +95,90 @@
             <script>
                 $('.pagination ul a').unwrap('div').wrap('<li></li>');
                 $('.pagination ul span').wrap('<li class="active"></li>')
+
+                /**************** 搜索关键字保留 -- 开始 ******************/
+                    var srearchInfo = {};
+                    var iccard, type, name, schoolid, school, status, date_start,
+                    date_end;
+                    /**
+                     * iccard：ic卡编号, name：持有人, type：ic卡类型, 
+                     * schoolid: 学籍号， school: 学校, date_start：开始时间,
+                     * date_end：结束时间, status: ic卡状态,
+                     */
+                    // 点击搜索
+                    $("button[name='search']").click(function(){
+                        setSearchWord();
+                    })
+                    function setSearchWord(){
+                        sessionStorage.setItem('search', '');   // 初始化
+
+                        iccard = $('.iccard').val();
+                        name = $('.name').val();
+                        school = $('.school').val();
+                        if($('.type>option:selected').val()){
+                            type = Number($('.type>option:selected').val())+1;
+                        }
+                        if($('.status>option:selected').val()){
+                            status = Number($('.status>option:selected').val())+1;
+                        }
+                        schoolid = $('.schoolid').val();
+                        date_start = $('#date-start').val();
+                        date_end = $('#date-end').val();
+                        
+                        srearchInfo['iccard'] = iccard;
+                        srearchInfo['name'] = name;
+                        srearchInfo['school'] = school;
+                        srearchInfo['schoolid'] = schoolid;
+                        srearchInfo['type'] = type;
+                        srearchInfo['status'] = status;
+                        srearchInfo['mintime'] = date_start;
+                        srearchInfo['maxtime'] = date_end;
+
+                        sessionStorage.setItem('search', JSON.stringify(srearchInfo));
+                    }
+                    // 搜索关键字保留
+                    if(sessionStorage.getItem('search')){
+                        var srearchInfo = JSON.parse(sessionStorage.getItem('search'));
+                        if($('.form-search').length){
+                            // console.log(srearchInfo)
+                            $('.iccard').val(srearchInfo['iccard']);
+                            $('.name').val(srearchInfo['name']);
+                            $('.school').val(srearchInfo['school']);
+                            $('.schoolid').val(srearchInfo['schoolid']);
+                            if(srearchInfo['type']){
+                                $('.type>option').eq(srearchInfo['type'])[0].selected = true;
+                            }
+                            if(srearchInfo['status']){
+                                $('.status>option').eq(srearchInfo['status'])[0].selected = true;
+                            }
+                            $('#date-start').val(srearchInfo['mintime']);
+                            $('#date-end').val(srearchInfo['maxtime']);
+
+                            setTimeout(function(){
+                                sessionStorage.setItem('search', '');   // 初始化
+                            },500)
+                        }
+                    }
+                    // 重置搜索结果
+                    $('button[type="reset"]').click(function(){
+                        location.href = '{{:U("Admin/Card/index")}}';
+
+                    })
+                    // 处理按钮
+                    $(".handleBtn").click(function(){
+                        var _this=$(this);
+                        var id = $(this).attr('ruleId');
+                        layui.use('layer', function(){
+                            var layer = layui.layer;
+                            layer.confirm('确定现在处理该条数据?', {icon: 3, title:'温馨提示'}, function(index){
+                                window.location.href='{{:U('edit')}}?id='+id+'&result=1';
+                                layer.close(index);
+                                
+                            });
+                        });
+                    });
+                    
+                /**************** 搜索关键字保留 -- 结束 ******************/
             </script>
         </div>
         <!-- footer part -->

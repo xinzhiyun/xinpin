@@ -29,6 +29,11 @@ class WorkController extends CommonController
         $map['phone'] = trim(I('post.phone')) ? array('like','%'.trim(I('post.phone')).'%'):'';
         $map['address'] = trim(I('post.address')) ? array('like','%'.trim(I('post.address')).'%'):'';
         $map = array_filter($map);
+        $mintime = strtotime(trim(I('post.mintime')));
+        $maxtime = strtotime(trim(I('post.maxtime')));
+        if (!empty($maxtime) && !empty($maxtime)) {
+            $map['time'] = array(array('egt',$mintime),array('elt',$maxtime+24*60*60));
+        }
         // dump($map);
         // $map = '';
         $type = D('work');
