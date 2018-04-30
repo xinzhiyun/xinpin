@@ -19,8 +19,18 @@ class ProductController extends CommonController
     public function index()
     {	
        // 根据类型名称进行搜索
-        $map = '';
-        if(!empty($_GET['typename'])) $map['typename'] = array('like',"%{$_GET['typename']}%");
+        // 搜索功能
+        $map = array(
+            'typename' =>  array('like','%'.trim(I('post.typename')).'%'),
+        );
+        $minaddtime = strtotime(trim(I('post.minaddtime')))?:0;
+        $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:-1;
+        if (is_numeric($maxaddtime)) {
+            $map['addtime'] = array(array('egt',$minaddtime),array('elt',$maxaddtime));
+        }
+        if ($maxaddtime < 0) {
+            $map['addtime'] = array(array('egt',$minaddtime));
+        }
 
         $type = M('device_type');
         
