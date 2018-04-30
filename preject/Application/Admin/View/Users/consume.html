@@ -13,11 +13,11 @@
                     <input type="text" class="input-medium maxmoney" name="maxbalance" placeholder="" style="width: 60px;" / >
                 </span>
                 <span class="select-box">IC卡编号:
-                    <input type="text" value="" class="input-medium name" name="iccard" placeholder="请输入用户昵称" style="width: 70px;"/ >
+                    <input type="text" value="" class="input-medium iccard" name="iccard" placeholder="请输入IC卡编号" style="width: 70px;"/ >
                 </span>
                 <span class="select-box">消费流量:
-                    <input type="text" class="input-medium minmoney" name="minflow" placeholder="" style="width: 60px;" / > ~ 
-                    <input type="text" class="input-medium maxmoney" name="maxflow" placeholder="" style="width: 60px;" / >
+                    <input type="text" class="input-medium minflow" name="minflow" placeholder="" style="width: 60px;" / > ~ 
+                    <input type="text" class="input-medium maxflow" name="maxflow" placeholder="" style="width: 60px;" / >
                 </span>
                 <span class="select-box">地址:
                     <input type="text" class="input-medium address" name="address" placeholder="请输入地址" style="width: 100px;"/ >
@@ -71,6 +71,71 @@
             <script>
                 $('.pagination ul a').unwrap('div').wrap('<li></li>');
                 $('.pagination ul span').wrap('<li class="active"></li>')
+
+                /**************** 搜索关键字保留 -- 开始 ******************/
+                    var srearchInfo = {};
+                    var name, minmoney, maxmoney, iccard, minflow, maxflow, 
+                    address, date_start, date_end;
+                    /**
+                     * name：昵称, iccard：设备编号, phone：手机号码, address：地址, 
+                     * login_ip：登录IP, date_start：开始时间, date_end：结束时间
+                     */
+                    // 点击搜索
+                    $("button[name='search']").click(function(){
+                        setSearchWord();
+                    })
+                    function setSearchWord(){
+                        sessionStorage.setItem('search', '');   // 初始化
+
+                        name = $('.name').val();
+                        iccard = $('.iccard').val();
+                        minmoney = $('.minmoney').val();
+                        maxmoney = $('.maxmoney').val();
+                        address = $('.address').val();
+                        minflow = $('.minflow').val();
+                        maxflow = $('.maxflow').val();
+                        date_start = $('#date-start').val();
+                        date_end = $('#date-end').val();
+                        
+                        srearchInfo['name'] = name;
+                        srearchInfo['iccard'] = iccard;
+                        srearchInfo['minmoney'] = minmoney;
+                        srearchInfo['maxmoney'] = maxmoney;
+                        srearchInfo['address'] = address;
+                        srearchInfo['minflow'] = minflow;
+                        srearchInfo['maxflow'] = maxflow;
+                        srearchInfo['mintime'] = date_start;
+                        srearchInfo['maxtime'] = date_end;
+
+                        sessionStorage.setItem('search', JSON.stringify(srearchInfo));
+                    }
+                    // 搜索关键字保留
+                    if(sessionStorage.getItem('search')){
+                        var srearchInfo = JSON.parse(sessionStorage.getItem('search'));
+                        if($('.form-search').length){
+                            // console.log(srearchInfo)
+                            $('.name').val(srearchInfo['name']);
+                            $('.iccard').val(srearchInfo['iccard']);
+                            $('.minmoney').val(srearchInfo['minmoney']);
+                            $('.maxmoney').val(srearchInfo['maxmoney']);
+                            $('.address').val(srearchInfo['address']);
+                            $('.minflow').val(srearchInfo['minflow']);
+                            $('.maxflow').val(srearchInfo['maxflow']);
+                            $('#date-start').val(srearchInfo['mintime']);
+                            $('#date-end').val(srearchInfo['maxtime']);
+
+                            setTimeout(function(){
+                                sessionStorage.setItem('search', '');   // 初始化
+                            },500)
+                        }
+                    }
+                    // 重置搜索结果
+                    $('button[type="reset"]').click(function(){
+                        location.href = '{{:U("Admin/Users/consume")}}';
+
+                    })
+                    
+                /**************** 搜索关键字保留 -- 结束 ******************/
             </script>
         </div>
         <include file="Public/footer" />

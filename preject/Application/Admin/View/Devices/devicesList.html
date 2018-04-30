@@ -90,6 +90,85 @@
                 </ul>
             </div>
         </div>
+        <script>
+            
+            /**************** 搜索关键字保留 -- 开始 ******************/
+                var srearchInfo = {};
+                var device_code, name, is_bind, dname, phone,
+                typename, date_start, date_end, status;
+                /**
+                 * device_code: 设备编号, name：经销商名称, 
+                 * is_bind：是否绑定, dname：绑定的用户, 
+                 * typename：设备类型, status：设备状态, 
+                 * mintime：开始时间, maxtime：结束时间
+                 */
+                // 点击搜索
+                $("button[name='search']").click(function(){
+                    setSearchWord();
+                })
+                function setSearchWord(){
+                    sessionStorage.setItem('search', '');   // 初始化
+
+                    device_code = $('.device_code').val();
+                    name = $('.name').val();
+                    if($('.is_bind>option:selected').val()){
+                        is_bind = Number($('.is_bind>option:selected').val());
+                    }
+                    if($('.status>option:selected').val()){
+                        status = Number($('.status>option:selected').val())+1;
+                    }
+                    
+                    dname = $('.dname').val();
+                    phone =$('.phone').val();
+                    typename = $('.typename').val();
+                    date_start = $('#date-start').val();
+                    date_end = $('#date-end').val();
+
+                    srearchInfo['device_code'] = device_code;
+                    srearchInfo['name'] = name;
+                    srearchInfo['is_bind'] = is_bind;
+                    srearchInfo['dname'] = dname;
+                    srearchInfo['phone'] = phone;
+                    srearchInfo['typename'] = typename;
+                    srearchInfo['mintime'] = date_start;
+                    srearchInfo['maxtime'] = date_end;
+                    srearchInfo['status'] = status;
+                    sessionStorage.setItem('search', JSON.stringify(srearchInfo));
+                }
+                // 搜索关键字保留
+                if(sessionStorage.getItem('search')){
+                    var srearchInfo = JSON.parse(sessionStorage.getItem('search'));
+                    if($('.form-search').length){
+                        // console.log(srearchInfo)
+                        $('.device_code').val(srearchInfo['device_code']);
+                        if(srearchInfo['is_bind']){
+                            $('.is_bind>option').eq(srearchInfo['is_bind'])[0].selected = true;
+                        }
+                        if(srearchInfo['status']){
+                            $('.status>option').eq(srearchInfo['status'])[0].selected = true;
+                        }
+                        
+                        $('.name').val(srearchInfo['name']);
+
+                        $('.phone').val(srearchInfo['phone']);
+                        $('.dname').val(srearchInfo['dname']);
+                        $('.typename').val(srearchInfo['typename']);
+                        $('#date-start').val(srearchInfo['mintime']);
+                        $('#date-end').val(srearchInfo['maxtime']);
+
+                        setTimeout(function(){
+                            sessionStorage.setItem('search', '');   // 初始化
+                        },500)
+                    }
+                }
+                // 重置搜索结果
+                $('button[type="reset"]').click(function(){
+                    location.href = '{{:U("Admin/Devices/devicesList")}}';
+
+                })
+                
+            /**************** 搜索关键字保留 -- 结束 ******************/
+        </script>
         <include file="Public/footer" />
     </div>
 </div>

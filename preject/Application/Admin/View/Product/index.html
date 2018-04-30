@@ -71,6 +71,50 @@
             <script>
                 $('.pagination ul a').unwrap('div').wrap('<li></li>');
                 $('.pagination ul span').wrap('<li class="active"></li>')
+
+                /**************** 搜索关键字保留 -- 开始 ******************/
+                    var srearchInfo = {};
+                    var  typename, date_start, date_end;
+                    /**
+                     * typename: 类型
+                     */
+                    // 点击搜索
+                    $("button[name='search']").click(function(){
+                        setSearchWord();
+                    })
+                    function setSearchWord(){
+                        sessionStorage.setItem('search', '');   // 初始化
+
+                        typename = $('input[name="typename"]').val();
+                        date_start = $('#date-start').val();
+                        date_end = $('#date-end').val();
+                        
+                        srearchInfo['typename'] = typename;
+                        srearchInfo['mintime'] = date_start;
+                        srearchInfo['maxtime'] = date_end;
+
+                        sessionStorage.setItem('search', JSON.stringify(srearchInfo));
+                    }
+                    // 搜索关键字保留
+                    if(sessionStorage.getItem('search')){
+                        var srearchInfo = JSON.parse(sessionStorage.getItem('search'));
+                        if($('.form-search').length){
+                            // console.log(srearchInfo)
+                            $('input[name="typename"]').val(srearchInfo['typename']);
+                            $('#date-start').val(srearchInfo['mintime']);
+                            $('#date-end').val(srearchInfo['maxtime']);
+
+                            setTimeout(function(){
+                                sessionStorage.setItem('search', '');   // 初始化
+                            },500)
+                        }
+                    }
+                    // 重置搜索结果
+                    $('button[type="reset"]').click(function(){
+                        location.href = '{{:U("Admin/Product/index")}}';
+
+                    })
+                /**************** 搜索关键字保留 -- 结束 ******************/
             </script>
         </div>
         <!-- footer part -->

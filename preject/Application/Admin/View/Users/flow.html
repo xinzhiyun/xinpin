@@ -18,7 +18,7 @@
                     <input type="text" class="input-medium maxcurrentflow" name="maxcurrentflow" placeholder="" style="width: 60px;" / >
                 </span>           
                 <span class="select-box">充值方式
-                    <select class="select result" size="1" name="mode" style="width: 100px;">
+                    <select class="select mode" size="1" name="mode" style="width: 100px;">
                         <option value="" selected>- 充值方式 -</option>
                         <option value="0">系统赠送</option>
                         <option value="1">微信</option>
@@ -88,6 +88,74 @@
             <script>
                 $('.pagination ul a').unwrap('div').wrap('<li></li>');
                 $('.pagination ul span').wrap('<li class="active"></li>')
+
+                /**************** 搜索关键字保留 -- 开始 ******************/
+                    var srearchInfo = {};
+                    var name, minmoney, maxmoney, mincurrentflow, 
+                    maxcurrentflow, mode, date_start, date_end;
+                    /**
+                     * phone：电话, minmoney：最小金额, maxmoney：最大金额, 
+                     * minflow：最小流量, maxflow：最大流量, 
+                     * mincurrentflow：账户余量最小, maxcurrentflow：账户余量最大, 
+                     * date_start： 开始时间, date_end：结束时间
+                     */
+                    // 点击搜索
+                    $("button[name='search']").click(function(){
+                        setSearchWord();
+                    })
+                    function setSearchWord(){
+                        sessionStorage.setItem('search', '');   // 初始化
+
+                        name = $('.name').val();
+                        minmoney = $('.minmoney').val();
+                        maxmoney = $('.maxmoney').val();
+
+                        mincurrentflow = $('.mincurrentflow').val();
+                        maxcurrentflow = $('.maxcurrentflow').val();
+                        if(+$('.mode>option:selected').val() >= 0){
+                            mode = +$('.mode>option:selected').val()+1;
+                        }
+                        date_start = $('#date-start').val();
+                        date_end = $('#date-end').val();
+                        
+                        srearchInfo['name'] = name;
+                        srearchInfo['minmoney'] = minmoney;
+                        srearchInfo['maxmoney'] = maxmoney;
+                        srearchInfo['mincurrentflow'] = mincurrentflow;
+                        srearchInfo['maxcurrentflow'] = maxcurrentflow;
+                        srearchInfo['mode'] = mode;
+                        srearchInfo['mintime'] = date_start;
+                        srearchInfo['maxtime'] = date_end;
+
+                        sessionStorage.setItem('search', JSON.stringify(srearchInfo));
+                    }
+                    // 搜索关键字保留
+                    if(sessionStorage.getItem('search')){
+                        var srearchInfo = JSON.parse(sessionStorage.getItem('search'));
+                        if($('.form-search').length){
+                            // console.log(srearchInfo)
+                            $('.name').val(srearchInfo['name']);
+                            $('.minmoney').val(srearchInfo['minmoney']);
+                            $('.maxmoney').val(srearchInfo['maxmoney']);
+                            $('.mincurrentflow').val(srearchInfo['mincurrentflow']);
+                            $('.maxcurrentflow').val(srearchInfo['maxcurrentflow']);
+                            $('.mode>option').eq(srearchInfo['mode'])[0].selected = true;
+                            $('#date-start').val(srearchInfo['mintime']);
+                            $('#date-end').val(srearchInfo['maxtime']);
+
+                            setTimeout(function(){
+                                sessionStorage.setItem('search', '');   // 初始化
+                            },500)
+                        }
+                    }
+                    // 重置搜索结果
+                    $('button[type="reset"]').click(function(){
+                        location.href = '{{:U("Admin/Users/flow")}}';
+
+                    })
+                    
+                /**************** 搜索关键字保留 -- 结束 ******************/
+
             </script>
         </div>
         <!-- footer part -->
