@@ -26,13 +26,13 @@ class UsersController extends CommonController
         trim(I('post.phone')) ? $map['phone'] = array('like','%'.trim(I('post.phone')).'%'): '';
         if(strlen(I('post.status'))) $map['status'] = I('post.status');
         // 删除数组中为空的值
-        // $map = array_filter($map);
+        $map = array_filter($map);
 
-        // $minupdatetime = strtotime(trim(I('post.mincreated_at')));
-        // $maxupdatetime = strtotime(trim(I('post.maxcreated_at')));
-        // if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
-        //     $map['u.created_at'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
-        // }
+        $minupdatetime = strtotime(trim(I('post.mincreated_at')));
+        $maxupdatetime = strtotime(trim(I('post.maxcreated_at')));
+        if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
+            $map['addtime'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
+        }
 
         $user = D('users');
         $total = $user->where($map)->count();
@@ -136,14 +136,14 @@ class UsersController extends CommonController
             $map['xp_flow.currentbalance'][] = array('egt',$mincurrentflow);
         }
         // 充值时间
-        // $minaddtime = strtotime(trim(I('get.minaddtime')))?:false;
-        // $maxaddtime = strtotime(trim(I('get.maxaddtime')))?:false;
-        // if (is_numeric($maxaddtime)) {
-        //     $map['f.addtime'][] = array('elt',$maxaddtime);
-        // }
-        // if (is_numeric($minaddtime)) {
-        //     $map['f.addtime'][] = array('egt',$minaddtime);
-        // }
+        $minaddtime = strtotime(trim(I('get.minaddtime')))?:false;
+        $maxaddtime = strtotime(trim(I('get.maxaddtime')))?:false;
+        if (is_numeric($maxaddtime)) {
+            $map['xp_flow.time'][] = array('elt',$maxaddtime);
+        }
+        if (is_numeric($minaddtime)) {
+            $map['xp_flow.time'][] = array('egt',$minaddtime);
+        }
 
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
@@ -187,10 +187,10 @@ class UsersController extends CommonController
         $minbalance = trim(I('get.minbalance'))?:false;
         $maxbalance = trim(I('get.maxbalance'))?:false;
         if (is_numeric($maxbalance)) {
-            $map['u.balance'][] = array('elt',$maxbalance*100);
+            $map['u.balance'][] = array('elt',$maxbalance);
         }
         if (is_numeric($maxbalance)) {
-            $map['u.balance'][] = array('egt',$minbalance*100);
+            $map['u.balance'][] = array('egt',$minbalance);
         }
         // 当前余量搜索
         $minflow = trim(I('get.minflow'))?:false;
@@ -201,15 +201,15 @@ class UsersController extends CommonController
         if ($minflow) {
             $map['c.flow'][] = array('egt',$minflow);
         }
-        // 充值时间
-        // $minaddtime = strtotime(trim(I('get.minaddtime')))?:false;
-        // $maxaddtime = strtotime(trim(I('get.maxaddtime')))?:false;
-        // if (is_numeric($maxaddtime)) {
-        //     $map['f.addtime'][] = array('elt',$maxaddtime);
-        // }
-        // if (is_numeric($minaddtime)) {
-        //     $map['f.addtime'][] = array('egt',$minaddtime);
-        // }
+        // 消费时间
+        $minaddtime = strtotime(trim(I('get.minaddtime')))?:false;
+        $maxaddtime = strtotime(trim(I('get.maxaddtime')))?:false;
+        if (is_numeric($maxaddtime)) {
+            $map['c.time'][] = array('elt',$maxaddtime);
+        }
+        if (is_numeric($minaddtime)) {
+            $map['c.time'][] = array('egt',$minaddtime);
+        }
 
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
@@ -218,10 +218,8 @@ class UsersController extends CommonController
             }
             return false;
         });
-
         $consume = M('consume');
-        $total = $consume->where($map)
-           
+        $total = $consume->where($map)          
             ->alias('c')
             ->join('__CARD__ card ON c.icid = card.id', 'LEFT')
             ->join('__DEVICES__ d ON c.did = d.id', 'LEFT')
