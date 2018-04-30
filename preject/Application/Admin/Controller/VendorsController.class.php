@@ -223,8 +223,27 @@ class VendorsController extends CommonController
     public function bindinglist()
     {
        // 根据用户昵称进行搜索
-        $map = '';
-        if(!empty($_GET['name'])) $map['name'] = array('like',"%{$_GET['name']}%");
+        // 搜索功能
+        if(trim(I('post.device_code'))){
+            $map['xp_devices.device_code'] = array('like','%'.trim(I('post.device_code')).'%');
+        }
+
+        if(trim(I('post.name'))){
+            $map['xp_vendors.name'] = array('like','%'.trim(I('post.name')).'%');
+        }
+
+        if(trim(I('post.phone'))){
+            $map['xp_vendors.phone'] = array('like','%'.trim(I('post.phone')).'%');
+        }
+        $minaddtime = strtotime(trim(I('post.minaddtime')))?:0;
+        $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:-1;
+        if (is_numeric($maxaddtime)) {
+            $map['xp_binding.addtime'] = array(array('egt',$minaddtime),array('elt',$maxaddtime + 24*60*60));
+        }
+        if ($maxaddtime < 0) {
+            $map['xp_binding.addtime'] = array(array('egt',$minaddtime));
+        }
+
 
         $binding = M('binding');
         

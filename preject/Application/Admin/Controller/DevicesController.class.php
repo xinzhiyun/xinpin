@@ -52,7 +52,7 @@ class DevicesController extends CommonController
             $updatetime_arr[]=array('egt',$minupdatetime);
         }
         if(!empty($updatetime_arr)){
-            $map['statu.updatetime']=$updatetime_arr;
+            $map['xp_devices_statu.updatetime']=$updatetime_arr;
         }
 
         // 删除数组中为空的值

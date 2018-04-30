@@ -171,10 +171,55 @@ class ProductController extends CommonController
      */
     public function filterlist()
     {
-       // 根据用户昵称进行搜索
-        $map = '';
-        if(!empty($_GET['filtername'])) $map['filtername'] = array('like',"%{$_GET['filtername']}%");
+        // 搜索功能
+        $map = array(
+            'filtername' =>  array('like','%'.trim(I('post.filtername')).'%'),
+            'alias' => array('like','%'.trim(I('post.alias')).'%'),
+            'url' => array('like','%'.trim(I('post.url')).'%'),
+        );
 
+        $minprice = trim(I('post.minprice'))?:0;
+        $maxprice = trim(I('post.maxprice'))?:-1;
+        if (is_numeric($maxprice)) {
+            $map['price'] = array(array('egt',$minprice*100),array('elt',$maxprice*100));
+        }
+        if ($maxprice < 0) {
+            $map['price'] = array(array('egt',$minprice*100));      
+        }
+
+        $mintimelife= trim(I('post.mintimelife'))?:0;
+        $maxtimelife = trim(I('post.maxtimelife'))?:-1;
+        if (is_numeric($maxtimelife)) {
+            $map['timelife'] = array(array('egt',$mintimelife),array('elt',$maxtimelife));
+        }
+        if ($maxtimelife  < 0) {
+            $map['timelife'] = array(array('egt',$mintimelife));       
+        } 
+
+        $minflowlife = trim(I('post.minflowlife'))?:0;
+        $maxflowlife = trim(I('post.maxflowlife'))?:-1;
+        if (is_numeric($maxflowlife)) {
+            $map['flowlife'] = array(array('egt',$minflowlife),array('elt',$maxflowlife));
+        }
+        if ($maxflowlife < 0) {
+            $map['flowlife'] = array(array('egt',$minflowlife));      
+        } 
+
+        $minaddtime = strtotime(trim(I('post.minaddtime')))?:0;
+        $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:-1;
+        if (is_numeric($maxaddtime)) {
+            $map['addtime'] = array(array('egt',$minaddtime),array('elt',$maxaddtime));
+        }
+        if ($maxaddtime < 0) {
+            $map['addtime'] = array(array('egt',$minaddtime));
+        }
+        // 删除数组中为空的值
+        $map = array_filter($map, function ($v) {
+            if ($v != "") {
+                return true;
+            }
+            return false;
+        });
         $filter = M('filters');
         
         $total =$filter->where($map)->count();
