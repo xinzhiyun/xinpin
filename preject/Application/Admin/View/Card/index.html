@@ -67,7 +67,7 @@
                         <td>{{$vo.studentcode}}</td>
                         <td>{{$vo.school}}</td>
                         <td>{{$vo.status}}</td>
-                        <td>{{$vo.deposit}}/100</td>
+                        <td>{{$vo.deposit/100}}</td>
                         <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
                         <td>
                             <if condition="$Think.session.adminuser.leavel eq 0">
