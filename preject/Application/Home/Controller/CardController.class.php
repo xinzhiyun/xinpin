@@ -40,13 +40,14 @@ class CardController extends CommonController
                         $data['school'] = $res['school'];
                         $data['uid'] = $_SESSION['homeuser']['id'];
                         $data['status'] = 1;
+                        $data['deposit'] = $res['deposit'];
                         $info = $user->where('iccard="'.$_POST['iccard'].'"')->save($data);
                         
                         if($info){
                            //跳转到用户中心
-                            $this->success('添加成功',U('Index/index')); 
+                            $this->ajaxReturn(array('msg'=>'添加IC成功','code'=>'200')); 
                         }else{
-                            $this->error('添加失败');
+                            $this->ajaxReturn(array('msg'=>'添加IC失败','code'=>'201')); 
                         }
                     }else{
                         //返回自动验证提示信息
@@ -54,17 +55,58 @@ class CardController extends CommonController
                     }
 
                 }elseif($status==1){
-                    $this->error('该卡已被绑定');
+                    $this->ajaxReturn(array('msg'=>'该卡已被绑定','code'=>'201')); 
+
                 }else{
-                    $this->error('该卡已被挂失');
+                    $this->ajaxReturn(array('msg'=>'该卡已被挂失','code'=>'201')); 
+
                 }
 
             }else{
-                $this->error('IC卡号不存在');
+                $this->ajaxReturn(array('msg'=>'IC卡号不存在','code'=>'201')); 
+
             }
 
         }else{
            
+        }
+        
+    }
+
+    /**
+     * [check 检查ic卡状态]
+     * @return [type] [description]
+     */
+    public function check()
+    {
+        //判断是否更新IC卡
+        if(IS_POST){    
+            $user = D('Card');
+            
+            $info = $user->getIccard();
+
+            if($info){
+                //获取IC卡状态
+                $status = $info['status'];
+                if($status==0){
+                    
+                    $this->ajaxReturn(array('msg'=>'卡可使用','code'=>'200'));     
+
+                }elseif($status==1){
+
+                    $this->ajaxReturn(array('msg'=>'该卡已被绑定','code'=>'201')); 
+
+                }else{
+                    
+                    $this->ajaxReturn(array('msg'=>'该卡已被挂失','code'=>'201')); 
+
+                }
+
+            }else{
+                $this->ajaxReturn(array('msg'=>'IC卡号不存在','code'=>'201')); 
+
+            }
+
         }
         
     }

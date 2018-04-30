@@ -16,7 +16,7 @@
 </head>
 <body>
 	<section class="addICtitle">请填写持卡人资料</section>
-	<form class="container addIC" action="{{:U('Card/add')}}" method="post" name="formUser" onsubmit="return toVaild()">
+	<form class="container addIC" action="{{:U('Card/add')}}" method="post" name="formUser" onsubmit="toVaild();return false">
 		<section class="row">
 			<section class="col-md-12">
 				<input class="form-control cardholder" type="text" value="" name="name" placeholder="持卡人姓名">
@@ -34,7 +34,7 @@
 		</section>
 		<section class="row">
 			<section class="col-md-12">
-				<input class="form-control deposit" type="hidden" value="{{}}" name="deposit" >
+				<input class="form-control deposit" type="hidden" value="10000" name="deposit" >
 			</section>
 		</section>
 		<section class="row iccardbox">
@@ -45,7 +45,7 @@
 		      </span>
 		    </section>
 		</section><!-- /.row -->
-		<input class="form-control addIDBtn" type="submit" value="缴纳押金" class="button conserve"></td>
+		<input class="form-control addIDBtn" type="submit" value="缴纳押金" class="button conserve">
 	</form>
 	<script>
 	  // 通过config接口注入权限验证配置
@@ -86,12 +86,18 @@
 	      console.dir('接口失败：10001');
 	  });
 		//表单验证
+		var cardholder;
+		var schoolName;
+		var studentId;
+		var Ickahao;
+		var deposit
 		
 		function toVaild(){
-			var cardholder=$(".cardholder").val().trim();
-			var schoolName=$(".schoolName").val().trim();
-			var studentId=$(".studentId").val().trim();
-			var Ickahao=$("#Ickahao").val().trim();
+			cardholder=$(".cardholder").val().trim();
+			schoolName=$(".schoolName").val().trim();
+			studentId=$(".studentId").val().trim();
+			Ickahao=$("#Ickahao").val().trim();
+			deposit=$(".deposit").val().trim();
 
 			if(cardholder==""){
 				layuiHint("持卡人姓名不能为空");
@@ -115,10 +121,28 @@
 				layuiHint("IC卡账号不能为空");
 				return false;
 			}else{
-				alert(1);
-				return weixinPay(100);
+				
+				//先验证卡是否存在
+				Ickahao = Ickahao;
+				//缴纳押金后将卡信息绑定到用户上
+				$.ajax({ 
+					url: "{{:U('Card/check')}}", 
+					data:{iccard:Ickahao},
+					dataType: 'json', 
+					type:'post',
+					success: function(res){
+						layui.use('layer', function(){
+        			    var layer = layui.layer;
+        			    if(res.code == '200') {
+        			    	// alert(1);
+							weixinPay(deposit);
+        			    } else {
+        			    	layer.msg(res.msg);
+        			    }
+        			}); 		
+					  
+	      		}});
 			}
-			return false;
 		}
 		// 持卡人姓名只能是汉字或英文
 	    var regUsername = /^[a-zA-Z\u4e00-\u9fa5]{2,10}$/,
@@ -161,14 +185,14 @@
 
 	    // 微信支付方法
 		function weixinPay(money){
-			
+
 			$.ajax({ 
 				url: "{{:U('Card/uniformOrder')}}", 
 				data:{openId:'{{$openId}}',money:money},
 				dataType: 'json', 
 				type:'post',
 				success: function(res){
-					// alert(1);
+					
 					if(Object.prototype.toString.call(res) == "[object Object]"){
 				        res = JSON.stringify(res)
 				    }
@@ -176,31 +200,55 @@
         			WeixinJSBridge.invoke(
 					'getBrandWCPayRequest',
 					JSON.parse(res),
+					
 					function(res){
+						
 
 						// WeixinJSBridge.log(res.err_msg);
     		// 			alert(res.err_code+res.err_desc+res.err_msg);
-    					// alert(123);
 						if (res.err_msg.substr(-2) == 'ok') {
-							// 充值成功跳转到首页
-							return true;
+							// alert(1);
+							var data = {};
+							data.name = cardholder;
+							data.school = schoolName;
+							data.studentcode = studentId;
+							data.iccard = Ickahao;
+							data.deposit = deposit;
+							// alert(data.cardholder);
+							//缴纳押金后将卡信息绑定到用户上
+							$.ajax({ 
+								url: "{{:U('Card/add')}}", 
+								data:data,
+								dataType: 'json', 
+								type:'post',
+								success: function(res){
+									layui.use('layer', function(){
+			        			    var layer = layui.layer;
+			        			    layer.msg(res.msg);
+			        			}); 		
+								  
+				      		}});
+
+
 						} else if (res.err_msg.substr(-6) == 'cancel') {
 							layui.use('layer', function(){
 		        			    var layer = layui.layer;
 		        			    layer.msg('取消成功！');
 		        			}); 
-		        			return false;
 						}else{
 							layui.use('layer', function(){
 		        			    var layer = layui.layer;
 		        			    layer.msg('充值失败！');
 		        			}); 
-		        			return false;
 						}
 					}
 				);
       		}});
 		};
+
+
+
+
 	</script>
 </body>
 </html>
