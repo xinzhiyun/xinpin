@@ -55,7 +55,7 @@
 						<td><a class="btn-link" href="__URL__/usersDetail?id={{$vo.id}}">{{$vo.name}}</a></td>
                         <td>{{$vo.phone}}</td>
                         <td>{{$vo.address}}</td>
-                        <td><?php echo $vo['balance']/100;?></td>
+                        <td>{{$vo['balance']/100}}</td>
                         <empty name="vo.login_time">
                             <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
                         <else />
