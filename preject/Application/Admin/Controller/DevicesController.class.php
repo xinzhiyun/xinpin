@@ -70,7 +70,7 @@ class DevicesController extends CommonController
                   ->join('LEFT JOIN xp_device_type ON xp_devices.type_id = xp_device_type.id')
                   ->join('LEFT JOIN xp_binding ON xp_devices.id = xp_binding.did')
                   ->join('LEFT JOIN xp_vendors ON xp_binding.vid = xp_vendors.id')
-                  ->field('xp_devices.*,xp_device_type.typename,xp_vendors.name,xp_devices_statu.updatetime')
+                  ->field('xp_devices.*,xp_device_type.typename,xp_vendors.name,xp_devices_statu.updatetime,xp_devices_statu.DeviceStause')
                 ->count();
         $Page   = new \Think\Page($count,15);
         $show   = $Page->show();
@@ -81,7 +81,7 @@ class DevicesController extends CommonController
                   ->join('LEFT JOIN xp_device_type ON xp_devices.type_id = xp_device_type.id')
                   ->join('LEFT JOIN xp_binding ON xp_devices.id = xp_binding.did')
                   ->join('LEFT JOIN xp_vendors ON xp_binding.vid = xp_vendors.id')
-                  ->field('xp_devices.*,xp_device_type.typename,xp_vendors.name,xp_devices_statu.updatetime')
+                  ->field('xp_devices.*,xp_device_type.typename,xp_vendors.name,xp_devices_statu.updatetime,xp_devices_statu.DeviceStause')
                   ->limit($Page->firstRow.','.$Page->listRows)
                   ->select();
         // dump($vendor);die;

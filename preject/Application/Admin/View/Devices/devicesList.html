@@ -14,16 +14,17 @@
                 <span class="select-box">设备类型(滤芯):
                     <input type="text" class="input-medium typename" name="typename" placeholder="请输入设备类型" style="width: 100px;"/ >
                 </span>
-                <span class="select-box">设备状态:
+                <span class="select-box">工作状态:
                     <select class="select status" size="1" name="device_status" style="width: 100px;">
-                        <option value="" selected>- 设备状态 -</option>
+                        <option value="" selected>- 工作状态 -</option>
                         <option value="0">正常</option>
                         <option value="1">冲洗</option>
-                        <option value="2">缺水</option>
-                        <option value="3">漏水</option>
-                        <option value="4">检修</option>
-                        <option value="5">欠费</option>
-                        <option value="6">关机</option>
+                        <option value="2">水满</option>
+                        <option value="3">缺水</option>
+                        <option value="4">漏水</option>
+                        <option value="5">检修</option>
+                        <option value="6">欠费</option>
+                        <option value="7">关机</option>
                     </select>
                 </span>
                  <span class="select-box" style="display: inline-block;position:relative">时间:
@@ -43,7 +44,7 @@
                         <td>设备类型(滤芯)</td>
                         <td>安装地址</td>
                         <td>最近更新时间</td>
-                        <td>设备状态</td>
+                        <td>工作状态</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,15 +62,17 @@
                             <else /><td>{{$data.updatetime|date='Y-m-d H:i:s', ###}}</td>
                             </if>
                             <td>
-                                <switch name="data.device_status">
+                                <switch name="data.devicestause">
                                     <case value="0">正常</case>
                                     <case value="1">冲洗</case>
-                                    <case value="2">缺水</case>
-                                    <case value="3">漏水</case>
-                                    <case value="4">检修</case>
-                                    <case value="5">欠费</case>
-                                    <case value="6">关机</case>
+                                    <case value="2">水满</case>
+                                    <case value="3">缺水</case>
+                                    <case value="4">漏水</case>
+                                    <case value="5">检修</case>
+                                    <case value="6">欠费</case>
+                                    <case value="7">关机</case>
                                     <default />
+                                    <case value=""><span style="color:red">异常</span></case>
                                 </switch>
                             </td>
                             <!-- <td><a class="btn-link">开机</a></td> -->
