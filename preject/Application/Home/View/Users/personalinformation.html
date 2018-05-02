@@ -29,7 +29,7 @@
 		<i class="i2"></i>用户电话：<span>{{$user['phone']}}</span>
 	</li>
 	<li>
-		<i class="i3"></i>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<span>{{$user['address']}}</span>
+		<i class="i3"></i class='addr'>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<span></span>
 	</li>
     <li>
         <i class="i4"></i>详细地址：<span class='detail'></span>
@@ -54,12 +54,15 @@
 	//设置当前按钮显示样式
     $(".logo5").css("background-position","-7.6rem 0");
     $(".btn5").css("color","#008C63");
-    var detail = {{$user['address']|json_encode}};
-    // var detail = 'sddsfgdfg,水电费水电费';
-    detail = detail.split(',')[1];
+    // 地址
+    var addr = {{$user['address']|json_encode}};
+    // var addr = 'sddsfgdfg,水电费水电费';
+    addr = addr.split(',')[0];
+    var detail = addr.split(',')[1];
+    $('.addr').text(addr);
     $('.detail').text(detail);
-    //编辑    
     
+    //编辑    
     $('#_btn').click(function fn(){
 
         var span = $('.personalList').find('li span')
