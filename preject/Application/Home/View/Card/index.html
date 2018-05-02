@@ -89,7 +89,7 @@
         </section>
     </section>
     </foreach>
-	<a class="addIDbtn" href="{{:U('Flow/cardAdd')}}"><span>添加IC卡</span></a>
+	<a class="addIDbtn" href="{{:U('Flow/Card/add')}}"><span>添加IC卡</span></a>
 	
 	<!-- 确认取消提示start -->
 	<section class="promptBg">
@@ -119,80 +119,81 @@
 	// 解绑
 	// 后台数据：解绑 成功返回 1 ，解绑 失败返回-1
 	$(".unBind").click(function(){
-		var _this=$(this);
-		$(".hintTxt").text("确定要解绑该IC卡吗？");
-	 	$('.promptBg').show();
-        $('.promptBg').height($(window).height());
-        $('.no_btn').unbind('click').click(function(){
-            $('.promptBg').hide();
-        });
-        $('.yes_btn').unbind('click').click(function(){
-            $.ajax({
-				url:"{{:U('Home/Card/relieveIC')}}",
-				type:"post",
-				dataType:"json",
-				data:{numVal:_this.parent().parent().siblings().children("span").text()},
-				success:function(res){
-					console.dir(res);
-					$('.promptBg').hide();
-					if(res==1){
-						_this.parent().parent().parent().remove();
-						location.reload();
-						layui.use('layer', function(){
-				            var layer = layui.layer;
-				            layer.msg('该卡解绑成功！');
-				        }); 
-					}else{
-						layui.use('layer', function(){
-				            var layer = layui.layer;
-				            layer.msg('该卡解绑失败!');
-				        }); 
-					}
-				}
-			});
-        });
-	});
-
-	//解挂
-	// 后台数据：解挂 成功返回 1 ，解挂 失败返回-1
-	$(".uncoupling").click(function(){
 		layui.use('layer', function(){
             var layer = layui.layer;
             layer.msg('系统正在维护，暂时无法解绑!');
         });
 		// var _this=$(this);
-		// $(".hintTxt").text("确定要解挂该IC卡吗");
+		// $(".hintTxt").text("确定要解绑该IC卡吗？");
 	 // 	$('.promptBg').show();
   //       $('.promptBg').height($(window).height());
   //       $('.no_btn').unbind('click').click(function(){
   //           $('.promptBg').hide();
   //       });
-        
   //       $('.yes_btn').unbind('click').click(function(){
-        	
-		// 	$.ajax({
-		// 		url:"{{:U('Home/Card/hangingSolution')}}",
+  //           $.ajax({
+		// 		url:"{{:U('Home/Card/relieveIC')}}",
 		// 		type:"post",
 		// 		dataType:"json",
 		// 		data:{numVal:_this.parent().parent().siblings().children("span").text()},
 		// 		success:function(res){
+		// 			console.dir(res);
 		// 			$('.promptBg').hide();
 		// 			if(res==1){
-		// 				_this.parent().parent().siblings(".IDshowBg").removeClass("IDshowBgActive");
+		// 				_this.parent().parent().parent().remove();
 		// 				location.reload();
 		// 				layui.use('layer', function(){
 		// 		            var layer = layui.layer;
-		// 		            layer.msg('该卡解挂成功!');
+		// 		            layer.msg('该卡解绑成功！');
 		// 		        }); 
 		// 			}else{
 		// 				layui.use('layer', function(){
 		// 		            var layer = layui.layer;
-		// 		            layer.msg('该卡解挂失败!');
+		// 		            layer.msg('该卡解绑失败!');
 		// 		        }); 
 		// 			}
 		// 		}
 		// 	});
-		// })
+  //       });
+	});
+
+	//解挂
+	// 后台数据：解挂 成功返回 1 ，解挂 失败返回-1
+	$(".uncoupling").click(function(){
+
+		var _this=$(this);
+		$(".hintTxt").text("确定要解挂该IC卡吗");
+	 	$('.promptBg').show();
+        $('.promptBg').height($(window).height());
+        $('.no_btn').unbind('click').click(function(){
+            $('.promptBg').hide();
+        });
+        
+        $('.yes_btn').unbind('click').click(function(){
+        	
+			$.ajax({
+				url:"{{:U('Home/Card/hangingSolution')}}",
+				type:"post",
+				dataType:"json",
+				data:{numVal:_this.parent().parent().siblings().children("span").text()},
+				success:function(res){
+					$('.promptBg').hide();
+					if(res==1){
+						_this.parent().parent().siblings(".IDshowBg").removeClass("IDshowBgActive");
+						location.reload();
+						layui.use('layer', function(){
+				            var layer = layui.layer;
+				            layer.msg('该卡解挂成功!');
+				        }); 
+					}else{
+						layui.use('layer', function(){
+				            var layer = layui.layer;
+				            layer.msg('该卡解挂失败!');
+				        }); 
+					}
+				}
+			});
+		})
 	});
 	//挂失
 	$(".reportLostItems").click(function(){
