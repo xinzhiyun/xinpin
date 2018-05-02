@@ -89,7 +89,7 @@
         </section>
     </section>
     </foreach>
-	<a class="addIDbtn" href="{{:U('Flow/Card/add')}}"><span>添加IC卡</span></a>
+	<a class="addIDbtn" href="{{:U('Flow/CardAdd')}}"><span>添加IC卡</span></a>
 	
 	<!-- 确认取消提示start -->
 	<section class="promptBg">
@@ -101,7 +101,8 @@
 			</section>
 		</section>
 	</section>
-	
+	<link rel="stylesheet" href="__PUBLIC__/Admin/layui/lay/modules/skin/default/layer.css">
+	<script src='__PUBLIC__/Admin/layui/lay/modules/layer.js'></script>
 	<script>
 	for(var i=0;i<$(".IDshow").size();i++){
 		if($(".IDshow").eq(i).children("input").val()==2){
@@ -109,20 +110,20 @@
 		};
 	}
 	//设置按钮
-	$(".set").click(function(ev){
+	$(".set").on('click',function(ev){
 		$(this).siblings(".setItem").show();
-		ev.stopPropagation();
-		$("body").unbind("click").click(function(){
-			$(".setItem").hide();
-		});
 	});
 	// 解绑
 	// 后台数据：解绑 成功返回 1 ，解绑 失败返回-1
 	$(".unBind").click(function(){
-		layui.use('layer', function(){
-            var layer = layui.layer;
+		// layui.use('layer', function(){
+  //           var layer = layui.layer;
             layer.msg('系统正在维护，暂时无法解绑!');
-        });
+        // });
+        setTimeout(function(){
+        	$(".setItem").hide();
+        },500);
+        
 		// var _this=$(this);
 		// $(".hintTxt").text("确定要解绑该IC卡吗？");
 	 // 	$('.promptBg').show();
@@ -185,6 +186,10 @@
 				            var layer = layui.layer;
 				            layer.msg('该卡解挂成功!');
 				        }); 
+
+				        setTimeout(function(){
+				        	$(".setItem").hide();
+				        },500);
 					}else{
 						layui.use('layer', function(){
 				            var layer = layui.layer;
@@ -219,6 +224,10 @@
 						layui.use('layer', function(){
 				            var layer = layui.layer;
 				            layer.msg('该卡挂失成功!');
+
+					        setTimeout(function(){
+					        	$(".setItem").hide();
+					        },500);
 				        }); 
 					}else{
 						layui.use('layer', function(){

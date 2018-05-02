@@ -68,7 +68,7 @@ class CardController extends CommonController
             }
 
         }else{
-           
+           $this->display();
         }
         
     }
