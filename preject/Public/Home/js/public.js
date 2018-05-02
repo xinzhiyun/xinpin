@@ -62,13 +62,9 @@ function removeClass(obj, sClass) {
         }
     }
 }
-    //默认事件
-// bind(document,"touchmove",function(ev){
-//     ev.preventDefault();
-// });
+
     //text触屏滑动
-function fnTab_txt(oTab,oList,aNav,iW,classActive)
-{
+function fnTab_txt(oTab,oList,aNav,iW,classActive){
     var iNow=0;//任意自然数
     var iX=0;
     var oTimer=0;
@@ -152,5 +148,5 @@ function passwordVaild(obj){
 $('body').on('click', '.charge', function(){
     console.log('32423422');
     // location.href = "{{:U('Home/Flow/rechargenodes')}}";
-    layer.msg("暂时不需充值");
+    layuiHint("暂时不需充值");
 })
