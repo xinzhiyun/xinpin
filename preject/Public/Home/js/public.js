@@ -147,9 +147,10 @@ function passwordVaild(obj){
         return 1;
     }
 }
+
 // 点击充值按钮
-$('.charge').on('click',function(){
+$('body').on('click', '.charge', function(){
     console.log('32423422');
     // location.href = "{{:U('Home/Flow/rechargenodes')}}";
-    layuiHint("暂时不需充值");
+    layer.msg("暂时不需充值");
 })
