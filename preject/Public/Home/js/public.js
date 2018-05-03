@@ -150,3 +150,8 @@ $('body').on('click', '.charge', function(){
     // location.href = "{{:U('Home/Flow/rechargenodes')}}";
     layuiHint("暂时不需充值");
 })
+// 扫码取水
+$('body').on('click', '.water', function(){
+    // location.href = "{{:U('Home/Flow/rechargenodes')}}";
+    layuiHint("此模块待开发，请等候！");
+})
