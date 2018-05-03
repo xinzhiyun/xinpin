@@ -32,8 +32,8 @@
                     </div>
                     <div class="control-group">
                         <span>IC卡类型<sub class="_start">*</sub></span>
-                        <input type="radio"  name="type" value="1" {{$dinfo.check}}>免费卡                     
-                        <input type="radio"  name="type" value="2" {{$dinfo.check}}>收费卡                     
+                        <input type="radio"  name="type" value="1" {{$dinfo['type'] == '1'? 'checked',''}}>免费卡                     
+                        <input type="radio"  name="type" value="2" {{$dinfo['type'] == '2'? 'checked',''}}>收费卡                     
                     </div>
                     <div class="btn-groups">
                         <button class="subbtn btns btn-primary oddbtn" type="submit">确认</button>
