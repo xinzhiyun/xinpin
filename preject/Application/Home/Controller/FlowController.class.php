@@ -41,6 +41,10 @@ class FlowController extends CommonController
         $openId = $this->getWeixin();
         // dump($openId);
         // 分配数据
+        //卡押金数据分配
+        $dinfo = M('deposit')->where('type=1 AND id=1')->find();
+
+        $this->assign('dinfo', $dinfo);
         $this->assign('info',$signPackage);
         $this->assign('openId',$openId);
 
