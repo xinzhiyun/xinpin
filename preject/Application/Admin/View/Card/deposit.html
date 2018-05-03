@@ -10,7 +10,7 @@
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th>IC卡编号</th>
+                    <th>编号</th>
                     <th>IC卡类型</th>
                     <th>IC卡押金</th>
                     <th>创建时间</th>
@@ -21,7 +21,7 @@
                     <notempty name="list">
                     <foreach name="list" item="vo" key="key">
                     <tr>
-                        <td>{{$vo.iccard}}</td>
+                        <td>{{$vo.id}}</td>
                         <td>{{$vo.type}}</td>
                         <td>{{$vo.deposit|html_price}}</td>
                         <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>

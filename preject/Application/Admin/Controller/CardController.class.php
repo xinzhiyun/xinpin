@@ -252,7 +252,16 @@ class CardController extends CommonController
     public function setDeposit()
     {   
         if (IS_POST) {
+            $data['deposit'] = $_POST['deposit']*100;
+            $data['type'] = $_POST['type'];
+            $data['addtime'] = time();
 
+            $info = M('deposit')->add($data);
+            if ($info) {
+                $this->success('设置成功');
+            } else {
+                $this->error('设置失败');
+            }
         } else {
             $this->display();
         }
