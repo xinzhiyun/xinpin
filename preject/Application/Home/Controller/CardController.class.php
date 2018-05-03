@@ -111,6 +111,10 @@ class CardController extends CommonController
         
     }
 
+
+
+
+
     /**
      * 统一下单并返回数据
      * @return string json格式的数据，可以直接用于js支付接口的调用
@@ -146,7 +150,7 @@ class CardController extends CommonController
         // $input->SetTime_expire(date("YmdHis", time() + 300));
         // $input->SetGoods_tag("test");
         // 支付成功的回调地址xinpin.dianqiukj.com
-        $input->SetNotify_url("http://xinpin.dianqiukj.com/index.php/Home/Weixinpay/notify.html");
+        $input->SetNotify_url("http://xinpin.dianqiukj.com/index.php/Home/Weixinpay/dnotify.html");
         // $input->SetNotify_url("http://wuzhibin.cn/Home/Weixinpay/notify.html");
         // 支付方式 JS-SDK 类型是：JSAPI
         $input->SetTrade_type("JSAPI");
