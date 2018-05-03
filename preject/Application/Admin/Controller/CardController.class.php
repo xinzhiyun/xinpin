@@ -271,12 +271,23 @@ class CardController extends CommonController
      * [editDeposit IC卡押金编辑]
      * @return [type] [description]
      */
-    public function editDeposit($id) 
+    public function editDeposit() 
     {
         if (IS_POST) {
+            $data['id'] = $_POST['id'];
+            $data['deposit'] = $_POST['deposit']*100;
+            $data['type'] = $_POST['type'];
+            $data['updatetime'] = time();
+
+            $res = M('deposit')->save($data);
+            if ($res) {
+                $this->success('修改成功','deposit');
+            } else {
+                $this->error('修改失败');
+            }
 
         } else {
-            $dinfo = M('deposit')->find($id);
+            $dinfo = M('deposit')->find($_GET['id']);
             $this->assign('dinfo', $dinfo);
             $this->display();
         }
@@ -290,7 +301,7 @@ class CardController extends CommonController
     public function delDeposit($id)
     {
         if (M('deposit')->delete($id)) {
-            $this->success('删除成功','deposit');
+            $this->success('删除成功',U('card/deposit'));
         } else {
             $this->error('删除失败');
         }
