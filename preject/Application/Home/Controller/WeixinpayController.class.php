@@ -43,6 +43,10 @@ class WeixinpayController extends Controller
                     $data['currentbalance'] = $money + $data['money'];
 	    			// 充值类型
 	    			$data['mode'] = 1;
+
+                    //押金类型充值
+                    $data['type'] = 2;
+                    
 	    			// 充值时间
 	    			$data['time'] = time();
 	    			// 写入数据库
@@ -121,7 +125,7 @@ class WeixinpayController extends Controller
     }
 
     /**
-     * 处理订单写入数据
+     * 押金充值回调
      * @return array 返回数组格式的notify数据
      */
     public function dnotify()
@@ -154,6 +158,10 @@ class WeixinpayController extends Controller
 
                     // 充值类型
                     $data['mode'] = 1;
+
+                    //押金类型充值
+                    $data['type'] = 1;
+
                     // 充值时间
                     $data['time'] = time();
                     // 写入数据库
