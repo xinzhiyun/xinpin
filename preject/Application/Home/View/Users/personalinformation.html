@@ -29,7 +29,7 @@
 		<i class="i2"></i>用户电话：<span>{{$user['phone']}}</span>
 	</li>
 	<li> 
-		<i class="i3"></i class='addr'>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<span></span>
+		<i class="i3"></i>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<span class='addr'></span>
 	</li>
     <li>
         <i class="i4"></i>详细地址：<span class='detail'></span>
@@ -52,22 +52,22 @@
 <link rel="stylesheet" href="__PUBLIC__/Admin/layui/css/layui.css" />
 <script>
     // 页面刷新获取localStorage数据赋值页面
-    if(!window.localStorage){
-        alert("浏览器支持localStorage！");
-    }else{
-        var storage = window.localStorage;
-        for(var i = 0;i<storage.length;i++){
-            var each_storage = storage.key(i);
-            if(each_storage == "user"){
-                var newInfo = JSON.parse(storage.getItem(storage.key(i)));
-            }
-        }
-    }
-    var span = $('.personalList').find('li span')
-    span.eq(0).text(newInfo.name);
-    span.eq(1).text(newInfo.phone);
-    span.eq(2).text(newInfo.addr);
-    span.eq(3).text(newInfo.addrdetail);
+    // if(!window.localStorage){
+    //     alert("浏览器支持localStorage！");
+    // }else{
+    //     var storage = window.localStorage;
+    //     for(var i = 0;i<storage.length;i++){
+    //         var each_storage = storage.key(i);
+    //         if(each_storage == "user"){
+    //             var newInfo = JSON.parse(storage.getItem(storage.key(i)));
+    //         }
+    //     }
+    // }
+    // var span = $('.personalList').find('li span')
+    // span.eq(0).text(newInfo.name);
+    // span.eq(1).text(newInfo.phone);
+    // span.eq(2).text(newInfo.addr);
+    // span.eq(3).text(newInfo.addrdetail);
 
 	//设置当前按钮显示样式
     $(".logo5").css("background-position","-7.6rem 0");
@@ -75,9 +75,9 @@
     // 地址
     var addr = {{$user['address']|json_encode}};
     // var addr = 'sddsfgdfg,水电费水电费';
-    addr = addr.split(',')[0];
+    var address = addr.split(',')[0];
     var detail = addr.split(',')[1];
-    $('.addr').text(addr);
+    $('.addr').text(address);
     $('.detail').text(detail);
     
     //编辑    
