@@ -202,13 +202,10 @@ class UsersController extends CommonController
             $map['c.flow'][] = array('egt',$minflow);
         }
         // 消费时间
-        $minaddtime = strtotime(trim(I('get.minaddtime')))?:false;
-        $maxaddtime = strtotime(trim(I('get.maxaddtime')))?:false;
-        if (is_numeric($maxaddtime)) {
-            $map['c.time'][] = array('elt',$maxaddtime);
-        }
-        if (is_numeric($minaddtime)) {
-            $map['c.time'][] = array('egt',$minaddtime);
+        $minupdatetime = strtotime(trim(I('get.minaddtime')));
+        $maxupdatetime = strtotime(trim(I('get.maxaddtime')));
+        if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
+            $map['c.time'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
         }
 
         // 删除数组中为空的值

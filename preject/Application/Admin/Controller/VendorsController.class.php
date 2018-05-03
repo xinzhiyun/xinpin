@@ -27,13 +27,10 @@ class VendorsController extends CommonController
             'idcard' => array('like','%'.trim(I('post.idcard')).'%'),
             'leavel' => trim(I('post.leavel')),
         );
-        $minaddtime = strtotime(trim(I('post.minaddtime')))?:0;
-        $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:-1;
-        if (is_numeric($maxaddtime)) {
-            $map['addtime'] = array(array('egt',$minaddtime),array('elt',$maxaddtime));
-        }
-        if ($maxaddtime < 0) {
-            $map['addtime'] = array(array('egt',$minaddtime));
+        $minupdatetime = strtotime(trim(I('post.minaddtime')));
+        $maxupdatetime = strtotime(trim(I('post.maxaddtime')));
+        if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
+            $map['addtime'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
         }
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
@@ -235,15 +232,12 @@ class VendorsController extends CommonController
         if(trim(I('post.phone'))){
             $map['xp_vendors.phone'] = array('like','%'.trim(I('post.phone')).'%');
         }
-        $minaddtime = strtotime(trim(I('post.minaddtime')))?:0;
-        $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:-1;
-        if (is_numeric($maxaddtime)) {
-            $map['xp_binding.addtime'] = array(array('egt',$minaddtime),array('elt',$maxaddtime + 24*60*60));
-        }
-        if ($maxaddtime < 0) {
-            $map['xp_binding.addtime'] = array(array('egt',$minaddtime));
-        }
 
+        $minupdatetime = strtotime(trim(I('post.minaddtime')));
+        $maxupdatetime = strtotime(trim(I('post.maxaddtime')));
+        if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
+            $map['xp_binding.addtime'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
+        }
 
         $binding = M('binding');
         

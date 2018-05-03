@@ -20,22 +20,37 @@ class WorkController extends CommonController
     {	
        // 根据名称进行搜索
         // 搜索功能
-        $map = array(
-            'type' => trim(I('post.type')),
-            'result' => trim(I('post.result')),
-        );
-        $map['number'] = trim(I('post.number')) ? array('like','%'.trim(I('post.number')).'%'): '';
-        $map['name'] = trim(I('post.name')) ?  array('like','%'.trim(I('post.name')).'%'): '';
-        $map['phone'] = trim(I('post.phone')) ? array('like','%'.trim(I('post.phone')).'%'):'';
-        $map['address'] = trim(I('post.address')) ? array('like','%'.trim(I('post.address')).'%'):'';
-        $map = array_filter($map);
+       
+        if(\strlen(I('post.type'))){
+            $map['type'] = I('post.type');
+        }
+        
+        if(\strlen(I('post.result'))){
+            $map['result'] = I('post.result');
+        }
+        
+        if(trim(I('post.number'))){
+            $map['number'] = array('like','%'.trim(I('post.number')).'%');
+        }
+
+        if(trim(I('post.name'))){
+            $map['name'] = array('like','%'.trim(I('post.name')).'%');
+        }
+        
+        if(trim(I('post.phone'))){
+            $map['phone'] = array('like','%'.trim(I('post.phone')).'%');
+        }
+        
+        if(trim(I('post.address'))){
+            $map['address'] = array('like','%'.trim(I('post.address')).'%');
+        }
+
         $mintime = strtotime(trim(I('post.mintime')));
         $maxtime = strtotime(trim(I('post.maxtime')));
         if (!empty($maxtime) && !empty($maxtime)) {
             $map['time'] = array(array('egt',$mintime),array('elt',$maxtime+24*60*60));
         }
-        // dump($map);
-        // $map = '';
+
         $type = D('work');
         
         $total =$type->where($map)->count();

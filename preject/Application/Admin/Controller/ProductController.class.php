@@ -23,13 +23,11 @@ class ProductController extends CommonController
         $map = array(
             'typename' =>  array('like','%'.trim(I('post.typename')).'%'),
         );
-        $minaddtime = strtotime(trim(I('post.minaddtime')))?:0;
-        $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:-1;
-        if (is_numeric($maxaddtime)) {
-            $map['addtime'] = array(array('egt',$minaddtime),array('elt',$maxaddtime));
-        }
-        if ($maxaddtime < 0) {
-            $map['addtime'] = array(array('egt',$minaddtime));
+
+        $minupdatetime = strtotime(trim(I('post.minaddtime')));
+        $maxupdatetime = strtotime(trim(I('post.maxaddtime')));
+        if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
+            $map['addtime'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
         }
 
         $type = M('device_type');
@@ -203,15 +201,12 @@ class ProductController extends CommonController
         }
         if ($maxflowlife < 0) {
             $map['flowlife'] = array(array('egt',$minflowlife));      
-        } 
-
-        $minaddtime = strtotime(trim(I('post.minaddtime')))?:0;
-        $maxaddtime = strtotime(trim(I('post.maxaddtime')))?:-1;
-        if (is_numeric($maxaddtime)) {
-            $map['addtime'] = array(array('egt',$minaddtime),array('elt',$maxaddtime));
         }
-        if ($maxaddtime < 0) {
-            $map['addtime'] = array(array('egt',$minaddtime));
+
+        $minupdatetime = strtotime(trim(I('post.minaddtime')));
+        $maxupdatetime = strtotime(trim(I('post.maxaddtime')));
+        if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
+            $map['addtime'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
         }
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {

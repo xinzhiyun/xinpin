@@ -39,21 +39,28 @@ class DevicesController extends CommonController
         if(strlen(I('post.device_status'))) $map['xp_devices.device_status'] = I('post.device_status');
 
         
-        //按时间段查询
-        $minupdatetime = strtotime(trim(I('post.minupdatetime')))?:false;
-        $maxupdatetime = strtotime(trim(I('post.maxupdatetime')))?:false;
+        // //按时间段查询
+        // $minupdatetime = strtotime(trim(I('post.minupdatetime')))?:false;
+        // $maxupdatetime = strtotime(trim(I('post.maxupdatetime')))?:false;
 
-        /* 修改 处理时间区间搜索  2018年03月21日 李振东 */
-        $updatetime_arr=[];
-        if($maxupdatetime){
-            $updatetime_arr[]=array('elt',$maxupdatetime);
+        // /* 修改 处理时间区间搜索  2018年03月21日 李振东 */
+        // $updatetime_arr=[];
+        // if($maxupdatetime){
+        //     $updatetime_arr[]=array('elt',$maxupdatetime);
+        // }
+        // if($minupdatetime){
+        //     $updatetime_arr[]=array('egt',$minupdatetime);
+        // }
+        // if(!empty($updatetime_arr)){
+        //     $map['xp_devices_statu.updatetime']=$updatetime_arr;
+        // }
+
+        $minupdatetime = strtotime(trim(I('post.minupdatetime')));
+        $maxupdatetime = strtotime(trim(I('post.maxupdatetime')));
+        if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
+            $map['xp_devices.addtime'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
         }
-        if($minupdatetime){
-            $updatetime_arr[]=array('egt',$minupdatetime);
-        }
-        if(!empty($updatetime_arr)){
-            $map['xp_devices_statu.updatetime']=$updatetime_arr;
-        }
+
 
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
@@ -62,7 +69,6 @@ class DevicesController extends CommonController
             }
             return false;
         });
-
         $devices = M('Devices');
         $count = $devices
                 ->where($map)
@@ -70,7 +76,7 @@ class DevicesController extends CommonController
                   ->join('LEFT JOIN xp_device_type ON xp_devices.type_id = xp_device_type.id')
                   ->join('LEFT JOIN xp_binding ON xp_devices.id = xp_binding.did')
                   ->join('LEFT JOIN xp_vendors ON xp_binding.vid = xp_vendors.id')
-                  ->field('xp_devices.*,xp_device_type.typename,xp_vendors.name,xp_devices_statu.updatetime,xp_devices_statu.DeviceStause')
+                  ->field('xp_devices.*,xp_device_type.typename,xp_vendors.name,xp_devices_statu.updatetime')
                 ->count();
         $Page   = new \Think\Page($count,15);
         $show   = $Page->show();
@@ -81,10 +87,10 @@ class DevicesController extends CommonController
                   ->join('LEFT JOIN xp_device_type ON xp_devices.type_id = xp_device_type.id')
                   ->join('LEFT JOIN xp_binding ON xp_devices.id = xp_binding.did')
                   ->join('LEFT JOIN xp_vendors ON xp_binding.vid = xp_vendors.id')
-                  ->field('xp_devices.*,xp_device_type.typename,xp_vendors.name,xp_devices_statu.updatetime,xp_devices_statu.DeviceStause')
+                  ->field('xp_devices.*,xp_device_type.typename,xp_vendors.name,xp_devices_statu.updatetime')
                   ->limit($Page->firstRow.','.$Page->listRows)
                   ->select();
-        // dump($vendor);die;
+        // dump($vendor);
         $this->assign('deviceInfo', $vendor);
         $this->assign('page',$show);
         $this->display('devicesList');
@@ -309,7 +315,8 @@ class DevicesController extends CommonController
                 $data[$currentRow][$currentColumn] = $currentSheet->getCell($address)->getValue();
             }
         }
-        $this->save_import($data);
+        // dump($data);die;
+        $this->save_import($data);  
     }
 
     // 设备详情界面的操作
