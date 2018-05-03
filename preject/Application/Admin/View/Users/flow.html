@@ -43,6 +43,7 @@
                     <th>充值金额</th>
                     <th>账户余额</th>
                     <th>充值方式</th>
+                    <th>充值类型</th>
                     <th>充值时间</th>
                     <!-- <th>操作</th> -->
                 </tr>
@@ -60,6 +61,13 @@
                                 <case value="0">系统赠送</case>
                                 <case value="1">微信</case>
                                 <case value="2">支付宝</case>
+                                <default />
+                            </switch>
+                        </td>
+                        <td>
+                            <switch name="vo.type">
+                                <case value="1">押金充值</case>
+                                <case value="2">余额充值</case>
                                 <default />
                             </switch>
                         </td>
