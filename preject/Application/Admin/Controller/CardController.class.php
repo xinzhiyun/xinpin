@@ -258,7 +258,7 @@ class CardController extends CommonController
 
             $info = M('deposit')->add($data);
             if ($info) {
-                $this->success('设置成功');
+                $this->success('设置成功','Card/deposit');
             } else {
                 $this->error('设置失败');
             }
@@ -267,6 +267,39 @@ class CardController extends CommonController
         }
     }
 
+    /**
+     * [editDeposit IC卡押金编辑]
+     * @return [type] [description]
+     */
+    public function editDeposit($id) 
+    {
+        if (IS_POST) {
+
+        } else {
+            $dinfo = M('deposit')->find($id);
+            if ($dinfo['type'] == 1 or $dinfo['type'] == 2) {
+                $dinfo['check'] = 'checked';
+            } else {
+                $dinfo['check'] = '';
+            }
+            $this->assign('dinfo', $dinfo);
+            $this->display();
+        }
+    }
+
+    /**
+     * [delDeposit IC卡押金删除]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function delDeposit($id)
+    {
+        if (M('deposit')->delete($id)) {
+            $this->success('删除成功','Card/deposit');
+        } else {
+            $this->error('删除失败');
+        }
+    }
     
 
 }

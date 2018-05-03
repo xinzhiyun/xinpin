@@ -1,0 +1,48 @@
+<!-- header part -->
+<include file="Public/header" />
+<!-- content part -->
+<div class="content">
+    <!-- nav part-->
+    <include file="Public/nav" />
+    <!-- from part-->
+    <div class="row-fluid fl" id="main">
+        <style type="text/css">
+            .textarea{width: 215px; min-height: 110px; border: 1px solid #ccc;}
+            .textarea p{
+                padding: 0 10px;
+                margin: 5px;
+            }
+            
+            .control{
+                width: 150px;
+                height: 50px;
+
+            }
+            .control-group{position: relative;}
+            .control-group .elected{position: absolute; top: 0;left: 0;}
+            .control-group .textarea{margin-left: 190px;}
+        </style>
+        <div class="tableBox">
+            <div class="titleBar">IC卡管理/<span>IC卡押金设置</span></div>
+            <div class="formBox">
+                <form class="form-group" action="__URL__/setDeposit" method="post" >
+                    <div class="control-group">
+                        <span>押金金额<sub class="_start">*</sub></span>
+                        <input type="text"  name="deposit" placeholder="请输押金金额" value="{{$dinfo.deposit|html_price}}">                     
+                    </div>
+                    <div class="control-group">
+                        <span>IC卡类型<sub class="_start">*</sub></span>
+                        <input type="radio"  name="type" value="1" {{$dinfo.check}}>免费卡                     
+                        <input type="radio"  name="type" value="2" {{$dinfo.check}}>收费卡                     
+                    </div>
+                    <div class="btn-groups">
+                        <button class="subbtn btns btn-primary oddbtn" type="submit">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- footer part -->
+        <include file="Public/footer"/>
+    </div>
+</div>
+
