@@ -226,6 +226,14 @@ class CardController extends CommonController
     public function del()
     {
 
+    }   
+    /**
+     * [deposit IC卡押金设置]
+     * @return [type] [description]
+     */
+    public function deposit()
+    {
+
     }
 
     
