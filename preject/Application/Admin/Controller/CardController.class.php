@@ -232,8 +232,30 @@ class CardController extends CommonController
      * @return [type] [description]
      */
     public function deposit()
-    {
+    {  
+        $dlist = M('deposit')->select();
 
+        foreach ($dlist as $key => &$value) {
+            if ($value['type'] == 1) {
+                $value['type'] = '免费卡';
+            } else {
+                $value['type'] = '收费卡';
+            }
+        }
+        $this->assign('list',$dlist);
+        $this->display();
+    }
+
+    /**
+     * [setDeposit 设置IC卡押金]
+     */
+    public function setDeposit()
+    {   
+        if (IS_POST) {
+
+        } else {
+            $this->display();
+        }
     }
 
     
