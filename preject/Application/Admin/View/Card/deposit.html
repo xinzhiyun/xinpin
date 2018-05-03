@@ -1,0 +1,42 @@
+<include file="Public/header" />
+<div class="content">
+    <include file="Public/nav" />
+    <div class="row-fluid fl" id="main">
+        <div class="tableBox">
+            <div class="titleBar">IC卡管理/<span>IC卡押金</span></div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>IC卡编号</th>
+                    <th>IC卡类型</th>
+                    <th>IC卡押金</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <notempty name="list">
+                    <foreach name="list" item="vo" key="key">
+                    <tr>
+                        <td>{{$vo.iccard}}</td>
+                        <td>{{$vo.type}}</td>
+                        <td>{{$vo.deposit|html_price}}</td>
+                        <td>{{$vo.addtime|date='Y-m-d H:i:s',###}}</td>
+                        <td>     
+                            <a href="__URL__/edit/id/{{$vo.id}}">编辑</a>
+                            <a href="__URL__/edit/id/{{$vo.id}}">删除</a>     
+                        </td>
+                    </tr>
+                    </foreach>
+                    <else />
+                    <tr>
+                        <td colspan="12">查无数据</td>
+                    </tr>
+                    </notempty>
+                </tbody>
+            </table>
+        <!-- footer part -->
+        <include file="Public/footer" />
+    </div>
+</div>
+
