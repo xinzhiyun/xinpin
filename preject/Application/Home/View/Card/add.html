@@ -17,7 +17,7 @@
 </head>
 <body>
 	<section class="addICtitle">请填写持卡人资料</section>
-	<form class="container addIC" action="{{:U('Card/add')}}" method="post" name="formUser" onsubmit="toVaild();">
+	<form class="container addIC" action="{{:U('Card/add')}}" method="post" name="formUser" onsubmit="toVaild();return false;">
 		<section class="row">
 			<section class="col-md-12">
 				<input class="form-control cardholder" type="text" value="" name="name" placeholder="持卡人姓名">
@@ -42,7 +42,7 @@
 		    <section class="input-group">
 		      <input id="Ickahao" type="text" class="form-control" name="iccard" placeholder="IC卡账号">
 		      <span class="input-group-btn">
-		        <button class="btn btn-default" type="button" ></button>
+		        <button class="btn btn-default" type="button" onclick='scanQRCode()'></button>
 		      </span>
 		    </section>
 		</section><!-- /.row -->
@@ -227,11 +227,15 @@
 								type:'post',
 								success: function(res){
 									layui.use('layer', function(){
-			        			    var layer = layui.layer;
-			        			    layer.msg(res.msg);
-			        			}); 		
-								  
-				      		}});
+				        			    var layer = layui.layer;
+				        			    layer.msg(res.msg);
+				        			}); 		
+									  
+					      		},
+					      		error: function(err){
+					      			console.log('err: ',err);
+					      		}
+					      	});
 
 
 						} else if (res.err_msg.substr(-6) == 'cancel') {
