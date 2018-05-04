@@ -287,7 +287,7 @@ class XZCloudStandard
         {
 
             $decodeData['PackType'] = 'Requestwater';
-            $decodeData['iccard'] = substr($recv_buffer, 0, 20);
+            $decodeData['iccard'] = substr($recv_buffer, 0, 16);
 
         }
         else if($decodeData['DataCmd'] == 6)
@@ -295,7 +295,7 @@ class XZCloudStandard
             $decodeData['PackType'] = 'Stopwater';
             $water = unpack('n*', $recv_buffer); 
             $decodeData['water'] = $water['1'];
-            $decodeData['iccard'] = substr($recv_buffer, 2, 20);
+            $decodeData['iccard'] = substr($recv_buffer, 2, 16);
         }
         else
         {
@@ -398,9 +398,9 @@ class XZCloudStandard
                 }
             }
 
-            else if($data['PackType']=='Outwater')
+            else if($data['PackType']=='Stopwater')
             {
-                $data['DataCmd']=4;
+                $data['DataCmd']=$data['DataCmd']|0x8000;
                 $DataPack.=pack('cnc',$data['EnOut'],$data['OutWaterFlow'],$data['MaxTime']);
             }
             else if($data['PackType']=='Requestwater')

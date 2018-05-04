@@ -82,8 +82,14 @@ class ActionController extends Controller
     {
         // 查询IC卡的类型
         $icCard = M('card')->where('iccard='.$message['iccard'])->find();
+        // $a = M()->getLastSql();
+        // Log::write(json_encode($a),'测试SQL');
+
          // 查询IC卡是否被绑定
         $binding = M('users')->where('id='.$icCard['uid'])->find();
+        // $b = M()->getLastSql();
+
+        // Log::write(json_encode($b),'查询IC卡是否被绑定');
         
         if( !empty($binding) ){
             $message['EnOut'] = 1; //1：出水  0:不出
