@@ -17,7 +17,7 @@
                 <span class="select-box">工作状态:
                     <select class="select status" size="1" name="device_status" style="width: 100px;">
                         <option value="" selected>- 工作状态 -</option>
-                        <option value="0">正常</option>
+                        <option value="0">制水</option>
                         <option value="1">冲洗</option>
                         <option value="2">水满</option>
                         <option value="3">缺水</option>
@@ -62,8 +62,8 @@
                             <else /><td>{{$data.updatetime|date='Y-m-d H:i:s', ###}}</td>
                             </if>
                             <td>
-                                <switch name="data.device_status">
-                                    <case value="0">正常</case>
+                                <switch name="data.devicestause">
+                                    <case value="0">制水</case>
                                     <case value="1">冲洗</case>
                                     <case value="2">水满</case>
                                     <case value="3">缺水</case>
