@@ -24,16 +24,19 @@ class UsersController extends CommonController
         }
         trim(I('post.nickname')) ? $map['name'] = array('like','%'.trim(I('post.nickname')).'%'): '';
         trim(I('post.phone')) ? $map['phone'] = array('like','%'.trim(I('post.phone')).'%'): '';
-        if(strlen(I('post.status'))) $map['status'] = I('post.status');
+        
         // 删除数组中为空的值
         $map = array_filter($map);
-
+        if(strlen(I('post.status'))) $map['status'] = I('post.status');
         $minupdatetime = strtotime(trim(I('post.mincreated_at')));
         $maxupdatetime = strtotime(trim(I('post.maxcreated_at')));
         if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
             $map['addtime'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
         }
-
+        if(isset($_GET['search'])){
+            $_GET['p'] = 1;
+            unset($_GET['search']);
+        }
         $user = D('users');
         $total = $user->where($map)->count();
         $page  = new \Think\Page($total,8);
@@ -144,7 +147,10 @@ class UsersController extends CommonController
         if (is_numeric($minaddtime)) {
             $map['xp_flow.time'][] = array('egt',$minaddtime);
         }
-
+        if(isset($_GET['search'])){
+            $_GET['p'] = 1;
+            unset($_GET['search']);
+        }
         // 删除数组中为空的值
         $map = array_filter($map, function ($v) {
             if ($v != "") {
@@ -215,6 +221,10 @@ class UsersController extends CommonController
             }
             return false;
         });
+        if(isset($_GET['search'])){
+            $_GET['p'] = 1;
+            unset($_GET['search']);
+        }
         $consume = M('consume');
         $total = $consume->where($map)          
             ->alias('c')

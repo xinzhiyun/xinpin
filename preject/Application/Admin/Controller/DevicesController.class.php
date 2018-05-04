@@ -40,25 +40,15 @@ class DevicesController extends CommonController
 
         
         // //按时间段查询
-        // $minupdatetime = strtotime(trim(I('post.minupdatetime')))?:false;
-        // $maxupdatetime = strtotime(trim(I('post.maxupdatetime')))?:false;
-
-        // /* 修改 处理时间区间搜索  2018年03月21日 李振东 */
-        // $updatetime_arr=[];
-        // if($maxupdatetime){
-        //     $updatetime_arr[]=array('elt',$maxupdatetime);
-        // }
-        // if($minupdatetime){
-        //     $updatetime_arr[]=array('egt',$minupdatetime);
-        // }
-        // if(!empty($updatetime_arr)){
-        //     $map['xp_devices_statu.updatetime']=$updatetime_arr;
-        // }
-
         $minupdatetime = strtotime(trim(I('post.minupdatetime')));
         $maxupdatetime = strtotime(trim(I('post.maxupdatetime')));
         if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
             $map['xp_devices.addtime'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
+        }
+        
+        if(isset($_GET['search'])){
+            $_GET['p'] = 1;
+            unset($_GET['search']);
         }
 
 

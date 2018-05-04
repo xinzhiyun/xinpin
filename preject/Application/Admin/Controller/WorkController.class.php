@@ -50,7 +50,10 @@ class WorkController extends CommonController
         if (!empty($maxtime) && !empty($maxtime)) {
             $map['time'] = array(array('egt',$mintime),array('elt',$maxtime+24*60*60));
         }
-
+        if(isset($_GET['search'])){
+            $_GET['p'] = 1;
+            unset($_GET['search']);
+        }
         $type = D('work');
         
         $total =$type->where($map)->count();

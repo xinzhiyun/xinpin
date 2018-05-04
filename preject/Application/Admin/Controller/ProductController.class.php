@@ -29,7 +29,10 @@ class ProductController extends CommonController
         if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
             $map['addtime'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
         }
-
+        if(isset($_GET['search'])){
+            $_GET['p'] = 1;
+            unset($_GET['search']);
+        }
         $type = M('device_type');
         
         $total =$type->where($map)->count();
@@ -215,6 +218,10 @@ class ProductController extends CommonController
             }
             return false;
         });
+        if(isset($_GET['search'])){
+            $_GET['p'] = 1;
+            unset($_GET['search']);
+        }
         $filter = M('filters');
         
         $total =$filter->where($map)->count();

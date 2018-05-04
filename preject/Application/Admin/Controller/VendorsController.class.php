@@ -39,7 +39,10 @@ class VendorsController extends CommonController
             }
             return false;
         });
-
+        if(isset($_GET['search'])){
+            $_GET['p'] = 1;
+            unset($_GET['search']);
+        }
         $user = D('vendors');
         $total = $user->where($map)->count();
         $page  = new \Think\Page($total,8);
@@ -238,7 +241,10 @@ class VendorsController extends CommonController
         if (!empty($maxupdatetime) && !empty($maxupdatetime)) {
             $map['xp_binding.addtime'] = array(array('egt',$minupdatetime),array('elt',$maxupdatetime+24*60*60));
         }
-
+        if(isset($_GET['search'])){
+            $_GET['p'] = 1;
+            unset($_GET['search']);
+        }
         $binding = M('binding');
         
         $total =$binding->where($map)
