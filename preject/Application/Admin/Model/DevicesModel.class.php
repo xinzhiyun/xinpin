@@ -85,7 +85,7 @@ class DevicesModel extends Model
     // 取出设备详情信息
     public function getFilterFlow($data, $devicesInfo)
     {
-        $devicestause = ['制水', '冲洗', '水满', '缺水', '漏水', '检修', '欠费', '关机'];
+        $devicestause = ['制水', '冲洗', '水满', '缺水', '漏水', '检修', '欠费', '关机','开机'];
         $alivestause = ['未激活', '已激活', 2, 3];
         $count = count($data);
         foreach ($devicesInfo as $key => $value) {
