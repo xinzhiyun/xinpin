@@ -51,24 +51,6 @@
 <script type="text/javascript" src="__PUBLIC__/Admin/layui/layui.js"></script>
 <link rel="stylesheet" href="__PUBLIC__/Admin/layui/css/layui.css" />
 <script>
-    // 页面刷新获取localStorage数据赋值页面
-    // if(!window.localStorage){
-    //     alert("浏览器支持localStorage！");
-    // }else{
-    //     var storage = window.localStorage;
-    //     for(var i = 0;i<storage.length;i++){
-    //         var each_storage = storage.key(i);
-    //         if(each_storage == "user"){
-    //             var newInfo = JSON.parse(storage.getItem(storage.key(i)));
-    //         }
-    //     }
-    // }
-    // var span = $('.personalList').find('li span')
-    // span.eq(0).text(newInfo.name);
-    // span.eq(1).text(newInfo.phone);
-    // span.eq(2).text(newInfo.addr);
-    // span.eq(3).text(newInfo.addrdetail);
-
 	//设置当前按钮显示样式
     $(".logo5").css("background-position","-7.6rem 0");
     $(".btn5").css("color","#008C63");
@@ -156,27 +138,12 @@
                         url:$('#_btn').attr('data'),
                         success:function(data){
                             if(Number(data)){
-                                // 页面信息
-                                var info = {"name":name_||name,"phone":phone_||phone,"addr":addr_||addr,"addrdetail":addrdetail_||addrdetail};
-                                // 存入localStorage
-                                if(!window.localStorage){
-                                    alert("浏览器支持localStorage！");
-                                }else{
-                                    var storage = window.localStorage;
-                                    storage.setItem("user",JSON.stringify(info));
-                                    for(var i = 0;i<storage.length;i++){
-                                        // 库中所有的键
-                                        var each_storage = storage.key(i);
-                                        if(each_storage == "user"){
-                                            var newInfo = JSON.parse(storage.getItem(storage.key(i)));
-                                        }
-                                    }
-                                }
+                               
                                 layuiHint('修改成功')
-                                // span.eq(0).text(name_||name)
-                                // span.eq(1).text(phone_||phone)
-                                // span.eq(2).text(addr_||addr)
-                                // span.eq(3).text(addrdetail_||addrdetail)
+                                span.eq(0).text(name_||name)
+                                span.eq(1).text(phone_||phone)
+                                span.eq(2).text(addr_||addr)
+                                span.eq(3).text(addrdetail_||addrdetail)
                                 $('#_btn').text('编辑')
                                 $('#_btn').unbind().click(fn)
                                 setTimeout(function(){
