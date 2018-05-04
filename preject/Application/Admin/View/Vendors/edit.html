@@ -109,4 +109,13 @@
         }
     }
     $("select").css({"width":"70px"});
+    $("select").on("change",function(){
+        var opWidth = ($("option:selected",this).text().length) * 23;
+        if(opWidth < 150){
+            opWidth = opWidth + "px";
+        }else{
+            opWidth = 160 + "px";
+        }
+        $(this).css({"width":opWidth,"padding":"0 0"});
+    });
 </script>
