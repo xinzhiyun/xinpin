@@ -100,10 +100,10 @@
                             <td>用户呢称</td>
                             <td>账户余额</td>
                             <td>IC卡编号</td> 
-                            <td>用水地址</td>
+                            <!-- <td>用水地址</td> -->
                             <td>用水时间</td>
                             <td>盛水量/mL</td>
-                            <td>备注</td>
+                            <!-- <td>备注</td> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -116,10 +116,10 @@
                                     <td>{{$v['name']}}</td>
                                     <td>{{$v['balance']/100}}</td>
                                     <td>{{$v['iccard']}}</td>
-                                    <td>{{$v['address']}}</td>
+                                    <!-- <td>{{$v['address']}}</td> -->
                                     <td>{{:date('Y年m月d日', $v['time'])}}</td>
                                     <td>{{$v['flow']}}</td>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                 </tr>
                             </foreach>
                         </empty>
