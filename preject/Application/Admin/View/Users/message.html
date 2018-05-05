@@ -7,24 +7,35 @@
             <div class="formBox">
                 <foreach name="list" item="vo" key="key">
 
-                <form class="form-horizontal " action="__URL__/message/id/{{$vo.id}}" method="post">
+                <form class="form-horizontal " action="__URL__/message/id/{{$vo.id}}" method="post" id='form'>
                     <div class="control-group">
                         <label class="control-label">请输入短信内容：</label>
                         <div class="controls">
                             <input type="hidden" name="phone" value="{{$vo.phone}}">
                             <input type="hidden" name="name" value="{{$vo.name}}">
-                            <textarea name="content" cols="30" rows="10" placeholder="请输入最多20个字的建议"></textarea>        
+                            <textarea name="content" cols="30" rows="10" class='msgtext' placeholder="请输入最多12个字的建议"></textarea>        
                         </div>
                     </div>
                     
                     <div class="btn-groups">
-                        <button class="subbtn btns btn-primary oddbtn" type="submit">确认</button>
+                        <button class="subbtn btns btn-primary oddbtn" type="button">确认</button>
                     </div>
                 </form>
 
                 </foreach>
             </div>
         </div>
+        <script>
+            // 点击确认
+            $('.oddbtn').click(function(){
+                var text = document.querySelector('.msgtext').value;
+                if(text.length >= 12){
+                    layuiHint('最多不能超过12个字');
+                    return
+                }
+                $('#form').submit();
+            })
+        </script>
         <include file="Public/footer" />
     </div>
 </div>
