@@ -70,6 +70,7 @@
     $("#s_city").children().eq(0).text(strs[1]);
     $("#s_county").children().eq(0).text(strs[2]);
 
+    // \w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}  邮箱正则
     // 表单验证
     function toVaild(){
         var phone=$(".phone").val();//获取手机号码
@@ -86,8 +87,8 @@
         }else if(email==""){
             layuiHint('邮箱不能为空');
             return false;
-        }else if(!(/\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/.test(email))){
-            layuiHint('邮箱格式不正确');
+        }else if(!(/^(([0-9a-zA-Z]+)|([0-9a-zA-Z]+[_.0-9a-zA-Z-]*[0-9a-zA-Z]+))@([a-zA-Z0-9-]+[.])+([a-zA-Z]{2}|net|NET|com|COM|gov|GOV|mil|MIL|org|ORG|edu|EDU|int|INT)$/.test(email))){
+            layuiHint('请输入有效合法的E-mail地址 ！ (规定不允许输入中文)');
             return false;
         }else if($('#s_province').val()==""||$('#s_city').val()==""||$('#s_county').val()==""){
             layuiHint('请把地址填写完整');
@@ -108,7 +109,7 @@
             return true;
         }
     }
-    $("select").css({"width":"70px"});
+    var num = 0;
     $("select").on("change",function(){
         var opWidth = ($("option:selected",this).text().length) * 23;
         if(opWidth < 150){
@@ -117,5 +118,22 @@
             opWidth = 160 + "px";
         }
         $(this).css({"width":opWidth,"padding":"0 0"});
+        num++;
+        switch(num){
+            case 1:
+                localStorage.setItem(1,opWidth);
+                break;
+            case 2:
+                localStorage.setItem(2,opWidth);
+                break;
+            case 3:
+                localStorage.setItem(3,opWidth);
+                num = 0;
+                break;
+        }
     });
+    var sel = $("select");
+    for(var i = 0;i<sel.length;i++){
+        sel.eq(i).css({"width":localStorage.getItem(i+1)});
+    }
 </script>
