@@ -36,7 +36,7 @@ class DevicesController extends CommonController
         }
 
         //设备状态
-        if(strlen(I('post.device_status'))) $map['xp_devices.device_status'] = I('post.device_status');
+        if(strlen(I('post.device_status'))) $map['xp_devices_statu.DeviceStause'] = I('post.device_status');
 
         
         // //按时间段查询

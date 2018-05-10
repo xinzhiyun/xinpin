@@ -37,11 +37,10 @@ class CardController extends CommonController
             $map['addtime'][] = array('egt',$minaddtime);
         }
 
-        if(isset($_GET['search'])){
-            $_GET['p'] = 1;
-            unset($_GET['search']);
-        }
-
+        // if(isset($_GET['search'])){
+        //     $_GET['p'] = 1;
+        //     unset($_GET['search']);
+        // }
         // 删除数组中为空的值
         // $map = \array_filter($map);
         $map = array_filter($map, function ($v) {

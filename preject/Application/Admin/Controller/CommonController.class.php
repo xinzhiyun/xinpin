@@ -17,6 +17,8 @@ class CommonController extends Controller
      */
     public function _initialize()
     {	
+		$_POST = array_merge($_POST,$_GET);
+        $_GET = $_POST;
     	// 登录检测
     	if(empty($_SESSION['adminuser'])) $this->redirect('Login/login');
 
