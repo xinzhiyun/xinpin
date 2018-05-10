@@ -57,8 +57,10 @@
 	<script src="__PUBLIC__/Home/js/LAreaData1.js"></script>
 	<script src="__PUBLIC__/Home/js/LAreaData2.js"></script>
 	<script src="__PUBLIC__/Home/js/LArea.js"></script>
+	<script src="__PUBLIC__/Home/js/vconsole.min.js"></script>
 	<script>
-  
+		// var vconsole = new VConsole();
+
 		// 通过config接口注入权限验证配置
 	  	wx.config({
 		    debug: false,
@@ -124,8 +126,8 @@
 	    	}else if(schoolName==""){
 				layuiHint("学校名不能为空");
 				return false;
-			}else if(!(/^([\u4e00-\u9fa5]){4,16}$/.test(schoolName))){
-				layuiHint("学校名为4-16个中文字符");
+			}else if(!(/^([\u4e00-\u9fa5]){4,}$/.test(schoolName))){
+				layuiHint("学校名至少4个中文字符");
 				return false;
 			}else if(studentId==""){
 				layuiHint("学籍号不能为空");
@@ -175,7 +177,7 @@
 
 
 	    checkInput($(".cardholder"), regUsername, regUsernameOK, "持卡人姓名至少2位汉字或英文");
-	    checkInput($(".schoolName"), regSchoolname, regSchoolnameOK, "学校名为4-16个中文字符");
+	    checkInput($(".schoolName"), regSchoolname, regSchoolnameOK, "学校名至少4个中文字符");
 	    checkInput($(".studentId"), regstudentId, regstudentIdOK, "学籍号为5-11个数字");
 	    // checkInput($("#Ickahao"), regIckahao, regIckahaoOK, "IC卡号只能是XP开头+14位数字格式");
 
@@ -214,14 +216,12 @@
 				    }
 				    console.log(res);
         			WeixinJSBridge.invoke(
-					'getBrandWCPayRequest',
-					JSON.parse(res),
-					
+						'getBrandWCPayRequest',
+						JSON.parse(res),					
 					function(res){
 						
-
 						// WeixinJSBridge.log(res.err_msg);
-    		// 			alert(res.err_code+res.err_desc+res.err_msg);
+    					// alert(res.err_code+res.err_desc+res.err_msg);
 						if (res.err_msg.substr(-2) == 'ok') {
 							// alert(1);
 							var data = {};
@@ -233,17 +233,21 @@
 							// alert(data.cardholder);
 							//缴纳押金后将卡信息绑定到用户上
 							$.ajax({ 
-								url: "{{:U('Card/add')}}", 
-								data:data,
+								url: "{{:U('Home/Card/add')}}", 
+								data: data,
 								dataType: 'json', 
-								type:'post',
+								type: 'post',
 								success: function(res){
 									layui.use('layer', function(){
 				        			    var layer = layui.layer;
 				        			    layer.msg(res.msg);
-				        			    window.location.href="http://xinpin.dianqiukj.com/index.php/Home/Consume/index.html"
-				        			}); 		
-									  
+				        			});
+				        			if(res.code == 200){
+				        				history.replaceState({}, null, "{{:U('Home/Users/mine')}}");
+					        			setTimeout(function(){
+					        			    location.href = "{{:U('Home/Card/index')}}";
+					        			},500);
+									}
 					      		},
 					      		error: function(err){
 					      			console.log('err: ',err);
