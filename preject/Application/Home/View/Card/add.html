@@ -100,6 +100,7 @@
 
 		//表单验证
 		var cardholder;
+		var schoolAddr;
 		var schoolName;
 		var studentId;
 		var Ickahao;
@@ -107,15 +108,16 @@
 		
 		// 点击提交押金,设置学校信息
 		$('.addIDBtn').click(function(){
-			schoolName = $(".schoolAddr").val().trim() + $(".schoolName").val().trim();
-			$('#school').val(schoolName);
+			var school = $(".schoolAddr").val().trim() + $(".schoolName").val().trim();
+			$('#school').val(school);
 		})
 		function toVaild(){
-			cardholder=$(".cardholder").val().trim();
-			// schoolName=$(".schoolName").val().trim();
-			studentId=$(".studentId").val().trim();
-			Ickahao=$("#Ickahao").val().trim();
-			deposit=$(".deposit").val().trim();
+			cardholder = $(".cardholder").val().trim();
+			schoolAddr = $('.schoolAddr').val().trim();
+			schoolName = $(".schoolName").val().trim();
+			studentId = $(".studentId").val().trim();
+			Ickahao = $("#Ickahao").val().trim();
+			deposit = $(".deposit").val().trim();
 			
 			if(cardholder==""){
 				layuiHint("持卡人姓名不能为空");
@@ -123,7 +125,10 @@
 			}else if(!(/^[a-zA-Z\u4e00-\u9fa5]{2,10}$/.exec(cardholder))){
 	    		layuiHint("持卡人姓名至少2位汉字或英文");
 	    		return false;
-	    	}else if(schoolName==""){
+	    	}else if(!schoolAddr){
+				layuiHint("请选择学校地址");
+				return false;
+			}else if(schoolName==""){
 				layuiHint("学校名不能为空");
 				return false;
 			}else if(!(/^([\u4e00-\u9fa5]){4,}$/.test(schoolName))){
