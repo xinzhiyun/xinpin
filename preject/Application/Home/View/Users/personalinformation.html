@@ -71,7 +71,7 @@
         var addr = span.eq(2).text()
         var addrdetail = span.eq(3).text()
 
-        var addrHtml = '<input class="form-control address" id="demo1" type="text" readonly="" placeholder="'+addr+'" name="address" value=""/>'+
+        var addrHtml = '<input class="form-control address" id="demo1" type="text" readonly="" placeholder="" name="address" value="'+addr+'"/>'+
                     '<input id="value1" type="hidden" value="20,234,504"/><span class="caret"></span>'
         span.eq(0).html('<input type="text" value="'+name+'">')
         span.eq(1).html('<input type="text" value="'+phone+'">')
@@ -99,7 +99,6 @@
                 var phone_ = span.eq(1).find('input').val()
                 var addr_ = $('#demo1').val()
                 var addrdetail_ = span.eq(3).find('input').val()
-                var json = {}
                 function fn2(){
                     span.eq(0).text(name)
                     span.eq(1).text(phone)
@@ -124,42 +123,39 @@
                     layuiHint('请输入详细地址');
                     return
                 }
-                if(name != name_){json.name = name_}
-                if(phone != phone_){json.phone = phone_}
-                if(addr_&&(addr != addr_)){json.address = addr_ + ',' + addrdetail_}
-
-                if($.isEmptyObject(json)){ 
-                    layuiHint('未作修改')
-                    fn2()
-                }else{
-                    $.ajax({
-                        type:'post',
-                        data:json,
-                        url:$('#_btn').attr('data'),
-                        success:function(data){
-                            if(Number(data)){
-                               
-                                layuiHint('修改成功')
-                                span.eq(0).text(name_||name)
-                                span.eq(1).text(phone_||phone)
-                                span.eq(2).text(addr_||addr)
-                                span.eq(3).text(addrdetail_||addrdetail)
-                                $('#_btn').text('编辑')
-                                $('#_btn').unbind().click(fn)
-                                setTimeout(function(){
-                                    location.href = '{{:U("Home/Users/mine")}}';
-                                },500);
-                            }else{
-                                layuiHint('修改失败')
-                                fn2()
-                            }
-                        },
-                        error:function(err){
+                var json = {
+                    name: name_,
+                    phone: phone_,
+                    address: addr_ + ',' + addrdetail_
+                }
+                // 提交数据
+                $.ajax({
+                    type:'post',
+                    data:json,
+                    url:$('#_btn').attr('data'),
+                    success:function(data){
+                        if(Number(data)){
+                           
+                            layuiHint('修改成功')
+                            span.eq(0).text(name_||name)
+                            span.eq(1).text(phone_||phone)
+                            span.eq(2).text(addr_||addr)
+                            span.eq(3).text(addrdetail_||addrdetail)
+                            $('#_btn').text('编辑')
+                            $('#_btn').unbind().click(fn)
+                            setTimeout(function(){
+                                location.href = '{{:U("Home/Users/mine")}}';
+                            },500);
+                        }else{
                             layuiHint('修改失败')
                             fn2()
                         }
-                    })
-                }
+                    },
+                    error:function(err){
+                        layuiHint('修改失败')
+                        fn2()
+                    }
+                })
             }else{
 
                 layuiHint("用户名只能是数字英文汉字下划线!");
