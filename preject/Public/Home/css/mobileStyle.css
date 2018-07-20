@@ -657,20 +657,8 @@ a.addIDbtn{
 /*personalInformation css*/
 .personalList{
 	width: 100vw;
-	height: 80vh;
 	min-height: 400px;
 	margin-bottom:0;
-}
-.personalList > li{
-	position: relative;
-	display: block;
-	border-bottom: 1px #e9e9e9 solid;
-	font-size: .75rem;
-	width: 100vw;
-	padding-left: 15vw;
-	height: 2.2rem;
-	line-height: 2.2rem;
-	color: #383838;
 }
 .personalList > li > i{
 	width: 8vw;
@@ -812,12 +800,4 @@ a.addIDbtn{
 .iccardbox{
 	margin-left: 6%;
 	width: 88%;
-}
-#_btn{
-    background-color: #008C61;
-    color: #fff;
-    height: 12vw;
-    border-radius: 8px;
-    margin-bottom: 5vh;
-    font-size: .74rem;
 }
