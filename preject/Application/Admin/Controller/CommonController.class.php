@@ -28,4 +28,24 @@ class CommonController extends Controller
    	// $this->assign('config', $config); // 后台用户配置
     }
 
+
+    /**
+     * 接口返回
+     * @param $e
+     * @param string $msg
+     * @param int $status
+     */
+    public function toJson($res, $msg='', $status=200)
+    {
+        if(is_array($res)){
+            $res=array_merge($res,['status'=>$status,'msg'=>$msg]);
+        }else{
+            $res = [
+                'status' => $res->getCode(),
+                'msg' =>   $res->getMessage(),
+            ];
+        }
+        $this->ajaxReturn($res,'JSON');
+    }
+
 }

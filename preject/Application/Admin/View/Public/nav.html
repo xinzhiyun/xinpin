@@ -5,6 +5,30 @@
                 <span class="menu-text">首页</span>
             </a>
         </li> -->
+
+        <li class='navPar'>
+            <a href="#" class="dropdown-toggle">
+                <span class="menu-text">系统设置</span>
+            </a>
+            <ul class="submenu">
+                <li>
+                    <a href="{{:U('Area/index')}}" class='navitem'>
+                        <i class="icon-double-angle-right"></i>地址库列表
+                    </a>
+                </li>
+                <li>
+                    <a href="{{:U('Area/student')}}" class='navitem'>
+                        <i class="icon-double-angle-right"></i>学生协议
+                    </a>
+                </li>
+                <li>
+                    <a href="{{:U('Area/teacher')}}" class='navitem'>
+                        <i class="icon-double-angle-right"></i>教职工协议
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <li class='navPar'>
              <a href="#" class="dropdown-toggle">
                 <span class="menu-text">滤芯更换提醒</span>
@@ -166,6 +190,23 @@
                 </li>
             </ul>
         </li>
-
+        
+        <li class='navPar'>
+            <a href="#" class="dropdown-toggle">
+                <span class="menu-text">学校管理</span>
+            </a>
+            <ul class="submenu">
+                <li>
+                    <a href="{{:U('School/add')}}" class='navitem'>
+                        <i class="icon-double-angle-right"></i>学校添加
+                    </a>
+                </li>
+                <li>
+                    <a href="{{:U('School/index')}}" class='navitem'>
+                        <i class="icon-double-angle-right"></i>学校列表
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
 </div>
