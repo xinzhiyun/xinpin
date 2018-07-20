@@ -39,11 +39,11 @@
             </p>
             <p>
                 <span>学籍号</span>
-                <span>{{$user['name']}}</span>
+                <span>{{$user['cid']}}</span>
             </p>
             <p>
                 <span>IC卡号</span>
-                <span>{{$user['name']}}</span>
+                <span>{{$user['card']}}</span>
             </p>
         </div>
         <div class='item'>
@@ -54,7 +54,7 @@
             </p>
             <p>
                 <span>IC卡状态</span>
-                <span></span>
+                <span>{{$user['bind']}}</span>
             </p>
             <p>
                 <span>地址</span>
@@ -63,6 +63,22 @@
         </div>
     </li>
 </ul>
+<div class='editPanel'>
+    <ul>
+        <h4>编辑信息</h4>
+        <li>
+            <span>姓名：</span><input class='editname' type="text">
+        </li>
+        <li>
+            <span>手机号：</span><input class='editphone' type="text">
+        </li>
+        <li>
+            <span>地址：</span><input class='editaddr' type="text">
+        </li>
+        <button class='editok'>确定</button>
+    </ul>
+    <div class='bgbg'></div>
+</div>
 
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/bootstrap.min.css">
 <script src="__PUBLIC__/Home/js/public.js"></script>
@@ -86,8 +102,62 @@
     $('.addr').text(address);
     $('.detail').text(detail);
     
+    // 编辑
+    $('#_btn').click(function(){
+        $('.editPanel').fadeIn('fast');
+        $('.editname').val(user.name);
+        $('.editphone').val(user.phone);
+        $('.editaddr').val(user.address);
+    })
+
+    // 隐藏编辑面板
+    $('.bgbg').click(function(){
+        $('.editPanel').fadeOut('fast');
+    })
+
+    // 保存
+    $('.editok').click(function(){
+        
+        var info = {
+            name: $('.editname').val(),
+            phone: $('.editphone').val(),
+            address: $('.editaddr').val()
+        }
+        if(!info.name){ 
+            layuiHint('用户名不能为空');
+            return
+        }
+        if(!/^1[34578]\d{9}$/.test(info.phone)){ 
+            layuiHint('请输入正确的手机号码');
+            return
+        }
+        if(!info.address){ 
+            layuiHint('请输入地址');
+            return
+        }
+        console.log('info: ',info);
+        $.ajax({
+            url: "{{:U('Home/Users/reviseUser')}}",
+            type: 'post',
+            data: info,
+            success: function(res){
+                console.log('res: ',res);
+                if(Number(res)){
+                    layuiHint('修改成功');
+                    setTimeout(function(){
+                        location.reload();
+                    },500);
+                }else{
+                    layuiHint('修改失败');
+                }
+            },
+            error: function(err){
+                layuiHint('修系统遇到问题，请稍后再试');
+            }
+        })
+    })
     //编辑    
-    $('#_btn').click(function fn(){
+    $('#_btn11').click(function fn(){
 
         var span = $('.personalList').find('li span')
         var name = span.eq(0).text()

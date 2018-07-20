@@ -46,30 +46,30 @@ html {
     display: inline;
     position: relative;
     font-size: 1.4rem;
-    margin-bottom: 10px;
 }
 .title>div>h2::before {
     content: '';
-    width: 30px;
-    height: 4px;
+    width: 40px;
+    height: 6px;
     position: absolute;
-    left: -40px;
+    left: -50px;
     top: 50%;
     background: linear-gradient(90deg,transparent, #fff);
     transform: translateY(-50%);
 }
 .title>div>h2::after {
     content: '';
-    width: 30px;
-    height: 4px;
+    width: 40px;
+    height: 6px;
     position: absolute;
-    right: -40px;
+    right: -50px;
     top: 50%;
     background: linear-gradient(90deg,#fff, transparent);
     transform: translateY(-50%);
 }
 .title>div>p {
     font-size: 1rem;
+    margin-top: 10px;
 }
 .personalList>li {
     width: 96%;
@@ -117,4 +117,53 @@ html {
     color: #3793F7;
     border: 1px solid #3793F7;
     border-radius: 30px;
+}
+.editPanel {
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    background: rgba(0,0,0,.3);
+}
+.bgbg {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+.editPanel>ul {
+    width: 90%;
+    padding: 10px 20px;
+    position: relative;
+    top: 10%;
+    left: 50%;
+    margin-left: -45%;
+    border-radius: 4px;
+    background: #fff;
+}
+.editPanel>ul>h4 {text-align: center;}
+.editPanel>ul>li {
+    margin-bottom: 10px;
+}
+.editPanel>ul>li>span {
+    width: 24%;
+    display: inline-block;
+}
+.editPanel>ul>li input {
+    padding: 0 4px;
+    border: 1px solid #ddd;
+}
+.editok {
+    width: 80%;
+    position: relative;
+    left: 50%;
+    margin-left: -40%;
+    padding: 4px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    background: #3793F7;
 }

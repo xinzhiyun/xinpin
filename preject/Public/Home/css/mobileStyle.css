@@ -46,7 +46,7 @@ text-decoration:none;
 	height: 12vmin;
 	padding: 0 10vmin;
 	line-height: 12vmin;
-	background: #008C61;
+	background: #3793F7;
 }
 .cfix::after {
 	content: '';
@@ -280,6 +280,7 @@ footer > a span{
 	margin: 0 auto;
 	background: url("../image/sprite.png") no-repeat;
 	background-size: 14.5rem 7.3rem;
+	transform: scale(.7);
 }
 footer > a span.logo1{
 	background-position: -11.1rem 0;
