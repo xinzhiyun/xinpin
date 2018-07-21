@@ -10,6 +10,7 @@
     <script src='__PUBLIC__/Home/js/public.js'></script>
     <script>
         var activate = '{{:U("Activate/student")}}';
+        var getAddressURL = '{{:U("Address/getNextArea")}}';
     </script>
 </head>
 <body ontouchstart='console.log()'>
@@ -75,24 +76,15 @@
     <script src='__PUBLIC__/Home/js/activate/student.js'></script>
     <script src='__PUBLIC__/Admin/layui/lay/modules/layer.js'></script>
     <script type="text/javascript" src="__PUBLIC__/Admin/layui/layui.js"></script>
-    <script src="__PUBLIC__/Home/js/LAreaData1.js"></script>
-    <script src="__PUBLIC__/Home/js/LAreaData2.js"></script>
-    <script src="__PUBLIC__/Home/js/LArea.js"></script>
-    <link rel="stylesheet" href="__PUBLIC__/Home/css/LArea.css">
+    <script src="__PUBLIC__/Home/js/address.js"></script>
     <script>
-        //输入地址js
-        var area1 = new LArea();
-        area1.init({
-            'trigger': '.school', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
-            'valueTo': '#schid', //选择完毕后id属性输出到该位置
-            'keys': {
-                id: 'id',
-                name: 'name'
-            }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
-            'type': 1, //数据源类型
-            'data': LAreaData //数据源
-        });
-        area1.value=[1,13,3];//控制初始位置，注意：该方法并不会影响到input的value
+        $(function(){
+            $('.school').click(function(){
+                areaFn(function(info){
+                    console.log('info: ',info);
+                })
+            })
+        })
     </script>
 </body>
 </html>

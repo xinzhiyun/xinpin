@@ -64,6 +64,7 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: .6rem;
+    background: #fff;
 }
 
 .item:last-child>input {
