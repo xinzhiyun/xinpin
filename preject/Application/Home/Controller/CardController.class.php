@@ -230,4 +230,10 @@ class CardController extends CommonController
         }
     }    
 
+    //学生卡激活
+    public function student()
+    {
+        $this -> display();
+    }
+
 }
