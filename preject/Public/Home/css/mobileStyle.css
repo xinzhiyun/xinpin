@@ -46,7 +46,7 @@ text-decoration:none;
 	height: 12vmin;
 	padding: 0 10vmin;
 	line-height: 12vmin;
-	background: #008C61;
+	background: #3793F7;
 }
 .cfix::after {
 	content: '';
@@ -280,6 +280,7 @@ footer > a span{
 	margin: 0 auto;
 	background: url("../image/sprite.png") no-repeat;
 	background-size: 14.5rem 7.3rem;
+	transform: scale(.7);
 }
 footer > a span.logo1{
 	background-position: -11.1rem 0;
@@ -657,20 +658,8 @@ a.addIDbtn{
 /*personalInformation css*/
 .personalList{
 	width: 100vw;
-	height: 80vh;
 	min-height: 400px;
 	margin-bottom:0;
-}
-.personalList > li{
-	position: relative;
-	display: block;
-	border-bottom: 1px #e9e9e9 solid;
-	font-size: .75rem;
-	width: 100vw;
-	padding-left: 15vw;
-	height: 2.2rem;
-	line-height: 2.2rem;
-	color: #383838;
 }
 .personalList > li > i{
 	width: 8vw;
@@ -812,12 +801,4 @@ a.addIDbtn{
 .iccardbox{
 	margin-left: 6%;
 	width: 88%;
-}
-#_btn{
-    background-color: #008C61;
-    color: #fff;
-    height: 12vw;
-    border-radius: 8px;
-    margin-bottom: 5vh;
-    font-size: .74rem;
 }

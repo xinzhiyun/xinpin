@@ -5,7 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" >
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/bootstrap.min.css">
+<link rel="stylesheet" href="__PUBLIC__/Admin/layui/css/layui.css" />
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/mobileStyle.css">
+<link rel="stylesheet" href="__PUBLIC__/Home/css/info.css">
 <script src="__PUBLIC__/Home/js/jquery-1.8.3.min.js"></script>
 <script src="__PUBLIC__/Home/js/public.js"></script>
 <title>个人信息</title>
@@ -22,26 +24,63 @@
     <a class='home' href='{{:U("Home/Index/index")}}'>首页</a>
 </header>
 <ul class="personalList">
-	<li>
-		<i class="i1"></i>用户姓名：<span class="username">{{$user['name']}}</span>
-	</li>
-	<li> 
-		<i class="i2"></i>用户电话：<span>{{$user['phone']}}</span>
-	</li>
-	<li> 
-		<i class="i3"></i>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：<span class='addr'></span>
-	</li>
+    <div class='title'>
+        <img src="__PUBLIC__/Home/image/infobg.png" alt="加载中...">
+        <div>
+            <h2>学生卡</h2>
+            <p>{{$user['name']}}</p>
+        </div>
+    </div>
     <li>
-        <i class="i4"></i>详细地址：<span class='detail'></span>
+        <div class='item'>
+            <p>
+                <span>姓名</span>
+                <span class="username">{{$user['name']}}</span>
+            </p>
+            <p>
+                <span>学籍号</span>
+                <span>{{$user['cid']}}</span>
+            </p>
+            <p>
+                <span>IC卡号</span>
+                <span>{{$user['card']}}</span>
+            </p>
+        </div>
+        <div class='item'>
+            <p>
+                <span>手机号</span>
+                <span>{{$user['phone']}}</span>
+                <button id="_btn" data="{{:U('Home/Users/reviseUser')}}">编辑</button>
+            </p>
+            <p>
+                <span>IC卡状态</span>
+                <span>{{$user['bind']}}</span>
+            </p>
+            <p>
+                <span>地址</span>
+                <span class='addr'></span>
+            </p>
+        </div>
     </li>
 </ul>
-<div style="width: 80%;margin:0 auto">
-	<button class="btn btn-info btn-block" id="_btn" data="{{:U('Home/Users/reviseUser')}}">编辑</button>
-    
+<div class='editPanel'>
+    <ul>
+        <h4>编辑信息</h4>
+        <li>
+            <span>姓名：</span><input class='editname' type="text">
+        </li>
+        <li>
+            <span>手机号：</span><input class='editphone' type="text">
+        </li>
+        <li>
+            <span>地址：</span><input class='editaddr' type="text">
+        </li>
+        <button class='editok'>确定</button>
+    </ul>
+    <div class='bgbg'></div>
 </div>
 
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/mobileStyle.css">
 <script src="__PUBLIC__/Home/js/public.js"></script>
 <script src="__PUBLIC__/Home/js/LAreaData1.js"></script>
 <script src="__PUBLIC__/Home/js/LAreaData2.js"></script>
@@ -49,21 +88,76 @@
 <link rel="stylesheet" href="__PUBLIC__/Home/css/LArea.css">
 <script src="__PUBLIC__/Home/js/jquery-1.11.1.min.js" ></script>
 <script type="text/javascript" src="__PUBLIC__/Admin/layui/layui.js"></script>
-<link rel="stylesheet" href="__PUBLIC__/Admin/layui/css/layui.css" />
 <script>
 	//设置当前按钮显示样式
     $(".logo5").css("background-position","-7.6rem 0");
     $(".btn5").css("color","#008C63");
     // 地址
+    var user = {{$user|json_encode}};
     var addr = {{$user['address']|json_encode}};
+    console.log('user: ',user);
     // var addr = 'sddsfgdfg,水电费水电费';
     var address = addr.split(',')[0];
     var detail = addr.split(',')[1];
     $('.addr').text(address);
     $('.detail').text(detail);
     
+    // 编辑
+    $('#_btn').click(function(){
+        $('.editPanel').fadeIn('fast');
+        $('.editname').val(user.name);
+        $('.editphone').val(user.phone);
+        $('.editaddr').val(user.address);
+    })
+
+    // 隐藏编辑面板
+    $('.bgbg').click(function(){
+        $('.editPanel').fadeOut('fast');
+    })
+
+    // 保存
+    $('.editok').click(function(){
+        
+        var info = {
+            name: $('.editname').val(),
+            phone: $('.editphone').val(),
+            address: $('.editaddr').val()
+        }
+        if(!info.name){ 
+            layuiHint('用户名不能为空');
+            return
+        }
+        if(!/^1[34578]\d{9}$/.test(info.phone)){ 
+            layuiHint('请输入正确的手机号码');
+            return
+        }
+        if(!info.address){ 
+            layuiHint('请输入地址');
+            return
+        }
+        console.log('info: ',info);
+        $.ajax({
+            url: "{{:U('Home/Users/reviseUser')}}",
+            type: 'post',
+            data: info,
+            success: function(res){
+                console.log('res: ',res);
+                if(Number(res)){
+                    layuiHint('修改成功');
+                    setTimeout(function(){
+                        location.reload();
+                    },500);
+                }else{
+                    layuiHint('修改失败');
+                }
+            },
+            error: function(err){
+                layuiHint('修系统遇到问题，请稍后再试');
+            }
+        })
+    })
     //编辑    
-    $('#_btn').click(function fn(){
+    $('#_btn11').click(function fn(){
 
         var span = $('.personalList').find('li span')
         var name = span.eq(0).text()

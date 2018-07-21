@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学生IC卡激活</title>
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/activate.css">
+    <script src='__PUBLIC__/Home/js/public.js'></script>
+</head>
+<body>
+    <div class='student'>
+        <div class='bgbg'>
+            <p class='shadow'></p>
+        </div>
+        <p>我是学生&nbsp;STUDENT</p>
+        <ul>
+            <li class='item cfix'>
+                <span class='fl'>学生</span>
+                <input class='fr' type="text" placeholder="请输入学生姓名" v-model='info.name'>
+            </li>
+            <li class='item cfix'>
+                <span class='fl'>学生家长</span>
+                <input class='fr' type="text" placeholder="请输入家长姓名" v-model='info.parent'>
+            </li>
+            <li class='item cfix'>
+                <span class='fl'>手机号码</span>
+                <input class='fr' type="text" placeholder="请输入手机号码" v-model='info. v-model='info.phone''>
+            </li>
+            <li class='item cfix'>
+                <span class='fl'>学校地址</span>
+                <input class='fr' type="text" placeholder="请选择学校地址" v-model='info.address'>
+                <p>
+                    <textarea name="" id="" cols="30" rows="5" placeholder="请输入详细地址哟" v-model='info.addrdetail'></textarea>
+                </p>
+            </li>
+            <li class='item cfix'>
+                <span class='fl'>学校名称</span>
+                <input class='fr' type="text" placeholder="请选择学校名称" v-model='info.school'>
+            </li>
+            <li class='item cfix'>
+                <span class='fl'>IC卡号</span>
+                <input class='fr' type="text" placeholder="请输入IC卡号" v-model='info.iccard'>
+            </li>
+            <li class='item cfix'>
+                <span class='fl'>与持卡人关系</span>
+                <input class='fr' type="text" placeholder="请输入您与持卡人的关系" v-model='info.relation'>
+            </li>
+        </ul>
+        <div>
+            <span></span>
+            <span>我已阅读并同意相关条款</span>
+        </div>
+        <button @click='activate'>立即激活</button>
+    </div>
+    <script src='__PUBLIC__/Home/js/vue.min.js'></script>
+    <script src='__PUBLIC__/Home/js/activate/student.js'></script>
+</body>
+</html>
