@@ -6,14 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>学生IC卡激活</title>
     <link rel="stylesheet" href="__PUBLIC__/Home/css/activate.css">
+    <script src='__PUBLIC__/Home/js/jquery-1.11.1.min.js'></script>
     <script src='__PUBLIC__/Home/js/public.js'></script>
+    <script>
+        var activate = '{{:U("Activate/student")}}';
+    </script>
 </head>
-<body>
+<body ontouchstart='console.log()'>
     <div class='student'>
         <div class='bgbg'>
-            <p class='shadow'></p>
+            <img src="__PUBLIC__/Home/image/bgbg.png" alt="">
+            <p>我是学生&nbsp;<span style='color:#82A1CA;'>STUDENT</span></p>
+            <span class='shadow'></span>
         </div>
-        <p>我是学生&nbsp;STUDENT</p>
         <ul>
             <li class='item cfix'>
                 <span class='fl'>学生</span>
@@ -25,35 +30,69 @@
             </li>
             <li class='item cfix'>
                 <span class='fl'>手机号码</span>
-                <input class='fr' type="text" placeholder="请输入手机号码" v-model='info. v-model='info.phone''>
+                <input class='fr phone' type="text" placeholder="请输入手机号码" v-model='info.phone' @blur='phoneChange'>
             </li>
             <li class='item cfix'>
                 <span class='fl'>学校地址</span>
-                <input class='fr' type="text" placeholder="请选择学校地址" v-model='info.address'>
+                <input class='fr school' type="text" placeholder="请选择学校地址" v-model='info.address' readonly>
+                <input type="hidden" class='schid'>
                 <p>
                     <textarea name="" id="" cols="30" rows="5" placeholder="请输入详细地址哟" v-model='info.addrdetail'></textarea>
                 </p>
             </li>
             <li class='item cfix'>
                 <span class='fl'>学校名称</span>
-                <input class='fr' type="text" placeholder="请选择学校名称" v-model='info.school'>
+                <select name="" class='fr' id="" v-model='info.schoolid'>
+                    <option value="">请选择学校名称</option>
+                    <option :value="s.id" v-for='s in schoolList' v-text='s.name'></option>
+                </select>
             </li>
             <li class='item cfix'>
                 <span class='fl'>IC卡号</span>
-                <input class='fr' type="text" placeholder="请输入IC卡号" v-model='info.iccard'>
+                <input class='fr iccard' type="text" placeholder="请输入IC卡号" v-model='info.iccard' @blur='cardChange'>
             </li>
             <li class='item cfix'>
                 <span class='fl'>与持卡人关系</span>
-                <input class='fr' type="text" placeholder="请输入您与持卡人的关系" v-model='info.relation'>
+                <input class='fr' type="text" placeholder="请输入关系" v-model='info.relation'>
             </li>
         </ul>
-        <div>
-            <span></span>
-            <span>我已阅读并同意相关条款</span>
+        <div class='note'>
+            <img class='imgcheck' @click='acceptFn(1)' value='0' none='__PUBLIC__/Home/image/check_none.png'
+            check='__PUBLIC__/Home/image/check_ok.png' src="__PUBLIC__/Home/image/check_none.png" alt="">
+            <span @click='note'>我已阅读并同意相关条款</span>
         </div>
-        <button @click='activate'>立即激活</button>
+        <button @click='activate' class='okgo'>立即激活</button>
+        <div class='notePanel'>
+            <p @click='hidepanel'></p>
+            <ul>
+                <h4>激活条款</h4>
+                <li v-html='notetext'></li>
+                <button @click='acceptFn(2)' class='agree'>同意</button>
+            </ul>
+        </div>
     </div>
     <script src='__PUBLIC__/Home/js/vue.min.js'></script>
     <script src='__PUBLIC__/Home/js/activate/student.js'></script>
+    <script src='__PUBLIC__/Admin/layui/lay/modules/layer.js'></script>
+    <script type="text/javascript" src="__PUBLIC__/Admin/layui/layui.js"></script>
+    <script src="__PUBLIC__/Home/js/LAreaData1.js"></script>
+    <script src="__PUBLIC__/Home/js/LAreaData2.js"></script>
+    <script src="__PUBLIC__/Home/js/LArea.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/LArea.css">
+    <script>
+        //输入地址js
+        var area1 = new LArea();
+        area1.init({
+            'trigger': '.school', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+            'valueTo': '#schid', //选择完毕后id属性输出到该位置
+            'keys': {
+                id: 'id',
+                name: 'name'
+            }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+            'type': 1, //数据源类型
+            'data': LAreaData //数据源
+        });
+        area1.value=[1,13,3];//控制初始位置，注意：该方法并不会影响到input的value
+    </script>
 </body>
 </html>
