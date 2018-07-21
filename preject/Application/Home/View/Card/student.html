@@ -54,10 +54,9 @@
             </li>
             <li class='item cfix'>
                 <span class='fl'>与持卡人关系</span>
-                <input class='fr' type="text" placeholder="请输入关系" v-model='info.relation'>
                 <select class='fr' name="" id="" v-model='info.relation'>
                     <option value="" >请选择关系</option>
-                    <option :value="r.id" v-for='r in relationList' v-text='r.name'></option>
+                    <option :value="r.name" v-for='r in relationList' v-text='r.name'></option>
                 </select>
             </li>
         </ul>

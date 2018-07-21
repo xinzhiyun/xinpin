@@ -43,7 +43,7 @@ body {
 }
 .shadow {
     width: 200%;
-    height: 100px;
+    height: 200px;
     position: absolute;
     bottom: 12px;
     right: -10%;
@@ -78,6 +78,9 @@ body {
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ddd;
+}
+.item:last-child>select {
+    width: 54%;
 }
 .note {
     margin: 16px 0;

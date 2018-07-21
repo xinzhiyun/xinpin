@@ -187,45 +187,46 @@ input{
 /*数据显示主页面css */
 .showBalanceBox{
 	width: 100vw;
-	height: 44vh;
-	background: #61CDB1;
+	height: 36vh;
 	position: relative;
+	z-index: 99;
+}
+.showBalanceBox>img {
+	width: 102%;
+	height: auto;
+	position: absolute;
+	margin-left: -1%;
+	z-index: -1;
 }
 .showBalanceBox .showBalance{
-	width: 100vw;
-	height: 40vh;
-	position: absolute;
-	top: 2vh;
-	background: #fff;
-	box-shadow: 0 0 5px -1px rgba(25,65,55,.3),
-	0 0 5px 1px rgba(25,65,55,.3);
-
-	
+	width: 100vw;	
+	top: 2vh;	
+	color: #fff;
+}
+.showBalance {
+	position: relative;
 }
 .showDataContent{
 	width: 100vw;
 	height: 44vh;
 }
 .moneylogo{
-	width: 24vw;
-	height: 24vw;
-	position: absolute;
-	margin: auto;
-	left: 0;
-	right: 0;
-	top: 7vw;
+	width: 20%;
+    height: auto;
+    position: relative;
+    left: 50%;
+    margin-left: -10%;
+    margin-top: 2vh;
 }
 .showBalance .textBalance{
-	font-size: .7rem;
-	margin-top: 23vh;
+	font-size: .6rem;
 	margin-bottom: 0;
+	margin-top: 2vh;
+	color: #BEDDFD;
 }
 .numBalance{
-	font-weight: bold;
-	font-size: 1.9rem;
+	font-size: 1.2rem;
 	line-height: 1.2;
-	margin-top: 1vh;
-	color: #333333;
 }
 .table-data{
 	background: url("../image/tableBg.png") no-repeat;

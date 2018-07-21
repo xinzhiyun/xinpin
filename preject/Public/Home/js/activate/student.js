@@ -14,6 +14,7 @@ var student = new Vue({
                 relation: '',
             },
             schoolList: [],     // 学校名单
+            relationList: [],
             notetext: '',       // 条款
             accept: false,
         }
@@ -25,6 +26,16 @@ var student = new Vue({
             {id: 1, name:'广州大学'},
             {id: 1, name:'华南理工'},
             {id: 1, name:'暨南大学'},
+        ];
+        vm.relationList = [
+            {id: 1, name: '父子'},
+            {id: 1, name: '父女'},
+            {id: 1, name: '母子'},
+            {id: 1, name: '母女'},
+            {id: 1, name: '兄弟'},
+            {id: 1, name: '姐妹'},
+            {id: 1, name: '叔侄'},
+            {id: 1, name: '其他'},
         ];
         vm.notetext = '女事件的看法你收集东方那部手机电脑辐射，电脑辐射，短发女生，你的发生的骄傲i圣诞节偶爱五哦i恶业温热因为u人';
     },
