@@ -61,7 +61,7 @@ class LoginController extends Controller
                     $map['phone'] = $username;
                     $map['password'] = md5($password);
 
-                    $user = M('Users')->where($map)->getField('id,name,phone');
+                    $user = M('Users')->where($map)->getField('id,name,phone,balance');
                     // dump($user);die;
                     if ($user) {
                         // 查到用户信息，再次验证签名
