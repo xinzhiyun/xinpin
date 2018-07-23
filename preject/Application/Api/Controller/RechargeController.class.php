@@ -198,8 +198,9 @@ class RechargeController extends Controller
                         if ($provingsins == $sin) {
                             // 二次签名验证通过，返回用户信息
                             $where['uid'] = $userid;
-                            $where['type'] = 2;
-                            $userFlow = M('Flow')->where($where)->field('uid,ordernumber,money')->select();
+                            //$where['type'] = 2;
+                            
+                            $userFlow = M('Flow')->where($where)->field('uid,ordernumber,money,type')->select();
                             $result[200]['userFlow'] = $userFlow;
                             $this->ajaxReturn($result[200]);
                         }else{

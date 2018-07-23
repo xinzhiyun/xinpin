@@ -73,9 +73,10 @@ class LoginController extends Controller
                         if ($provingsins == $sin) {
                             // 二次签名验证通过，返回用户信息
                             
-                            $where['uid'] = $userid;
-                            $where['type'] = 2;
-                            $userFlow = M('Flow')->where($where)->field('uid,ordernumber,money')->select();
+                            $where['uid'] = $user ['id'];
+                            //$where['type'] = 2;//余额充值  1为押金充值
+                            
+                            $userFlow = M('Flow')->where($where)->field('uid,ordernumber,money,type')->select();
 
                             $result[200]['userinfo'] = $user;
                             $result[200]['userflow'] = $userFlow;
