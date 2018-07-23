@@ -19,6 +19,16 @@ class CardController extends CommonController
         $this->display();
     }
 
+
+    public function student()
+    {
+        if (IS_POST) {
+
+        } else {
+            $this->display();
+        }
+    }
+
     //更新
     //IC卡必须后台存在
     public function add()
@@ -229,11 +239,5 @@ class CardController extends CommonController
             echo -1;
         }
     }    
-
-    //学生卡激活
-    public function student()
-    {
-        $this -> display();
-    }
 
 }
