@@ -72,7 +72,13 @@ class LoginController extends Controller
                         $provingsins = md5($user['phone'].$t);
                         if ($provingsins == $sin) {
                             // 二次签名验证通过，返回用户信息
+                            
+                            $where['uid'] = $userid;
+                            $where['type'] = 2;
+                            $userFlow = M('Flow')->where($where)->field('uid,ordernumber,money')->select();
+
                             $result[200]['userinfo'] = $user;
+                            $result[200]['userflow'] = $userFlow;
                             $this->ajaxReturn($result[200]);
                         }else{
                             // 签名错误
