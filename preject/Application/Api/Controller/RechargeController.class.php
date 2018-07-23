@@ -51,7 +51,7 @@ class RechargeController extends Controller
             $times = intval($times);
 
             // 请求时间5分钟内
-            if ($t < $outtime && $t > $times) {
+          //  if ($t < $outtime && $t > $times) {
                 // 初步验证签名是否正确
                 $provingsin = md5($username.$t);
 
@@ -128,11 +128,11 @@ class RechargeController extends Controller
                     // 初步验证签名错误
                     $this->ajaxReturn($result[3]);
                 }
-            }else{
-                // 时间戳失效
-                $this->ajaxReturn($result[3]);
-                
-            }       
+//            }else{
+//                // 时间戳失效
+//                $this->ajaxReturn($result[3]);
+//                
+//            }       
 
         } else {
             // 非POST
