@@ -77,7 +77,7 @@ class RegisterController extends Controller
                     if( $is_activate){
                                 if($is_activate=='student'){
                                        $this->redirect('Card/student');
-                                }else if($is_activate=='teacher'){
+                                }else if($is_activate=='teacher'){  
                                      $this->redirect('Card/teacher');
                                 }
                     }else{
