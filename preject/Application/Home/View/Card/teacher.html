@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=0;">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>教师IC卡激活</title>
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/activate.css">
+<!--      <link rel="stylesheet" href="__PUBLIC__/Home/css/webuploader.css">-->
+    <script src='__PUBLIC__/Home/js/jquery-1.11.1.min.js'></script>
+    <script src='__PUBLIC__/Home/js/public.js'></script>
+         <script src='__PUBLIC__/Home/js/jquery.ui.widget.js'></script>
+        <script src='__PUBLIC__/Home/js/jquery.fileupload.js'></script>
+        <script src='__PUBLIC__/Home/js/jquery.iframe-transport'></script>
+   
+<!--          <script src="//cdn.bootcss.com/blueimp-file-upload/9.12.5/js/jquery.fileupload.js"></script>
+<script src="//cdn.bootcss.com/blueimp-file-upload/9.12.5/js/jquery.fileupload-process.js"></script>
+<script src="//cdn.bootcss.com/blueimp-file-upload/9.12.5/js/jquery.fileupload-validate.js"></script>-->
+    <script>
+        var activate = '{{:U("Card/teacher")}}';
+        var school = '{{:U("Area/school")}}';
+        var getAddressURL = '{{:U("Area/getNextArea")}}';
+        var student_protocal = '{{:U("Area/student")}}';
+    </script>
+</head>
+<body ontouchstart='console.log()'>
+    <div class='student'>
+        <div class='bgbg'>
+            <img src="__PUBLIC__/Home/image/bgbg.png" alt="">
+            <p>我是教师&nbsp;<span style='color:#82A1CA;'>TEACHER</span></p>
+            <span class='shadow'></span>
+        </div>
+        <ul>
+            <li class='item cfix'>
+                <span class='fl'>教师姓名</span>
+                <input class='fr' type="text" placeholder="请输入姓名" v-model='info.name'>
+            </li>
+<!--            <li class='item cfix'>
+                <span class='fl'>学生家长</span>
+                <input class='fr' type="text" placeholder="请输入家长姓名" v-model='info.parent'>
+            </li>-->
+            <li class='item cfix'>
+                <span class='fl'>手机号码</span>
+                <input class='fr phone' type="text" placeholder="请输入手机号码" v-model='info.phone' @blur='phoneChange'>
+            </li>
+            <li class='item cfix'>
+                <span class='fl'>学校地址</span>
+                <span id="pca" class='fr school'  v-model='info.address' >请选择学校地址</span>
+                <input type="hidden" class='schid'>
+                <input type="hidden" v-model="info.province" id="province">
+                 <input type="hidden" v-model="info.city" id="city">
+                  <input type="hidden"v-model="info.area"  id="area">
+                    <input type="hidden"  id="province_name">
+                 <input type="hidden"   id="city_name">
+                  <input type="hidden"   id="area_name">
+                <p>
+                    <textarea name="" id="" cols="30" rows="5" placeholder="请输入详细地址哟" v-model='info.addrdetail'></textarea>
+                </p>
+            </li>
+            <li class='item cfix'>
+                <span class='fl'>学校名称</span>
+                <select name="" class='fr' id="" v-model='info.schoolid'>
+                    <option value="">请选择学校名称</option>
+                    <option :value="s.id" v-for='s in schoolList' v-text='s.name'></option>
+                </select>
+            </li>
+            <li class='item cfix'>
+                <span class='fl'>IC卡号</span>
+                <input class='fr iccard' type="text" placeholder="请输入IC卡号" v-model='info.iccard' @blur='cardChange'>
+            </li>
+<!--            <li class='item cfix'>
+                <span class='fl'>工作凭证</span>
+                <div class="addpic">
+            <div id="fileList" class="uploader-list"></div>
+            <div id="filePicker" class="a_pic"><img src="__PUBLIC__/Home/image/add.png"></div>
+        </div>
+            </li>-->
+        </ul>
+        <div class="addpic">
+            <div class="add_lable fl">工作凭证</div>
+            <div class="add_content fl" style="width:20%">
+                <img class="pic1" style="width:100%"  v-model="info.pic1" src="" alt="">
+                <div class="cpic cpic1" onclick="$(this).next().click()">
+  <span><img style="width:50%" src="__PUBLIC__/Home/image/add.png"></span>
+</div>
+<!--<form id="addpic">-->
+<input type="file" name="file" id="file1" style="display:none" class="btn-upload">
+<!--</form>-->
+            </div>
+             <div class="add_second fl" style="width:20%">
+                    <img class="pic2"  style="width:100%" v-model="info.pic2" src="" alt="">
+                <div class="cpic cpic2" onclick="$(this).next().click()">
+  <span><img style="width:50%" src="__PUBLIC__/Home/image/add.png"></span>
+</div>
+
+<input type="file" name="file" id="file2" style="display:none" class="btn-upload">
+            </div>
+<!--            <div class="add_content fl"><img src="__PUBLIC__/Home/image/add.png"></div>-->
+            <div style="clear:both"></div>
+        </div>
+        <div class='note'>
+            <img class='imgcheck' @click='acceptFn(1)' value='0' none='__PUBLIC__/Home/image/check_none.png'
+            check='__PUBLIC__/Home/image/check_ok.png' src="__PUBLIC__/Home/image/check_none.png" alt="">
+            <span @click='note'>我已阅读并同意相关条款</span>
+        </div>
+        <button @click='activate' class='okgo'>立即激活</button>
+        <div class='notePanel'>
+            <p @click='hidepanel'></p>
+            <ul>
+                <h4>激活条款</h4>
+                <li v-html='notetext'></li>
+                <button @click='acceptFn(2)' class='agree'>同意</button>
+            </ul>
+        </div>
+    </div>
+    <script src='__PUBLIC__/Home/js/vue.min.js'></script>
+    <script src='__PUBLIC__/Home/js/activate/teacher.js'></script>
+    <script src='__PUBLIC__/Admin/layui/lay/modules/layer.js'></script>
+    <script type="text/javascript" src="__PUBLIC__/Admin/layui/layui.js"></script>
+    <script src="__PUBLIC__/Home/js/address.js"></script>
+    <script>
+         $('#file1').fileupload({
+
+       url: '/index.php/home/card/upload',
+       Type: "POST",
+       autoUpload: true,
+       acceptFileTypes:/\.(doc|docx)$/i,// 文件格式
+       maxFileSize: 99 * 1024 * 1024, //文件大小
+       
+       // 设置验证失败的提示信息
+       messages: {
+       maxFileSize: 'File exceeds maximum allowed size of 99MB',
+       acceptFileTypes: 'File type not allowed'
+       },
+       
+       processfail: function (e, data) {
+           var currentFile = data.files[data.index];
+           if (data.files.error && currentFile.error) {
+               // there was an error, do something about it
+               console.log(currentFile.error);
+           }
+       },
+       
+       done: function(e, result) {
+           console.log(result);
+       var s = JSON.parse(result.result); 
+         var _s = JSON.stringify(result.result);
+         var _src= '__PUBLIC__'+s.pic;
+           $('.cpic1').hide();
+           $('.pic1').attr('src',_src);
+           $('.pic1').show();
+           
+          // 上传成功的回调函数，可以弹出“上传成功”之类的弹框
+       },
+       fail: function(e, result) {
+           var s = JSON.parse(result.result); 
+           alert(s);
+           alert(33333);
+          // 上传失败的回调函数，可以弹出“上传失败”之类的弹框
+       },
+
+     })
+        $('#file2').fileupload({
+
+       url: '/index.php/home/card/upload',
+       Type: "POST",
+       autoUpload: true,
+       acceptFileTypes:/\.(doc|docx)$/i,// 文件格式
+       maxFileSize: 99 * 1024 * 1024, //文件大小
+       
+       // 设置验证失败的提示信息
+       messages: {
+       maxFileSize: 'File exceeds maximum allowed size of 99MB',
+       acceptFileTypes: 'File type not allowed'
+       },
+       
+       processfail: function (e, data) {
+           var currentFile = data.files[data.index];
+           if (data.files.error && currentFile.error) {
+               // there was an error, do something about it
+               console.log(currentFile.error);
+           }
+       },
+       
+       done: function(e, result) {
+       var s = JSON.parse(result.result); 
+         var _s = JSON.stringify(result.result);
+         var _src= '__PUBLIC__'+s.pic;
+//         alert(_src);
+//         alert(111);
+           $('.cpic2').hide();
+           $('.pic2').attr('src',_src);
+           $('.pic2').show();
+           
+          // 上传成功的回调函数，可以弹出“上传成功”之类的弹框
+       },
+       fail: function() {
+          // 上传失败的回调函数，可以弹出“上传失败”之类的弹框
+       },
+
+     })
+//           $('input[name="file"]').click(function(){
+//             
+//               var vai = $('input[name="file"]').val();
+//               console.log(vai);
+//                $.ajax({
+//            type: 'POST',
+//            dataType: 'json',
+//            url: "/index.php/Home/card/upload",
+//            success: function (result) {
+//                if(!result){
+//                    // alertBox('网络出错，请退出稍后重试！');
+//                }
+//                //
+//                else{
+//                    console.log(result);
+//                    for(var i in result.c1){
+//                        var _i_data = {};
+//
+//                        _i_data.id = result.c1[i].id;
+//                        _i_data.value = result.c1[i].channel_name;
+//
+//
+//                        c1.push( _i_data);
+//                    }
+//                    for(var i in result.c2){
+//                        var _i_data = {};
+//
+//                        _i_data.id = result.c2[i].id;
+//                        _i_data.value = result.c2[i].channel_name;
+//
+//
+//                        c2.push( _i_data);
+//                    }
+//                    for(var i in result.c3){
+//                        var _i_data = {};
+//
+//                        _i_data.id = result.c3[i].id;
+//                        _i_data.value = result.c3[i].channel_name;
+//
+//
+//                        c3.push( _i_data);
+//                    }
+//                    type = result.type;
+//
+//
+//
+//
+//                }
+//                // }
+//
+//
+//                //console.log(detail_data);
+//            },
+//            error:function(){
+//                // location.reload();
+//            }
+//        });
+//           });
+        $(function(){
+            $('.school').click(function(){
+                areaFn(function(info){
+                   
+                    console.log('info_area: ',info);
+                })
+            })
+        })
+    </script>
+</body>
+</html>

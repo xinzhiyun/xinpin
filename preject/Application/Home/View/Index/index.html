@@ -11,6 +11,18 @@
     <script type="text/javascript" src="__PUBLIC__/Admin/layui/layui.js"></script>
     <link rel="stylesheet" href="__PUBLIC__/Home/css/index.css">
     <title>馨品共享水</title>
+    <style>
+ 
+    footer > a{
+	width: 25vw !important;
+	padding: 1vh 0 0vh 0;
+	display: block;
+	float: left;
+	text-align: center;
+	color: #848282;
+	font-size: .5rem;
+}
+</style>
 </head>
 <body>
     <!-- logo --> 
@@ -24,7 +36,7 @@
             <!-- <p class="textBalance text-center">账号余额 (元)</p>
             <p class="numBalance text-center">{{$money}}</p> -->
             <p class="textBalance text-center">本周饮水</p>
-            <p class="numBalance text-center">{{$water}}L</p>
+            <p class="numBalance text-center">{{$total_number}}L</p>
         </section>
     </section>
     <section id="text">
@@ -37,15 +49,15 @@
                 <img src="" alt="">
                 <p class='name'></p>
             </div>
-            <ul>
+            <ul class="water_sum">
                 <li class='item cfix'>
                     <span class='fl'>日期</span>
                     <span class='fr'>饮水量</span>
                 </li>
-                <li class='item cfix'>
+<!--                <li class='item cfix'>
                     <span class='fl'>2018/06/21</span>
                     <span class='fr'>1L</span>
-                </li>
+                </li>-->
             </ul>
         </div>
     </section>
@@ -53,8 +65,7 @@
     <footer class="footer">
         <a class="btn1" href="{{:U('Home/index/index')}}"><span class="logo1"></span>首页</a>
         <a class="btn2" href="{{:U('Home/Consume/index')}}"><span class="logo2"></span>饮水记录</a>
-        <a class="btn3 charge" href="javascript:;"><span class="logo3"></span>充值</a>
-        <a class="water"><span class="logo4"></span>扫码取水</a>
+        <a class="btn3 charge" href="http://shop.360back.com/"><span class="logo3"></span>商城</a>
         <a class="btn5" href="{{:U('Home/Users/mine')}}"><span class="logo5"></span>我的</a>
     </footer>
     
@@ -81,7 +92,16 @@
             // var nameVal=$(".nameVal").val();
             var josniccardVal=JSON.parse({{$iccard|json_encode}});
             var jsonrecordVal=JSON.parse({{$record|json_encode}});
+            console.log(jsonrecordVal);
             var jsonnameVal=JSON.parse({{$name|json_encode}});
+            var _str = '';
+            for(var i in jsonrecordVal){
+            
+                _str+=' <li class=\'item cfix\'><span class=\'fl\'>'+ jsonrecordVal[i].s_time+'</span><span class=\'fr\'>'+ jsonrecordVal[i].flow+'mL</span></li>';
+                
+            }
+            $('.water_sum').append(_str);
+            return;
             // console.log(nameVal);
             
             // var josniccardVal= '';
@@ -92,6 +112,7 @@
             //获取json对象长度
             var iccardNumber=0;
             var times=0;
+           
             for(var js2 in josniccardVal){
                 iccardNumber++; 
             }

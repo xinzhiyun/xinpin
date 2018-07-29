@@ -17,6 +17,7 @@ class LoginController extends Controller
     //用户登录
     public function login()
     {
+     //   var_dump($_SESSION['activate_type']);
         // 获取用户cookie
         $userInfo = cookie('homeuser');
 
@@ -46,7 +47,7 @@ class LoginController extends Controller
         if(!empty($_SESSION['homeuser'])) $this->redirect('Index/index');
 
         if(IS_POST){ 
-              
+           
             // 判断验证码是否正确
             $Verify =  new \Think\Verify();
             $res = $Verify->check($_POST['verify_code']);
@@ -56,7 +57,7 @@ class LoginController extends Controller
             $condition['phone'] = $_POST['phone'];
 
             $info = M('Users')->where($condition)->find();
-
+            
             // 判断用户状态（0：禁用 1：启用）
             if(!empty($info) && $info['status']==0){
                 $this->error('用户名已被禁用，请与管理员联系！');
@@ -85,7 +86,18 @@ class LoginController extends Controller
                         // 登录成功
                         $_SESSION['homeuser'] = $info;
                         // 跳转到主页
-                        $this->redirect('Index/index');  
+                             //查看用户是否已经点击过IC卡激活
+                    $is_activate = $_SESSION['activate_type'];
+                    if($is_activate){
+                                if($is_activate=='student'){
+                                       $this->redirect('Card/student');
+                                }else if($is_activate=='teacher'){
+                                     $this->redirect('Card/teacher');
+                                }
+                    }else{
+                           $this->redirect('Index/index');
+                    }
+                      //  $this->redirect('Index/index');  
                     }else{
                         // 登记失败退回去重新登录
                         $this->error('登录失败请重新登录');

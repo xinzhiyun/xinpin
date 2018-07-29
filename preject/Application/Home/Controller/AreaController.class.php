@@ -56,5 +56,9 @@ class AreaController extends CommonController
             $this->ajaxReturn($teacherInfo); 
         } 
     }
+    public function school(){
+            $data = M('school')->field('id,schoolname name')->select();
 
+        $this->toJson(['data'=>$data],'获取成功');
+    }
 }

@@ -72,7 +72,18 @@ class RegisterController extends Controller
                     // 写缓存
                     $_SESSION['homeuser'] = $userInfo;
                     // 跳转到主页
-                    $this->redirect('Index/index');
+                    //查看用户是否已经点击过IC卡激活
+                    $is_activate = $_SESSION['activate_type'];
+                    if( $is_activate){
+                                if($is_activate=='student'){
+                                       $this->redirect('Card/student');
+                                }else if($is_activate=='teacher'){
+                                     $this->redirect('Card/teacher');
+                                }
+                    }else{
+                           $this->redirect('Index/index');
+                    }
+                 
                 }else{
                     $this->error('注册失败');
                 }
@@ -109,11 +120,13 @@ class RegisterController extends Controller
             
             if(is_null($res)) $this->error('手机号不存在，请重新输入');
             
+	    
             //判断验证码是否为空
             if(empty($_POST['phone_code'])) $this->error('请输入验证码！');
             // 判断手机验证码是否有效
             if($_SESSION['phone_code']!=$_POST['phone_code'])  $this->error('验证码错误，请重新输入！');
-            // 跳转到下一页
+            
+	    // 跳转到下一页
             $this->redirect('resetpasswordnext');
         }else{
             $this->display('resetpassword');
@@ -193,7 +206,7 @@ class RegisterController extends Controller
     // 获取手机修改密码验证码
     public function getresetcode()
     {
-
+       
         // 获取手机号
         $phone = $_POST['phone'];
         if(empty($phone)){

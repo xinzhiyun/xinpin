@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>支付押金</title>
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/xinpin.css">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Admin/layui/layui.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/Admin/layui/css/layui.css" />
+    <script src="__PUBLIC__/Home/js/public.js"></script>
+    <!--<link rel="stylesheet" href="Public/css/iosSelect.css">-->
+    <!--<script src="Public/js/iosSelect.js"></script>-->
+</head>
+<body>
+
+<div class="phone_header">
+    <div class="phone_header_left fl">*</div>
+    <div class="phone_header_middle fl"><input type="number" name="phone" placeholder="请输入电话号码"></div>
+    <div class="phone_header_right fr"><button class="capter" onclick="getCapter(this)">获取验证码</button></div>
+    <div style="clear: both"></div>
+</div>
+<div class="middle"></div>
+<div class="phone_header">
+    <div class="phone_header_left capter_title fl">输入验证码</div>
+    <div class="phone_header_middle fl"><input type="number" class="capter_input" name="capture"></div>
+
+    <div style="clear: both"></div>
+</div>
+<div class="middle"></div>
+<div class="money_title">
+    <div class="money_title_left fl"><img src="__PUBLIC__/Home/image/guard.png"></div>
+    <div class="money_title_middle fl">押金</div>
+    <div class="money_title_right fr">¥ 300</div>
+    <input type="hidden" name="money" value="300">
+    <div style="clear: both"></div>
+</div>
+<div class="middle"></div>
+<div class="pay_title">
+    <div class="pay_title_left fl"><img src="__PUBLIC__/Home/image/wx.png"></div>
+    <div class="pay_title_middle fl">微信</div>
+    <div class="pay_title_right fr"><img src="__PUBLIC__/Home/image/select.png"></div>
+    <div style="clear: both"></div>
+</div>
+<div class="middle"></div>
+<ul class="explain">
+    <li>全校任意水机可使用IC</li>
+    <li>全校任意水机可使用IC</li>
+    <li>学期结束或者毕业后，可无限期退还押金</li>
+</ul>
+<input type="hidden" id="uid" value="{{$uid}}">
+<input type="hidden" id="iccard" value="{{$iccard}}">
+<button class="submit_pay" onclick="weixinPay(300)">立即支付</button>
+  
+<div style="background-color: black" id="bg" onclick="(function(){$('#bg').hide();$('.tips').hide()})()"></div>
+<div class="do_fail"><img src="__PUBLIC__/Home/image/hud_icon_fail@2x.png"><div class="fail_content">申请失败</div></div>
+
+
+</body>
+</html>
+<script>
+    // 通过config接口注入权限验证配置
+
+	// 通过config接口注入权限验证配置
+	  	wx.config({
+		    debug: false,
+		    appId: '{{$info["appId"]}}',
+		    timestamp: '{{$info["timestamp"]}}',
+		    nonceStr: '{{$info["nonceStr"]}}',
+		    signature: '{{$info["signature"]}}',
+		    jsApiList: [
+		      // 所有要调用的 API 都要加到这个列表中
+		      'scanQRCode',
+		      'chooseWXPay'
+		    ]
+		});
+		// 通过ready接口处理成功验证
+		wx.ready(function () {
+			// 在这里调用 API
+		});
+		function scanQRCode(){
+			wx.scanQRCode({
+			  needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+			  scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+			  success: function (res) {
+			    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+			    if(result){
+			      document.getElementById("Ickahao").value = result.substr(-16);
+			    }else{
+			      console.dir('扫描失败：10000');
+			    }
+			  }
+			}); 
+		}
+		// 通过error接口处理失败验证
+		wx.error(function(res){
+		  // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+		  console.dir('接口失败：10001');
+		});
+                function weixinPay(money){
+
+			$.ajax({ 
+				url: "{{:U('Card/uniformOrder')}}", 
+				data:{openId:'{{$openId}}',money:money},
+				dataType: 'json', 
+				type:'post',
+				success: function(res){
+					
+					if(Object.prototype.toString.call(res) == "[object Object]"){
+				        res = JSON.stringify(res)
+				    }
+				    console.log(res);
+        			WeixinJSBridge.invoke(
+						'getBrandWCPayRequest',
+						JSON.parse(res),					
+					function(res){
+						
+						// WeixinJSBridge.log(res.err_msg);
+    					// alert(res.err_code+res.err_desc+res.err_msg);
+						if (res.err_msg.substr(-2) == 'ok') {
+							// alert(1);
+							
+							// alert(data.cardholder);
+							//缴纳押金后将卡信息绑定到用户上
+                                                                                                                                                                                                                                
+
+
+						} else if (res.err_msg.substr(-6) == 'cancel') {
+							layui.use('layer', function(){
+		        			    var layer = layui.layer;
+		        			    layer.msg('取消成功！');
+		        			}); 
+						}else{
+							layui.use('layer', function(){
+		        			    var layer = layui.layer;
+		        			    layer.msg('充值失败！');
+		        			}); 
+						}
+					}
+				);
+      		}});
+		};
+    function getSummit(){
+        var data={};
+        data.money = 300;
+        
+        $.ajax({
+            type:'post',
+            url:"/index.php/uorder",
+            data:data,
+//            dataType:'json',
+//            beforeSend: function(request) {
+//                request.setRequestHeader("VERSION", "2.0.0");
+//            },
+            success:function(re){
+
+                console.log(res);
+            }
+        });
+    }
+    countdown = 60;
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]); return null;
+    }
+
+
+    function getCapter(o){
+
+        var _tel = $("input[name=phone]").val();
+
+        if(!_tel){
+            $('.fail_content').html('请先填入电话号码');
+
+            $('.do_fail').fadeIn();
+
+            setTimeout(function(){$('.do_fail').fadeOut();},2000);
+            return;
+        }
+
+        settime(o);
+
+    }
+    function settime(obj) {
+        if (countdown == 0) {
+            $(obj).removeClass('send');
+            obj.removeAttribute("disabled");
+            obj.innerHTML = "点击获取";
+            countdown = 60;
+            return;
+        } else {
+            $(obj).addClass('send');
+            obj.setAttribute("disabled", true);
+            obj.innerHTML = "(" + countdown + ")后重发";
+            countdown--;
+
+        }
+        setTimeout(function () {
+            settime(obj)
+        }, 1000)
+    }
+</script>

@@ -22,8 +22,46 @@ class CardController extends CommonController
 
     public function student()
     {
+        
         if (IS_POST) {
-
+              $data = [];
+              $data['iccard'] = I('post.iccard');
+               $data['parent_relations'] = I('post.relation');
+               $data['province'] = I('post.province');
+                $data['city'] = I('post.city');
+                 $data['area'] = I('post.area');
+                  $data['address'] = I('post.addrdetail');
+                  $data['parent_name'] =  I('post.parent');
+                  $data['phone'] =  I('post.phone');
+                  $data['name'] =  I('post.name');
+                  $data['identity'] = 1;
+                   $data['type'] =  0;
+                   $data['schoolid'] =   I('post.schoolid');
+                   $data['addtime'] =  time();
+                  $data['uid'] = $_SESSION['homeuser']['id'];
+                  //先根据ic卡去card表中查询，如果已经绑定过了的话，就不能再绑定了
+                  $ic_where['iccard'] =  I('post.iccard');
+                  $ic_where['status'] = 1;
+                 $bind_info = M('card')->where($ic_where)->find();
+                  if($bind_info){
+                      $this->ajaxReturn(array('msg'=>'此卡已经绑定过了','code'=>'40001')); 
+                      
+                  }else{
+                      
+                      $card_where['iccard'] = I('post.iccard');
+                       $card_where['uid']= $_SESSION['homeuser']['id'];
+                       $card_info =  M('card')->where($card_where)->find();
+                               if( $card_info){
+                                    $res = M('card')->where($card_where)->save($data);
+                               }else{
+                                      $res = M('card')->add($data);
+                               }
+                   
+                      if($res){
+                         $this->ajaxReturn(array('msg'=>'添加IC成功','code'=>'200','uid'=>$_SESSION['homeuser']['id'],'iccard'=>I('post.iccard'))); 
+                      }
+                  }
+                  
         } else {
             $this->display();
         }
@@ -139,7 +177,16 @@ class CardController extends CommonController
         // $openId = $this->getWeixin();
         // $openId = $this->getWeixin();
         // $openId = $this->getWeixin();
-        $openId = I('post.openId');
+        if(empty($_SESSION['oppenId'])){
+
+                                            $weixin = new WeixinJssdk;
+    
+	        $openId = $weixin->GetOpenid();
+
+	    }else{
+                 $openId = $_SESSION['oppenId'];
+            }
+      
         //微信examle的WxPay.JsApiPay.php
         vendor('WxPay.jsapi.WxPay#JsApiPay');
         $tools = new \JsApiPay();
@@ -168,10 +215,12 @@ class CardController extends CommonController
         $input->SetOpenid($openId);
         // 统一下单 
         $order = \WxPayApi::unifiedOrder($input);
-        
+      
         // 返回支付需要的对象JSON格式数据
         $jsApiParameters = $tools->GetJsApiParameters($order);
-
+       
+//        $this->assign('jsApiParameters',$jsApiParameters);
+//        $this->display();
         echo $jsApiParameters;
         exit;
     }
@@ -239,5 +288,99 @@ class CardController extends CommonController
             echo -1;
         }
     }    
+    
+     public function teacher()
+    {
+        
+        if (IS_POST) {
+            
+              $data = [];
+              $data['iccard'] = I('post.iccard');
+//               $data['parent_relations'] = I('post.relation');
+               $data['province'] = I('post.province');
+                $data['city'] = I('post.city');
+                 $data['area'] = I('post.area');
+                  $data['address'] = I('post.addrdetail');
+//                  $data['parent_name'] =  I('post.parent');
+                  $data['phone'] =  I('post.phone');
+                  $data['name'] =  I('post.name');
+                  $data['identity'] = 2;
+                   $data['type'] =  0;
+                   $imgs = I('post.pic1').'|'.I('post.pic2');
+//                     if(I('post.pic1')){
+//                         $data['teacher_imgs'] =  I('post.pic1');
+//                     }
+//                     if(I('post.pic2')){
+//                         $data['teacher_imgs'] =  I('post.pic2');
+//                     }
+                   $data['teacher_imgs']  = $imgs;
+                   $data['schoolid'] =   I('post.schoolid');
+                   $data['addtime'] =  time();
+                  $data['uid'] = $_SESSION['homeuser']['id'];
+//                  var_dump($data);die;
+                  //先根据ic卡去card表中查询，如果已经绑定过了的话，就不能再绑定了
+                  $ic_where['iccard'] =  I('post.iccard');
+                  $ic_where['status'] = 1;
+                 $bind_info = M('card')->where($ic_where)->find();
+                  if($bind_info){
+                      $this->ajaxReturn(array('msg'=>'此卡已经绑定过了','code'=>'40001')); 
+                      
+                  }else{
+                      
+                      $card_where['iccard'] = I('post.iccard');
+                       $card_where['uid']= $_SESSION['homeuser']['id'];
+                       $card_info =  M('card')->where($card_where)->find();
+                               if( $card_info){
+                                    $res = M('card')->where($card_where)->save($data);
+                               }else{
+                                      $res = M('card')->add($data);
+                               }
+                   
+                      if($res){
+                         $this->ajaxReturn(array('msg'=>'添加IC成功','code'=>'200','uid'=>$_SESSION['homeuser']['id'],'iccard'=>I('post.iccard'))); 
+                      }
+                  }
+                  
+        } else {
+            $this->display();
+        }
+    }
+    public function upload()
+		{
 
+
+
+			$upload = new \Think\Upload();// 实例化上传类
+			$upload->maxSize   =     3145728 ;// 设置附件上传大小
+			$upload->exts      =     array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+			$upload->rootPath  =     './Public/'; // 设置附件上传根目录
+			$upload->savePath  =     '/work/'; // 设置附件上传（子）目录
+			// 上传文件
+			$info   =   $upload->upload();
+			if(!$info) {// 上传错误提示错误信息
+				echo json_encode($upload->getError());
+				// $this->error($upload->getError());
+			}else{
+				// 上传成功
+				foreach ($info as $file) {
+					// dump($info);die;
+					$pic = $file['savepath'].$file['savename'];
+				}
+				// $this->success('上传成功！');
+				echo json_encode(['pic'=>$pic]);
+			}
+		}
+
+                public  function paySuccess(){
+                    $uid = $_SESSION['homeuser']['id'];
+                    $iccard = M('card')->where("uid=$uid")->field('iccard')->order('addtime desc')->limit(1)->find();
+                    $this->assign('iccard',$iccard['iccard']);
+                    $this->display();
+                }
+                public  function paySuccessTeacher(){
+                    $uid = $_SESSION['homeuser']['id'];
+                    $iccard = M('card')->where("uid=$uid")->field('iccard')->order('addtime desc')->limit(1)->find();
+                    $this->assign('iccard',$iccard['iccard']);
+                    $this->display();
+                }
 }

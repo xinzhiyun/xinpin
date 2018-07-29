@@ -112,6 +112,29 @@ class FlowController extends CommonController
         $this->assign('record',$record);
         $this->display();
     }
+public function payMoneyByStudent(){
+         if (IS_POST){
+            
+        }else{
+           
+            $uid = I('get.uid');
+            $iccard =  I('get.iccard');
+            $this->assign('uid',$uid);
+            $this->assign('iccard',$iccard);
+            $weixin = new WeixinJssdk;
+        $signPackage = $weixin->getSignPackage();
 
+        // 查询用户微信中的openid
+        // 调试完打开
+        // $openId = $this->getWeixin();
+        $openId = $this->getWeixin();
+        // dump($openId);
+        // 分配数据
+
+        $this->assign('info',$signPackage);
+        $this->assign('openId',$openId);
+            $this->display();  
+        }
+    }
 
 }

@@ -12,12 +12,13 @@
 	<link rel="stylesheet" href="__PUBLIC__/Admin/layui/css/layui.css" />
 	<link rel="stylesheet" href="__PUBLIC__/Home/css/LArea.css">
 	<script src="__PUBLIC__/Home/js/public.js"></script>
+                                    <link rel="stylesheet" href="__PUBLIC__/Home/css/activate.css">
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 
 </head>
 <body>
 	<section class="addICtitle">请填写持卡人资料</section>
-	<form class="container addIC" action="{{:U('Card/add')}}" method="post" name="formUser" onsubmit="toVaild();return false;">
+	<form class="container addIC" action="{{:U('Card/add')}}" method="post" name="formUser" onsubmit='toVaild();return false;' >
 		<section class="row">
 			<section class="col-md-12">
 				<input class="form-control cardholder" type="text" value="" name="name" placeholder="持卡人姓名">
@@ -46,14 +47,24 @@
 		</section>
 		<section class="row iccardbox">
 		    <section class="input-group">
-		      <input id="Ickahao" type="text" class="form-control" name="iccard" placeholder="IC卡账号">
+		      <input id="Ickahao" style="z-index:0" type="text" class="form-control" name="iccard" placeholder="IC卡账号">
 		      <span class="input-group-btn">
 		        <button class="btn btn-default" type="button" onclick='scanQRCode()'></button>
 		      </span>
 		    </section>
 		</section><!-- /.row -->
-		<input class="form-control addIDBtn button conserve" type="submit" value="缴纳押金">
+                        		<input  class="form-control addIDBtn button conserve" type="submit" value="激活IC卡">
+
 	</form>
+
+<!--          <div class='notePanel'>
+            <p onclick='nopanel()'></p>
+            <ul>
+                <h4>激活条款</h4>
+                <li v-html='notetext' id="notecontent">22222</li>
+                <button onclick='closepanel()' class='agree'>同意</button>
+            </ul>
+        </div>-->
 	<script src="__PUBLIC__/Home/js/LAreaData1.js"></script>
 	<script src="__PUBLIC__/Home/js/LAreaData2.js"></script>
 	<script src="__PUBLIC__/Home/js/LArea.js"></script>
@@ -105,12 +116,34 @@
 		var studentId;
 		var Ickahao;
 		var deposit;
-		
+                                                                    var student_protocal = '{{:U("Area/student")}}';
+		  $.ajax({
+                                                                                type:'post',
+                                                                                url:student_protocal,
+//                                                                                data:data,
+                                                                                dataType:'json',
+                                                                    //            beforeSend: function(request) {
+                                                                    //                request.setRequestHeader("VERSION", "2.0.0");
+                                                                    //            },
+                                                                                success:function(re){
+                                                                                    $('#notecontent').html(re.content);  
+                                                                                    
+                                                                                }
+                                                                            });
 		// 点击提交押金,设置学校信息
 		$('.addIDBtn').click(function(){
+                                                                                                        $('.notePanel').show();
+                                                                                                        
 			var school = $(".schoolAddr").val().trim() + $(".schoolName").val().trim();
 			$('#school').val(school);
 		})
+                function nopanel(){
+                    $('.notePanel').hide();
+                }
+                                                                       function closepanel(){
+                                                                           $('.notePanel').hide();
+                                                                           toVaild()
+                                                                       }
 		function toVaild(){
 			cardholder = $(".cardholder").val().trim();
 			schoolAddr = $('.schoolAddr').val().trim();

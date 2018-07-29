@@ -50,6 +50,7 @@ function areaFn(callback){
             success: function(res){
                 console.log('res: ',res);
                 if(res.status == 200){
+                     $("#areaChoose").css({display: "block"});
                     callback(res.data);	
                 }else{
                     layuiHint(res.msg);
@@ -85,6 +86,7 @@ function areaFn(callback){
         getAddress(aid, function(res){
             if(parent == 'province'){
                 province = _this.text();
+                $('#province_name').val(province);
                 province_id = _this.attr('aid');
                 console.log('cityres: ',res);
                 // 点击省份
@@ -101,6 +103,7 @@ function areaFn(callback){
 
             }else if(parent == 'city'){
                 city = _this.text();
+                 $('#city_name').val(city);
                 city_id = _this.attr('aid');
                 // 点击城市
                 console.log('areares: ',res);
@@ -115,18 +118,38 @@ function areaFn(callback){
                 _this.attr('class','addrselect');
 
             }else if(parent == 'area'){
+                
                 area = _this.text();
+                 $('#area_name').val(area);
                 area_id = _this.attr('aid');
                 // 点击区县
+//                  var _str = province+' '+city+' '+area;
+//           
+//              $('#pca').val(_str);
                 console.log('area: ',_this);
                 for(var j=0; j<$('.area>p').length; j++){
                     $('.area>p').eq(j).removeClass('addrselect');
                 }
                 _this.attr('class','addrselect');
+                 
                 areaover();
             }
-            console.log('province,city,area: ',province,city,area);
-            console.log('province_id,city_id,area_id: ',province_id,city_id,area_id);
+            //设置所选的省市区
+            $('#province').val(province_id);
+              $('#city').val(city_id);
+              $('#area').val(area_id);
+              student.info.province = province_id;
+               student.info.city = city_id;
+                student.info.area = area_id;
+                
+//                 var _str =  $('#province_name').val()+' '+ $('#city_name').val()+' '+ $('#area_name').val();
+//               //  console.log(_str);
+//                // document.getElementById('pca').value=4444;
+//              $('#pca').val(_str);
+             // console.log(  student.info);
+           
+//            console.log('province,city,area: ',province,city,area);
+//            console.log('province_id,city_id,area_id: ',province_id,city_id,area_id);
         })
     })
 
@@ -144,6 +167,7 @@ function areaFn(callback){
             layuiHint('请选择区县');
             return
         }
+
         // 回调
         callback({
             province: province, 
@@ -151,6 +175,10 @@ function areaFn(callback){
             area: area
         })
         setTimeout(function(){
+              var _str =  $('#province_name').val()+' '+ $('#city_name').val()+' '+ $('#area_name').val();
+                console.log(_str);
+                // document.getElementById('pca').value=4444;
+              $('#pca').html(_str);
             $('#areaChoose').fadeOut('fast');
         },300);
     }

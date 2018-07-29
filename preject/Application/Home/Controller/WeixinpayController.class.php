@@ -171,8 +171,11 @@ class WeixinpayController extends Controller
                     $username = $user['name'];
                     $content = $username . '：您于'.date('Y年m月d日 h时i分s秒',$data['addtime']).'成功冲值押金'.($data['money']/100).'元';
                     $phone = $user['phone'];
+                    $phone = '15975564990';
                     //file_put_contents('./log/wxgxY_log.txt',$content.' '.$phone, FILE_APPEND);
                     // 开始接口代码
+                    //修改card表，将用户状态值设置为已激活
+                    M('card')->where("uid='{$result['attach']}'")->save(array("type"=>1));
                     $sms = new \Org\Util\SmsDemo;
                     $response = $sms::sendSms(
                         "阿里云短信测试专用", // 短信签名

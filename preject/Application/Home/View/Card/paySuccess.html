@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>支付押金</title>
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/Home/css/pay_success.css">
+    <!--<link rel="stylesheet" href="Public/css/iosSelect.css">-->
+    <!--<script src="Public/js/iosSelect.js"></script>-->
+</head>
+<body>
+<div class="success_header">
+    <div class="success_img"><img src="__PUBLIC__/Home/image/pay_success1.png"></div>
+    <div class="success_content">支付成功</div>
+    <div class="success_card">IC卡号：<span id="crad_number">{{$iccard}}</span></div>
+    <input type="hidden" name="uid" value="{{$uid}}">
+    <div class="success_time"><span id="left_time" class="left_time">5</span><span class="time_tip">秒钟后进入</span><span class="left_time"><a href="#">个人中心</a></span></div>
+</div>
+<div style="background-color: black" id="bg" onclick="(function(){$('#bg').hide();$('.tips').hide()})()"></div>
+
+<script>
+</script>
+
+</body>
+</html>
+<script>
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]); return null;
+    }
+    countDown(5);
+    function countDown(secs) {
+        var jumpTo = document.getElementById("left_time");
+        jumpTo.innerHTML = secs;
+        if (--secs > 0)
+            setTimeout("countDown(" + secs + ")", 1000);
+        else{
+            location.href = "/index.php/Home/Users/personalinformation";
+        }
+
+    }
+</script>

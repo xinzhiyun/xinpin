@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=0;">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>学生IC卡激活</title>
     <link rel="stylesheet" href="__PUBLIC__/Home/css/activate.css">
     <script src='__PUBLIC__/Home/js/jquery-1.11.1.min.js'></script>
     <script src='__PUBLIC__/Home/js/public.js'></script>
     <script>
-        var activate = '{{:U("Activate/student")}}';
-        var getAddressURL = '{{:U("Address/getNextArea")}}';
+        var activate = '{{:U("Card/student")}}';
+        var school = '{{:U("Area/school")}}';
+        var getAddressURL = '{{:U("Area/getNextArea")}}';
+        var student_protocal = '{{:U("Area/student")}}';
     </script>
 </head>
 <body ontouchstart='console.log()'>
@@ -35,8 +37,14 @@
             </li>
             <li class='item cfix'>
                 <span class='fl'>学校地址</span>
-                <input class='fr school' type="text" placeholder="请选择学校地址" v-model='info.address' readonly>
+                <span id="pca" class='fr school'  v-model='info.address' >请选择学校地址</span>
                 <input type="hidden" class='schid'>
+                <input type="hidden" v-model="info.province" id="province">
+                 <input type="hidden" v-model="info.city" id="city">
+                  <input type="hidden"v-model="info.area"  id="area">
+                    <input type="hidden"  id="province_name">
+                 <input type="hidden"   id="city_name">
+                  <input type="hidden"   id="area_name">
                 <p>
                     <textarea name="" id="" cols="30" rows="5" placeholder="请输入详细地址哟" v-model='info.addrdetail'></textarea>
                 </p>
@@ -84,7 +92,8 @@
         $(function(){
             $('.school').click(function(){
                 areaFn(function(info){
-                    console.log('info: ',info);
+                   
+                    console.log('info_area: ',info);
                 })
             })
         })

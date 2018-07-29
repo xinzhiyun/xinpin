@@ -27,7 +27,7 @@ class UsersController extends CommonController
 
         // 查询用户名下已绑定的卡号
         $user = M('Users')->field('name,phone,address')->where('`id`='.$id)->find();
-
+        
         // 分配数据
         $this->assign('user',$user);
 

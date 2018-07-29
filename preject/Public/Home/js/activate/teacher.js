@@ -15,17 +15,19 @@ var student = new Vue({
                 relation: '',
                 province:'',
                 city:'',
-                area:'' 
-                
+                area:'' ,
+                pic1:'',
+                pic2:'',
             },
             schoolList: [],     // 学校名单
-            relationList: [],
+//            relationList: [],
             notetext: '',       // 条款
             accept: false,
         }
     },
     created() {
         var vm = this;
+        console.log(vm);
         //获取学校信息
           $.ajax({
                     url: school,
@@ -42,7 +44,7 @@ var student = new Vue({
                   $.ajax({
                     url: student_protocal,
                     type: 'post',
-                    dataType:'json',
+                  dataType:'json',
                     success: function(res){
                       vm.notetext = res.content;
 //                      console.log( res.content);
@@ -74,6 +76,8 @@ var student = new Vue({
         // 激活
         activate() {
             var vm = this;
+            vm.info.pic1=$('.pic1').attr('src');
+            vm.info.pic2=$('.pic2').attr('src');
             console.log('info_terminal: ',vm.info);
             // 验证输入
             vm.checkFn(function(){
@@ -86,10 +90,10 @@ var student = new Vue({
                         console.log(res.code);
                        if(res.code==200){
                            //跳去给押金界面
-                           var uid = res.uid;
-                           var iccard = res.iccard;
+//                           var uid = res.uid;
+//                           var iccard = res.iccard;
                           // console.log('/index.php/Home/card/payMoneyByStudent?uid='+uid+'&iccard='+iccard);return;
-                           window.location.href='/index.php/Home/Flow/payMoneyByStudent?uid='+uid+'&iccard='+iccard;        
+                           window.location.href='/index.php/Home/card/paySuccessTeacher';        
                        }else{
                             layuiHint(res.msg);
                        }
@@ -139,10 +143,10 @@ var student = new Vue({
                 layuiHint('请输入姓名');
                 return;
             }
-            if(!info.parent){
-                layuiHint('请输入家长姓名');
-                return;
-            }
+//            if(!info.parent){
+//                layuiHint('请输入家长姓名');
+//                return;
+//            }
             if(!info.phone){
                 layuiHint('请输入手机号码');
                 return;
@@ -164,7 +168,10 @@ var student = new Vue({
                 layuiHint('请输入学校详细地址');
                 return;
             }
-
+  if(!info.pic1 ||!info.pic2){
+                layuiHint('请上传至少一张工作凭证');
+                return;
+            }
             if(info.schoolid == ''){
                 layuiHint('请选择所在学校');
                 return
@@ -178,10 +185,10 @@ var student = new Vue({
                     return
                 }
             }
-            if(!info.relation){
-                layuiHint('请输入您与持卡人的关系');
-                return
-            }
+//            if(!info.relation){
+//                layuiHint('请输入您与持卡人的关系');
+//                return
+//            }
             if(!vm.accept){
                 layuiHint('请同意条款后继续');
                 return;
